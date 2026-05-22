@@ -25,7 +25,7 @@ const founders = [
     name: 'Jackson Bleecker',
     title: 'Co-Founder & Technical Lead',
     initials: 'JB',
-    bio: 'Bio coming soon. Check back shortly.',
+    bio: 'Jackson Bleecker is the Co-Founder of Bello Bleecker Digital Consulting. A native of West Orange, New Jersey, his background spans startup strategy, global consulting, and competitive athletics — giving him a rare ability to move between analytical rigor and creative execution with equal fluency. Jackson is currently an undergraduate student-athlete at Bowdoin College, pursuing a B.A. in Government and Legal Studies with a minor in Economics while competing as a shooting guard on the Men\'s Basketball team. A NESCAC All-Academic honoree, he is a Management Leadership for Tomorrow (MLT) Career Prep Fellow on the Consulting Track, and the Founder and President of the Bowdoin AI Impact Club, one of the fastest-growing student organizations at the college. His professional experience bridges strategy, technology, and market intelligence — from driving growth strategy at Ballers, an AI-powered sports analytics startup, to interning at RILA Global Consulting, a premier consumer intelligence firm trusted by Fortune 500 companies. He co-founded Bello Bleecker on a simple conviction: small businesses deserve a digital presence that actually reflects their value.',
     image: '/jackson-bleecker.jpeg' as string | null,
     links: {
       linkedin: 'https://www.linkedin.com/in/jackson-bleecker/',
