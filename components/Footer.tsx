@@ -133,7 +133,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-charcoal-700 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-sans text-xs text-charcoal-400 font-400">
-            © 2026 Bello Bleecker Digital Consulting. All rights reserved.
+            2026 Bello Bleecker Digital Consulting. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link href="#" className="font-sans text-xs text-charcoal-400 hover:text-charcoal-300 transition-colors">
