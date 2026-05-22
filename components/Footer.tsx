@@ -105,12 +105,12 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Mail size={16} className="text-gold mt-0.5 flex-shrink-0" />
-                <a
-                  href="mailto:hello@bellobleecker.com"
+                <Link
+                  href="/start"
                   className="font-sans text-sm text-charcoal-300 hover:text-charcoal-100 transition-colors font-400"
                 >
-                  hello@bellobleecker.com
-                </a>
+                  Contact Us
+                </Link>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-gold mt-0.5 flex-shrink-0" />
