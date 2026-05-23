@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       </div>
     `
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: 'Bello Bleecker <noreply@bellobleecker.com>',
       to: RECIPIENTS,
       replyTo: data.email,
@@ -43,7 +43,8 @@ export async function POST(req: NextRequest) {
       html,
     })
 
-    return NextResponse.json({ success: true })
+    console.log('Resend result:', JSON.stringify(result))
+    return NextResponse.json({ success: true, result })
   } catch (err) {
     console.error('Email send error:', JSON.stringify(err))
     return NextResponse.json({ error: String(err) }, { status: 500 })
