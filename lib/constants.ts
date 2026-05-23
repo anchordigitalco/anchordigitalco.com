@@ -308,7 +308,7 @@ export const PRICING_TIERS = [
       'Custom API integrations',
       'Advanced animations & interactions',
       'Dedicated account manager',
-      'Bi-weekly consulting calls',
+      'Monthly consulting calls',
       'Same-day support response',
     ],
     cta: 'Get Started',
