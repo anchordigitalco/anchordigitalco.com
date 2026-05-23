@@ -16,27 +16,19 @@ export const metadata: Metadata = {
 const founders = [
   {
     name: 'Adam Bello',
-    title: 'Co-Founder & Creative Director',
+    title: 'Co-Founder, Head of Corporate Strategy, Business Consultant',
     initials: 'AB',
+    image: '/adam-bello.jpg',
     gradientFrom: '#0D1B4A',
     gradientTo: '#080B18',
-    /*
-     * PHOTO SLOT
-     * Place photo at: /public/team/adam-bello.jpg
-     * Then replace the placeholder div below with:
-     * <img src="/team/adam-bello.jpg" alt="Adam Bello" className="absolute inset-0 w-full h-full object-cover" />
-     */
   },
   {
     name: 'Jackson Bleecker',
-    title: 'Co-Founder & Technical Lead',
+    title: 'Co-Founder, Head of Business Development, Business Consultant',
     initials: 'JB',
+    image: '/jackson-bleecker.jpeg',
     gradientFrom: '#0A1A30',
     gradientTo: '#080B18',
-    /*
-     * PHOTO SLOT
-     * Place photo at: /public/team/jackson-bleecker.jpg
-     */
   },
 ]
 
@@ -74,23 +66,27 @@ export default function HomePage() {
             subtitle="Two builders united by one mission — giving every business a digital presence that commands attention and drives results."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14 max-w-3xl mx-auto">
-            {founders.map(({ name, title, initials, gradientFrom, gradientTo }) => (
+            {founders.map(({ name, title, initials, image, gradientFrom, gradientTo }) => (
               <Link key={name} href="/team" className="group block">
                 <div className="relative overflow-hidden rounded-2xl bg-charcoal-800 border border-charcoal-700 hover:border-gold/30 transition-all duration-300 hover:shadow-gold-lg">
                   {/* Photo area */}
                   <div className="aspect-[4/3] relative overflow-hidden">
-                    {/* ↓ Replace this block with <img> once you have real photos */}
-                    <div
-                      className="w-full h-full flex items-center justify-center"
-                      style={{ background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)` }}
-                    >
+                    {image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={image} alt={name} className="w-full h-full object-cover object-center" />
+                    ) : (
                       <div
-                        className="w-20 h-20 rounded-full flex items-center justify-center border"
-                        style={{ background: 'rgba(43,127,255,0.12)', borderColor: 'rgba(43,127,255,0.25)' }}
+                        className="w-full h-full flex items-center justify-center"
+                        style={{ background: `linear-gradient(135deg, ${gradientFrom} 0%, ${gradientTo} 100%)` }}
                       >
-                        <span className="font-cormorant text-3xl font-700 text-gold">{initials}</span>
+                        <div
+                          className="w-20 h-20 rounded-full flex items-center justify-center border"
+                          style={{ background: 'rgba(43,127,255,0.12)', borderColor: 'rgba(43,127,255,0.25)' }}
+                        >
+                          <span className="font-cormorant text-3xl font-700 text-gold">{initials}</span>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     {/* Gradient fade at bottom */}
                     <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-charcoal-800 to-transparent" />
                   </div>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const founders = [
   {
     name: 'Adam Bello',
-    title: 'Co-Founder & Creative Director',
+    title: 'Co-Founder, Head of Corporate Strategy, Business Consultant',
     initials: 'AB',
     bio: 'Adam Evans Bello is the Co-Founder of Bello Bleecker Digital Consulting. A native New Yorker, his diverse background across corporate, athletic, and international environments shapes his approach to brand differentiation and business growth. Adam is currently an undergraduate student-athlete at Bowdoin College, pursuing a B.A. in Government and Legal Studies with a minor in Economics while playing point guard on the Men\'s Basketball team. Nationally recognized for his business acumen, he is a Management Leadership for Tomorrow (MLT) Career Prep Fellow on the Consulting Track and an alumnus of the Black Venture Capital Consortium (BVCC). His professional footprint bridges finance, strategy, and operations — from building multi-million dollar revenue projection models for pre-launch startups, to conducting due diligence for early-stage VC investments, to leading cross-functional project management initiatives in Accra, Ghana. He and Jackson founded Bello Bleecker to eliminate the gap between a business\'s actual value and its digital presence.',
     image: '/adam-bello.jpg' as string | null,
@@ -23,7 +23,7 @@ const founders = [
   },
   {
     name: 'Jackson Bleecker',
-    title: 'Co-Founder & Technical Lead',
+    title: 'Co-Founder, Head of Business Development, Business Consultant',
     initials: 'JB',
     bio: 'Jackson Bleecker is the Co-Founder of Bello Bleecker Digital Consulting. A native of West Orange, New Jersey, his background spans startup strategy, global consulting, and competitive athletics — giving him a rare ability to move between analytical rigor and creative execution with equal fluency. Jackson is currently an undergraduate student-athlete at Bowdoin College, pursuing a B.A. in Government and Legal Studies with a minor in Economics while competing as a shooting guard on the Men\'s Basketball team. A NESCAC All-Academic honoree, he is a Management Leadership for Tomorrow (MLT) Career Prep Fellow on the Consulting Track, and the Founder and President of the Bowdoin AI Impact Club, one of the fastest-growing student organizations at the college. His professional experience bridges strategy, technology, and market intelligence — from driving growth strategy at Ballers, an AI-powered sports analytics startup, to interning at RILA Global Consulting, a premier consumer intelligence firm trusted by Fortune 500 companies. He co-founded Bello Bleecker on a simple conviction: small businesses deserve a digital presence that actually reflects their value.',
     image: '/jackson-bleecker.jpeg' as string | null,
