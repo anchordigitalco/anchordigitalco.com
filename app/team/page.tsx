@@ -69,7 +69,7 @@ export default function TeamPage() {
             {founders.map((founder) => (
               <div key={founder.name} className="relative pb-3 pr-3 group/card">
                 {/* Offset decorative border */}
-                <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border border-gold/25 group-hover/card:border-gold/55 transition-all duration-300" />
+                <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border border-gold/25 group-hover/card:border-gold/55 transition-all duration-300 pointer-events-none" />
                 {/* Hover glow layer */}
                 <div className="absolute inset-0 z-0 rounded-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: '0 0 40px rgba(43,127,255,0.22)' }} />
                 <div className="relative z-10 bg-charcoal-900 border border-charcoal-700 rounded-2xl overflow-hidden group-hover/card:border-gold/40 transition-all duration-300" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}>
