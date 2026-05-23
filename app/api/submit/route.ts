@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     `
 
     const result = await resend.emails.send({
-      from: 'Bello Bleecker <noreply@bellobleecker.com>',
+      from: 'Bello Bleecker <hello@bellobleecker.com>',
       to: RECIPIENTS,
       replyTo: data.email,
       subject: `New Inquiry: ${data.businessName || 'Unknown Business'} — ${data.industry || ''}`,
