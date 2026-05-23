@@ -122,9 +122,17 @@ export default function MultiStepForm() {
     })
   }
 
-  const handleFinalSubmit = (data: FormData) => {
+  const handleFinalSubmit = async (data: FormData) => {
     const finalData = { ...formData, ...data }
-    console.log('Form submitted:', finalData)
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(finalData),
+      })
+    } catch (_) {
+      // still show success to user even if email fails
+    }
     setSubmitted(true)
   }
 
