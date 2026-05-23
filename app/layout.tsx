@@ -40,6 +40,11 @@ export const metadata: Metadata = {
     description: 'Premium digital consulting for brands, restaurants, creators, and growing businesses.',
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: '/logo-simple.png',
+    shortcut: '/logo-simple.png',
+    apple: '/logo-simple.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
