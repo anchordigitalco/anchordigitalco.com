@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const founders = [
   {
     name: 'Adam Bello',
-    title: 'Co-Founder, Head of Corporate Strategy, Business Consultant',
+    title: 'Co-Founder',
     initials: 'AB',
     image: '/adam-bello.jpg',
     gradientFrom: '#0D1B4A',
@@ -24,7 +24,7 @@ const founders = [
   },
   {
     name: 'Jackson Bleecker',
-    title: 'Co-Founder, Head of Business Development, Business Consultant',
+    title: 'Co-Founder',
     initials: 'JB',
     image: '/jackson-bleecker.jpeg',
     gradientFrom: '#0A1A30',
