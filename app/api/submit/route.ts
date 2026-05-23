@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0; width: 40%;">Name</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.name || '—'}</td></tr>
-          <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Email</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;"><a href="mailto:${data.email}" style="color: #2B7FFF;">${data.email || '—'}</a></td></tr>
+          <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Email</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.email || '—'}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Phone</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.phone || '—'}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Business</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.businessName || '—'}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Industry</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.industry || '—'}</td></tr>
