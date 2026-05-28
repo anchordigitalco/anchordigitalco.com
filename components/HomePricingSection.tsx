@@ -29,7 +29,7 @@ export default function HomePricingSection() {
                 : 'text-charcoal-300 hover:text-cream'
             )}
           >
-            Design & Deployment
+            Subscription Services
           </button>
           <button
             onClick={() => setTab('flatfee')}

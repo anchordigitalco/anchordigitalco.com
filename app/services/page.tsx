@@ -89,13 +89,13 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Design & Deployment category header */}
+      {/* Subscription Services category header */}
       <section className="bg-charcoal-800 border-y border-charcoal-700 py-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center gap-4">
             <div className="w-8 h-px bg-gold" />
             <div>
-              <p className="font-sans text-xs font-600 tracking-[0.2em] uppercase text-gold mb-0.5">Design & Deployment</p>
+              <p className="font-sans text-xs font-600 tracking-[0.2em] uppercase text-gold mb-0.5">Subscription Services</p>
               <p className="font-sans text-sm text-charcoal-300">Monthly subscription plans — build your site and keep it growing.</p>
             </div>
           </div>
