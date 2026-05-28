@@ -18,9 +18,9 @@ export const INDUSTRIES = [
     description: 'E-commerce and brand presence for labels that want to stand out.',
   },
   {
-    icon: 'user',
-    title: 'Personal Brands & Creators',
-    description: 'Portfolios and link-in-bio pages built to grow your audience.',
+    icon: 'book-open',
+    title: 'Academics & Writers',
+    description: 'Professional sites that establish credibility and showcase your body of work.',
   },
   {
     icon: 'scissors',
@@ -38,9 +38,9 @@ export const INDUSTRIES = [
     description: 'Launch-ready digital systems to establish your market presence.',
   },
   {
-    icon: 'trophy',
-    title: 'Athletes & Sports Orgs',
-    description: 'Dynamic sites for performance brands and athletic programs.',
+    icon: 'briefcase',
+    title: 'Consultants & Professionals',
+    description: 'Clean, authoritative digital presence for independent professionals and firms.',
   },
   {
     icon: 'map-pin',
@@ -184,7 +184,7 @@ export const SERVICES = [
       'Contact forms, booking flows, and lead capture',
       'Cross-browser and device QA testing',
     ],
-    startingPrice: 'From $150/mo',
+    startingPrice: 'From $50/mo',
   },
   {
     id: 'brand-systems',
@@ -346,5 +346,15 @@ export const PRICING_FAQ = [
     question: 'Will I be able to update the site myself?',
     answer:
       'Yes. All Growth and Elite sites include a CMS so you can update text, images, and content without touching code. We also provide a walkthrough after launch.',
+  },
+  {
+    question: 'What is the difference between a subscription plan and a flat fee service?',
+    answer:
+      'Subscription plans include ongoing support, monthly updates, and SEO monitoring as part of the monthly fee. Flat fee services are one-time engagements — you pay once, we deliver the project, and there is no ongoing commitment unless you choose to add a plan later.',
+  },
+  {
+    question: 'Can I move to a subscription plan after a flat fee project?',
+    answer:
+      'Yes. Many clients start with a Web Redesign or Digital Brand Elevation and then add a maintenance plan once their site is live. We make that transition seamless.',
   },
 ]

@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Check, Zap, ArrowRight } from 'lucide-react'
-import PricingCard from '@/components/PricingCard'
 import PricingFAQ from '@/components/PricingFAQ'
 import SectionHeader from '@/components/SectionHeader'
-import { PRICING_TIERS } from '@/lib/constants'
+import PricingTabSwitcher from '@/components/PricingTabSwitcher'
 import clsx from 'clsx'
 
 export const metadata: Metadata = {
@@ -28,13 +27,13 @@ const ALL_FEATURES: Array<{
   { label: 'Number of pages', starter: '1–3', growth: 'Up to 5', elite: 'Unlimited' },
   { label: 'Email capture', starter: false, growth: true, elite: true },
   { label: 'Booking system', starter: false, growth: true, elite: true },
-  { label: 'Blog / CMS', starter: false, growth: true, elite: true },
+  { label: 'CMS', starter: false, growth: true, elite: true },
   { label: 'Advanced SEO', starter: false, growth: true, elite: true },
   { label: 'Analytics dashboard', starter: false, growth: true, elite: true },
   { label: 'E-commerce store', starter: false, growth: false, elite: true },
   { label: 'User accounts', starter: false, growth: false, elite: true },
   { label: 'Custom integrations', starter: false, growth: false, elite: true },
-  { label: 'Consulting calls', starter: false, growth: false, elite: 'Bi-weekly' },
+  { label: 'Consulting calls', starter: false, growth: false, elite: 'Monthly' },
   { label: 'Priority support', starter: false, growth: true, elite: 'Same-day' },
 ]
 
@@ -84,8 +83,7 @@ export default function PricingPage() {
               </div>
             </div>
             <p className="font-sans text-sm text-charcoal-200 max-w-sm">
-              Need to launch fast? We deliver a fully designed, built, and live website in 7 business days.
-              Available on Growth and Elite plans.
+              Whether you are starting fresh on a subscription plan or need a one-time redesign, most projects launch in 7 days or less.
             </p>
             <Link
               href="/start"
@@ -100,13 +98,9 @@ export default function PricingPage() {
       {/* Pricing cards */}
       <section className="py-24 lg:py-32 bg-charcoal-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-            {PRICING_TIERS.map((tier, i) => (
-              <PricingCard key={tier.id} {...tier} index={i} />
-            ))}
-          </div>
+          <PricingTabSwitcher />
           <p className="font-sans text-xs text-charcoal-400 text-center mt-8">
-            All plans include SSL, hosting, mobile responsiveness, and monthly support.
+            Subscription plans include SSL, hosting, mobile responsiveness, and monthly support.
             Month-to-month after initial build. No cancellation fees.
           </p>
         </div>

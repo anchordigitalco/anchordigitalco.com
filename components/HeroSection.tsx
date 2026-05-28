@@ -368,7 +368,7 @@ export default function HeroSection() {
           >
             {[
               { value: '7 Days', label: 'Avg. Launch Time' },
-              { value: '50+', label: 'Projects Delivered' },
+              { value: 'New York', label: 'Based & Nationwide' },
               { value: '95+', label: 'Lighthouse Score' },
             ].map(({ value, label }) => (
               <div key={label}>

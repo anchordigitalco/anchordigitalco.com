@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import MultiStepForm from '@/components/MultiStepForm'
 
 export const metadata: Metadata = {
@@ -75,7 +76,9 @@ export default function StartPage() {
 
             {/* Right: Form */}
             <div className="bg-charcoal-800/50 border border-charcoal-700 rounded-xl p-8 lg:p-10">
-              <MultiStepForm />
+              <Suspense fallback={null}>
+                <MultiStepForm />
+              </Suspense>
             </div>
           </div>
         </div>

@@ -4,9 +4,9 @@ import { ArrowRight } from 'lucide-react'
 import HeroSection from '@/components/HeroSection'
 import IndustryCard from '@/components/IndustryCard'
 import ProcessStep from '@/components/ProcessStep'
-import PricingCard from '@/components/PricingCard'
 import SectionHeader from '@/components/SectionHeader'
-import { INDUSTRIES, PROCESS_STEPS, PRICING_TIERS } from '@/lib/constants'
+import HomePricingSection from '@/components/HomePricingSection'
+import { INDUSTRIES, PROCESS_STEPS } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Bello Bleecker Digital Consulting — Premium Web Design & Development',
@@ -149,15 +149,13 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="Pricing"
             title="Simple, transparent pricing."
-            subtitle="No hidden fees, no long-term contracts. Just clear plans that grow with your business."
+            subtitle="No hidden fees, no long-term contracts. Subscription plans and one-time engagements."
           />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-14 items-start">
-            {PRICING_TIERS.map((tier, i) => (
-              <PricingCard key={tier.id} {...tier} index={i} />
-            ))}
+          <div className="mt-14">
+            <HomePricingSection />
           </div>
           <p className="font-sans text-xs text-charcoal-400 text-center mt-8">
-            All plans include SSL, hosting, mobile responsiveness, and monthly support. Month-to-month. No cancellation fees.
+            Subscription plans include SSL, hosting, mobile responsiveness, and monthly support. Month-to-month. No cancellation fees.
           </p>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Mail, MapPin, Instagram, Linkedin } from 'lucide-react'
+import { Mail, MapPin, Linkedin } from 'lucide-react'
 import { LogoFull } from '@/components/BrandLogo'
 
 const footerNav = [
@@ -16,6 +16,8 @@ const footerServices = [
   { label: 'E-Commerce Stores', href: '/services#brand-systems' },
   { label: 'Ongoing Maintenance', href: '/services#maintenance' },
   { label: 'Website in 7 Days', href: '/pricing#fast-launch' },
+  { label: 'Web Redesign', href: '/services#web-redesign' },
+  { label: 'Digital Brand Elevation', href: '/services#digital-brand-elevation' },
 ]
 
 export default function Footer() {
@@ -43,21 +45,15 @@ export default function Footer() {
               Modern digital systems for businesses that want to stand out.
             </p>
             <div className="flex items-center gap-4">
-              {[
-                { icon: Instagram, label: 'Instagram', href: '#' },
-                { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/bello-bleecker-digital-consulting' },
-              ].map(({ icon: Icon, label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-charcoal-400 hover:text-gold transition-colors duration-200"
-                  aria-label={label}
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a
+                href="https://www.linkedin.com/company/bello-bleecker-digital-consulting"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-charcoal-400 hover:text-gold transition-colors duration-200"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={18} />
+              </a>
             </div>
           </div>
 
@@ -133,18 +129,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-charcoal-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="font-sans text-xs text-charcoal-400 font-400">
+        <div className="pt-8 border-t border-charcoal-700">
+          <p className="font-sans text-xs text-charcoal-400 font-400 text-center">
             2026 Bello Bleecker Digital Consulting. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="#" className="font-sans text-xs text-charcoal-400 hover:text-charcoal-300 transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="font-sans text-xs text-charcoal-400 hover:text-charcoal-300 transition-colors">
-              Terms of Service
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

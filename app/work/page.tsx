@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Clock } from 'lucide-react'
 import ProjectCard from '@/components/ProjectCard'
 
 export const metadata: Metadata = {
@@ -57,6 +57,30 @@ export default function WorkPage() {
             {projects.map((project) => (
               <ProjectCard key={project.name} project={project} />
             ))}
+            {/* Coming soon card */}
+            <div className="bg-charcoal-900 border border-charcoal-700 rounded-2xl overflow-hidden" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}>
+              <div className="relative aspect-video overflow-hidden bg-charcoal-800 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-12 h-12 rounded-2xl bg-charcoal-700 border border-charcoal-600 flex items-center justify-center mx-auto mb-3">
+                    <Clock size={22} className="text-gold" />
+                  </div>
+                  <span className="font-sans text-xs text-charcoal-400 tracking-widest uppercase">In Progress</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="font-sans text-xs text-gold font-600 tracking-wide uppercase mb-1">In Progress</p>
+                <h2 className="font-cormorant text-2xl font-700 text-cream tracking-tight mb-3">More Coming Soon</h2>
+                <p className="font-sans text-sm text-charcoal-300 leading-relaxed mb-5">
+                  We are currently building out new projects. Check back soon — or become one of them.
+                </p>
+                <Link
+                  href="/start"
+                  className="btn-primary inline-flex items-center gap-2 font-sans text-sm px-5 py-2.5 rounded-lg"
+                >
+                  Start Your Project <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

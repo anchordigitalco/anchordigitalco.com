@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { Check, ArrowRight, ArrowLeft } from 'lucide-react'
@@ -25,6 +26,8 @@ const PROJECT_NEEDS = [
   'Booking System',
   'Blog / CMS',
   'Landing Page',
+  'Web Redesign — $300 to $500',
+  'Digital Brand Elevation — $750',
   'Other',
 ]
 
@@ -42,10 +45,11 @@ const THEME_OPTIONS = [
 ]
 
 const BUDGET_RANGES = [
-  'Starter — $50/mo',
-  'Growth — $150/mo',
-  'Elite — $300/mo',
-  'Not sure yet',
+  'Under $300',
+  '$300 — $500',
+  '$500 — $750',
+  '$750+',
+  '$750+/mo (Elite Plan)',
 ]
 
 const REFERRAL_SOURCES = [
@@ -75,12 +79,29 @@ interface FormData {
 const TOTAL_STEPS = 5
 
 export default function MultiStepForm() {
+  const searchParams = useSearchParams()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState<Partial<FormData>>({
     projectNeeds: [],
   })
   const [submitted, setSubmitted] = useState(false)
   const [direction, setDirection] = useState(1)
+
+  useEffect(() => {
+    const service = searchParams.get('service')
+    if (!service) return
+    const map: Record<string, string> = {
+      'redesign': 'Web Redesign — $300 to $500',
+      'digital-brand-elevation': 'Digital Brand Elevation — $750',
+    }
+    const need = map[service]
+    if (need) {
+      setFormData((prev) => ({
+        ...prev,
+        projectNeeds: [...(prev.projectNeeds || []), need],
+      }))
+    }
+  }, [searchParams])
 
   const { register, handleSubmit, formState: { errors }, trigger, getValues } = useForm<FormData>()
 

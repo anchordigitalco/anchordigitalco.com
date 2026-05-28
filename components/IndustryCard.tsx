@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion'
 import {
   UtensilsCrossed, Shirt, User, Scissors, Camera,
-  Building2, Trophy, MapPin, type LucideIcon,
+  Building2, MapPin, BookOpen, Briefcase, type LucideIcon,
 } from 'lucide-react'
 
 const iconMap: Record<string, LucideIcon> = {
@@ -12,8 +12,9 @@ const iconMap: Record<string, LucideIcon> = {
   scissors: Scissors,
   camera: Camera,
   building: Building2,
-  trophy: Trophy,
   'map-pin': MapPin,
+  'book-open': BookOpen,
+  briefcase: Briefcase,
 }
 
 interface IndustryCardProps {
