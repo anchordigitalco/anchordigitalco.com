@@ -39,10 +39,10 @@ export default function WorkPage() {
               </span>
             </div>
             <h1 className="font-cormorant text-[clamp(3rem,7vw,6.5rem)] font-700 text-cream leading-none mb-6 tracking-tight">
-              Our clients.
+              Our work.
             </h1>
             <p className="font-sans text-lg lg:text-xl text-charcoal-300 leading-relaxed max-w-2xl">
-              Every site is built custom — no templates, no compromises.
+              Every site is built custom — no templates, no compromises. We work across personal brands, restaurants, e-commerce, and more.
             </p>
           </div>
         </div>
