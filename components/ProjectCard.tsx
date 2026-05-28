@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     if (!project.beforeUrl || !auto) return
     intervalRef.current = setInterval(() => {
       setView((v) => (v === 'after' ? 'before' : 'after'))
-    }, 5000)
+    }, 3000)
     return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
   }, [auto, project.beforeUrl])
 
