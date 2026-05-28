@@ -285,7 +285,7 @@ export const PRICING_TIERS = [
       'Up to 5 custom pages',
       'Email capture & automation',
       'Booking or reservation system',
-      'Blog or CMS included',
+      'CMS included',
       'Advanced animations',
       'Analytics dashboard',
       'Advanced SEO setup',
