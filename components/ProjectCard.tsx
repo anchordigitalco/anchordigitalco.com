@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 
 interface Project {
@@ -13,6 +13,22 @@ interface Project {
 
 export default function ProjectCard({ project }: { project: Project }) {
   const [view, setView] = useState<'after' | 'before'>('after')
+  const [auto, setAuto] = useState(true)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    if (!project.beforeUrl || !auto) return
+    intervalRef.current = setInterval(() => {
+      setView((v) => (v === 'after' ? 'before' : 'after'))
+    }, 3000)
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
+  }, [auto, project.beforeUrl])
+
+  const handleManualSelect = (v: 'after' | 'before') => {
+    setAuto(false)
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    setView(v)
+  }
 
   return (
     <div
@@ -23,7 +39,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       {project.beforeUrl && (
         <div className="flex items-center gap-1 px-4 pt-4">
           <button
-            onClick={() => setView('after')}
+            onClick={() => handleManualSelect('after')}
             className={`font-sans text-xs px-3 py-1.5 rounded-md transition-all duration-200 ${
               view === 'after'
                 ? 'bg-gold text-charcoal-900 font-600'
@@ -33,7 +49,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             After
           </button>
           <button
-            onClick={() => setView('before')}
+            onClick={() => handleManualSelect('before')}
             className={`font-sans text-xs px-3 py-1.5 rounded-md transition-all duration-200 ${
               view === 'before'
                 ? 'bg-charcoal-300 text-charcoal-900 font-600'
