@@ -44,12 +44,14 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4">
               {[
-                { icon: Instagram, label: 'Instagram' },
-                { icon: Linkedin, label: 'LinkedIn' },
-              ].map(({ icon: Icon, label }) => (
+                { icon: Instagram, label: 'Instagram', href: '#' },
+                { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/bello-bleecker-digital-consulting' },
+              ].map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-charcoal-400 hover:text-gold transition-colors duration-200"
                   aria-label={label}
                 >
