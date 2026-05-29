@@ -10,8 +10,7 @@ const FLAT_FEE_CARDS = [
   {
     id: 'web-redesign',
     title: 'Web Redesign',
-    pricing: 'Starter — $300 / Full — $500',
-    description: 'A complete site rebuild with no ongoing commitment. Choose the tier that fits your scope.',
+    description: 'A complete site rebuild with no ongoing commitment. Pricing is based on your scope — get a quote from us.',
     includes: [
       'Custom redesign from scratch',
       'Mobile responsive',
@@ -19,15 +18,14 @@ const FLAT_FEE_CARDS = [
       'Contact forms',
       'One round of revisions',
     ],
-    cta: 'Get Started',
+    cta: 'Get a Quote',
     href: '/start?service=redesign',
     badge: undefined,
   },
   {
     id: 'digital-brand-elevation',
     title: 'Digital Brand Elevation',
-    pricing: '$750',
-    description: 'Our most complete one-time offering. Strategy, brand assessment, and a full redesign in one engagement.',
+    description: 'Our most complete one-time offering. Strategy, brand assessment, and a full redesign in one engagement. Pricing based on your project.',
     includes: [
       'Strategy consultation call',
       'Written brand assessment',
@@ -36,7 +34,7 @@ const FLAT_FEE_CARDS = [
       'SEO setup and digital roadmap',
       '30 days post-launch support',
     ],
-    cta: 'Get Started',
+    cta: 'Get a Quote',
     href: '/start?service=digital-brand-elevation',
     badge: 'Most Comprehensive',
   },
@@ -112,9 +110,7 @@ export default function PricingTabSwitcher() {
                     {card.title}
                   </h3>
                   <p className="font-sans text-sm text-charcoal-300 mb-3">{card.description}</p>
-                  <span className={clsx('font-cormorant text-2xl font-700', card.badge ? 'text-charcoal-100' : 'text-charcoal-200')}>
-                    {card.pricing}
-                  </span>
+                  <span className="font-cormorant text-xl italic text-gold">Pricing based on your project</span>
                 </div>
                 <div className="border-t border-charcoal-700 pt-6 mb-6">
                   <ul className="space-y-3 flex-1">

@@ -45,11 +45,12 @@ const THEME_OPTIONS = [
 ]
 
 const BUDGET_RANGES = [
-  'Under $300',
-  '$300 — $500',
-  '$500 — $750',
-  '$750+',
-  '$750+/mo (Elite Plan)',
+  'Starter Plan — $50/mo',
+  'Growth Plan — $150/mo',
+  'Elite Plan — $300/mo',
+  'Web Redesign — Get a Quote',
+  'Digital Brand Elevation — Get a Quote',
+  'Not sure yet',
 ]
 
 const REFERRAL_SOURCES = [

@@ -60,12 +60,10 @@ export default function HomePricingSection() {
           {[
             {
               title: 'Web Redesign',
-              price: 'From $300',
-              description: 'A full site rebuild. One-time fee, no ongoing commitment.',
+              description: 'A full site rebuild. One-time fee, no ongoing commitment. Pricing based on your scope.',
             },
             {
               title: 'Digital Brand Elevation',
-              price: '$750',
               description: 'Strategy, brand assessment, and a full redesign. Our most complete one-time offering.',
             },
           ].map((card) => (
@@ -76,7 +74,7 @@ export default function HomePricingSection() {
               <div>
                 <span className="font-sans text-xs font-600 tracking-[0.15em] uppercase text-charcoal-400 mb-2 block">One-Time</span>
                 <h3 className="font-cormorant text-3xl font-700 text-charcoal-100 tracking-tight mb-1">{card.title}</h3>
-                <p className="font-cormorant text-2xl font-700 text-gold">{card.price}</p>
+                <p className="font-cormorant text-xl italic text-gold">Pricing based on your project</p>
               </div>
               <p className="font-sans text-sm text-charcoal-300 leading-relaxed flex-1">{card.description}</p>
               <Link
@@ -93,7 +91,7 @@ export default function HomePricingSection() {
       {/* Slim banner */}
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 bg-charcoal-800 border border-charcoal-700 rounded-xl">
         <p className="font-sans text-sm text-charcoal-300">
-          Looking for a one-time engagement? Our flat fee services start at $300.
+          Looking for a one-time engagement? Tell us about your project and we will send you a custom quote.
         </p>
         <button
           onClick={switchToFlatFee}

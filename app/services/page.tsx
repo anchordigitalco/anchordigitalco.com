@@ -20,12 +20,10 @@ const FLAT_FEE_SERVICES = [
     tiers: [
       {
         name: 'Starter Redesign',
-        price: '$300',
         detail: '1 to 3 pages, mobile responsive, contact form, modern design, SEO basics. Best for local businesses, personal brands, and restaurants.',
       },
       {
         name: 'Full Redesign',
-        price: '$500',
         detail: 'Up to 6 pages, animations, booking or e-commerce integrations, CMS, advanced SEO, custom features. Best for startups and brands with multiple offerings.',
       },
     ],
@@ -37,7 +35,7 @@ const FLAT_FEE_SERVICES = [
       'Cross-browser QA testing',
       'One round of revisions',
     ],
-    cta: 'Start a Redesign',
+    cta: 'Get a Quote',
     ctaHref: '/start?service=redesign',
   },
   {
@@ -46,7 +44,7 @@ const FLAT_FEE_SERVICES = [
     title: 'Digital Brand Elevation',
     description:
       'For businesses not getting the traction they expected. We go beyond the website — auditing your entire digital presence, developing a brand strategy, and rebuilding your site to match. One engagement, complete transformation.',
-    price: '$750 one-time',
+    price: 'Custom Quote',
     includes: [
       'Strategy consultation call (60 minutes)',
       'Written digital brand assessment',
@@ -55,7 +53,7 @@ const FLAT_FEE_SERVICES = [
       'SEO setup and digital roadmap',
       '30 days of post-launch support',
     ],
-    cta: 'Start Your Elevation',
+    cta: 'Get a Quote',
     ctaHref: '/start?service=digital-brand-elevation',
   },
 ]
@@ -236,21 +234,17 @@ export default function ServicesPage() {
                     {service.tiers.map((tier) => (
                       <div key={tier.name} className="flex items-start gap-4 p-4 bg-charcoal-900/50 border border-charcoal-700 rounded-xl">
                         <div>
-                          <div className="flex items-center gap-3 mb-1">
-                            <span className="font-sans text-sm font-700 text-cream">{tier.name}</span>
-                            <span className="font-cormorant text-lg font-700 text-gold">{tier.price}</span>
-                          </div>
+                          <p className="font-sans text-sm font-700 text-cream mb-1">{tier.name}</p>
                           <p className="font-sans text-xs text-charcoal-300 leading-relaxed">{tier.detail}</p>
                         </div>
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <div className="flex items-center gap-3 mb-8">
-                    <div className="w-6 h-px bg-gold" />
-                    <span className="font-cormorant text-xl italic text-gold">{service.price}</span>
-                  </div>
-                )}
+                ) : null}
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-6 h-px bg-gold" />
+                  <span className="font-cormorant text-xl italic text-gold">Pricing based on your project</span>
+                </div>
 
                 <Link
                   href={service.ctaHref}
