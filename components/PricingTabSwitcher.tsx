@@ -41,24 +41,13 @@ const FLAT_FEE_CARDS = [
 ]
 
 export default function PricingTabSwitcher() {
-  const [tab, setTab] = useState<'subscription' | 'flatfee'>('subscription')
+  const [tab, setTab] = useState<'subscription' | 'flatfee'>('flatfee')
 
   return (
     <div>
       {/* Tab toggle */}
       <div className="flex justify-center mb-12">
         <div className="inline-flex items-center gap-1 bg-charcoal-800 border border-charcoal-700 rounded-xl p-1">
-          <button
-            onClick={() => setTab('subscription')}
-            className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-all duration-200',
-              tab === 'subscription'
-                ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-300 hover:text-cream'
-            )}
-          >
-            Subscription Services
-          </button>
           <button
             onClick={() => setTab('flatfee')}
             className={clsx(
@@ -69,6 +58,17 @@ export default function PricingTabSwitcher() {
             )}
           >
             Flat Fee Services
+          </button>
+          <button
+            onClick={() => setTab('subscription')}
+            className={clsx(
+              'font-sans text-sm px-5 py-2.5 rounded-lg transition-all duration-200',
+              tab === 'subscription'
+                ? 'bg-gold text-charcoal-900 font-600'
+                : 'text-charcoal-300 hover:text-cream'
+            )}
+          >
+            Subscription Services
           </button>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default function PricingTabSwitcher() {
 
       {/* Flat fee cards */}
       {tab === 'flatfee' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {FLAT_FEE_CARDS.map((card) => (
             <div
               key={card.id}
@@ -104,29 +104,29 @@ export default function PricingTabSwitcher() {
                 </div>
               )}
               <div className="p-7 lg:p-8 flex flex-col flex-1">
-                <div className="mb-5">
+                <div className="mb-6">
                   <span className="font-sans text-xs font-600 tracking-[0.15em] uppercase text-charcoal-400 mb-2 block">One-Time</span>
                   <h3 className={clsx('font-cormorant text-3xl font-700 mb-1 tracking-tight', card.badge ? 'text-gold' : 'text-charcoal-100')}>
                     {card.title}
                   </h3>
-                  <p className="font-sans text-sm text-charcoal-300 mb-3">{card.description}</p>
-                  <span className="font-cormorant text-xl italic text-gold">Pricing based on your project</span>
+                  <p className="font-sans text-sm text-charcoal-300 font-400">{card.description}</p>
                 </div>
-                <div className="border-t border-charcoal-700 pt-6 mb-6">
-                  <ul className="space-y-3 flex-1">
-                    {card.includes.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <div className={clsx(
-                          'flex-shrink-0 mt-0.5 w-4 h-4 rounded-md flex items-center justify-center',
-                          card.badge ? 'bg-gold/15 text-gold' : 'bg-charcoal-800 text-charcoal-300 border border-charcoal-600'
-                        )}>
-                          <Check size={10} strokeWidth={3} className={card.badge ? 'text-gold' : 'text-charcoal-300'} />
-                        </div>
-                        <span className="font-sans text-sm text-charcoal-200 leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="flex items-baseline gap-1 mb-7 pb-7 border-b border-charcoal-700">
+                  <span className="font-cormorant text-3xl font-700 italic text-gold">Pricing based on your project</span>
                 </div>
+                <ul className="space-y-3.5 flex-1 mb-8">
+                  {card.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <div className={clsx(
+                        'flex-shrink-0 mt-0.5 w-4 h-4 rounded-md flex items-center justify-center',
+                        card.badge ? 'bg-gold/15 text-gold' : 'bg-charcoal-800 text-charcoal-300 border border-charcoal-600'
+                      )}>
+                        <Check size={10} strokeWidth={3} className={card.badge ? 'text-gold' : 'text-charcoal-300'} />
+                      </div>
+                      <span className="font-sans text-sm text-charcoal-200 leading-relaxed font-400">{item}</span>
+                    </li>
+                  ))}
+                </ul>
                 <Link
                   href={card.href}
                   className={clsx(
