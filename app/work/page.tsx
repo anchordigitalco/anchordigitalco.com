@@ -19,6 +19,14 @@ const projects = [
     beforeUrl: 'https://web.archive.org/web/20250702042218/https://akilbello.com/',
     tags: ['Personal Brand', 'Web Design', 'Dev'],
   },
+  {
+    name: 'Marcus Bleecker',
+    category: 'Personal Brand',
+    description:
+      'A modern personal brand site for Marcus Bleecker. Built to establish a strong digital presence and showcase his work and story.',
+    url: 'https://marcusbleecker.com',
+    tags: ['Personal Brand', 'Web Design', 'Dev'],
+  },
 ]
 
 export default function WorkPage() {
