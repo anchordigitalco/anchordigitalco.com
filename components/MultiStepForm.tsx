@@ -45,9 +45,9 @@ const THEME_OPTIONS = [
 ]
 
 const BUDGET_RANGES = [
-  'Starter Plan — $50/mo',
-  'Growth Plan — $150/mo',
-  'Elite Plan — $300/mo',
+  'Starter Plan — $100/mo',
+  'Growth Plan — $225/mo',
+  'Elite Plan — $350/mo',
   'Web Redesign — Get a Quote',
   'Digital Brand Elevation — Get a Quote',
   'Not sure yet',

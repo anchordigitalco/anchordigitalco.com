@@ -259,7 +259,7 @@ export const PRICING_TIERS = [
   {
     id: 'starter',
     name: 'Starter',
-    price: '$50',
+    price: '$100',
     period: '/mo',
     tagline: 'For personal brands, portfolios, and creators.',
     features: [
@@ -278,7 +278,7 @@ export const PRICING_TIERS = [
   {
     id: 'growth',
     name: 'Growth',
-    price: '$150',
+    price: '$225',
     period: '/mo',
     tagline: 'For restaurants, service businesses, and startups.',
     features: [
@@ -298,7 +298,7 @@ export const PRICING_TIERS = [
   {
     id: 'elite',
     name: 'Elite',
-    price: '$300',
+    price: '$350',
     period: '/mo',
     tagline: 'For e-commerce, larger brands, and memberships.',
     features: [

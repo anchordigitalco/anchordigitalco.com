@@ -9,7 +9,7 @@ import clsx from 'clsx'
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Transparent monthly pricing for websites and digital systems. Starter from $50/mo, Growth at $150/mo, Elite at $300/mo.',
+    'Transparent monthly pricing for websites and digital systems. Starter from $100/mo, Growth at $225/mo, Elite at $350/mo.',
 }
 
 const ALL_FEATURES: Array<{
