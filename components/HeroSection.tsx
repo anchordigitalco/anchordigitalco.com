@@ -93,7 +93,7 @@ export default function HeroSection() {
             style={{ fontSize: 'clamp(3.4rem, 8.5vw, 8.5rem)' }}
           >
             <span className="block text-cream">{slide.headline}</span>
-            <span className="block text-gold italic">{slide.accent}</span>
+            <span className="block text-gold">{slide.accent}</span>
           </motion.h1>
         </AnimatePresence>
 
