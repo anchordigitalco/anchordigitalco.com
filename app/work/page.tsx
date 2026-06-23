@@ -24,7 +24,6 @@ const projects = [
     description:
       'A sleek personal brand site for Akil Bello — educator, test-prep expert, and advocate for equity in education. Built to establish digital authority and drive speaking and consulting inquiries.',
     url: 'https://akilbello.com',
-    beforeUrl: 'https://web.archive.org/web/20250702042218/https://akilbello.com/',
     tags: ['Personal Brand', 'Web Design', 'Dev'],
   },
   {
