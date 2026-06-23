@@ -11,6 +11,14 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    name: 'Ray Cuevo Training',
+    category: 'Fitness & Coaching',
+    description:
+      'A high-performance training site for Ray Cuevo — fitness coach and athlete. Built to drive client inquiries, showcase credentials, and establish a strong digital presence in the competitive fitness space.',
+    url: 'https://raycuevotraining.com',
+    tags: ['Fitness & Coaching', 'Web Design', 'Dev'],
+  },
+  {
     name: 'Akil Bello',
     category: 'Personal Brand',
     description:
