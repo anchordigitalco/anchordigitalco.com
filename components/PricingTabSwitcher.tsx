@@ -91,8 +91,8 @@ export default function PricingTabSwitcher() {
               className={clsx(
                 'relative flex flex-col rounded-xl overflow-hidden border transition-all duration-300',
                 card.badge
-                  ? 'bg-white border-2 border-gold shadow-gold-lg'
-                  : 'bg-white border border-charcoal-700 hover:border-charcoal-600 shadow-surface'
+                  ? 'bg-charcoal-800 border-2 border-gold shadow-gold-lg'
+                  : 'bg-charcoal-800 border border-charcoal-600 hover:border-charcoal-500'
               )}
             >
               {card.badge && <div className="h-1 bg-gradient-to-r from-gold-dark via-gold-light to-gold" />}

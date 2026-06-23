@@ -76,8 +76,8 @@ export default function HomePricingSection() {
               className={clsx(
                 'relative flex flex-col rounded-xl overflow-hidden transition-all duration-300',
                 card.featured
-                  ? 'bg-white border-2 border-gold shadow-gold-lg scale-[1.02] lg:scale-[1.04]'
-                  : 'bg-white border border-charcoal-700 hover:border-charcoal-600 shadow-surface'
+                  ? 'bg-charcoal-800 border-2 border-gold shadow-gold-lg scale-[1.02] lg:scale-[1.04]'
+                  : 'bg-charcoal-800 border border-charcoal-600 hover:border-charcoal-500'
               )}
             >
               {card.featured && <div className="h-1 bg-gradient-to-r from-gold-dark via-gold-light to-gold" />}
