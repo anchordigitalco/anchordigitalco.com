@@ -30,7 +30,7 @@ export default function SectionHeader({ eyebrow, title, subtitle, align = 'cente
         {title}
       </h2>
       {subtitle && (
-        <p className="font-sans text-base lg:text-lg text-charcoal-300 leading-relaxed font-400">
+        <p className="font-sans text-base lg:text-lg text-charcoal-200 leading-relaxed font-400">
           {subtitle}
         </p>
       )}

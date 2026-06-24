@@ -23,24 +23,26 @@ export default function HomePricingSection() {
           <button
             onClick={() => setTab('flatfee')}
             className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-all duration-200',
+              'font-sans text-sm px-5 py-2.5 rounded-lg transition-colors duration-200 touch-manipulation',
               tab === 'flatfee'
                 ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-300 hover:text-cream'
+                : 'text-charcoal-200 hover:text-cream'
             )}
           >
-            Flat Fee Services
+            <span className="hidden sm:inline">Flat Fee Services</span>
+            <span className="sm:hidden">Flat Fee</span>
           </button>
           <button
             onClick={() => setTab('subscription')}
             className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-all duration-200',
+              'font-sans text-sm px-5 py-2.5 rounded-lg transition-colors duration-200 touch-manipulation',
               tab === 'subscription'
                 ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-300 hover:text-cream'
+                : 'text-charcoal-200 hover:text-cream'
             )}
           >
-            Subscription Services
+            <span className="hidden sm:inline">Subscription Services</span>
+            <span className="sm:hidden">Subscriptions</span>
           </button>
         </div>
       </div>
@@ -94,12 +96,12 @@ export default function HomePricingSection() {
                   <h3 className={clsx('font-cormorant text-3xl font-700 mb-1 tracking-tight', card.featured ? 'text-gold' : 'text-charcoal-100')}>
                     {card.title}
                   </h3>
-                  <p className="font-sans text-sm text-charcoal-300 font-400">{card.tagline}</p>
+                  <p className="font-sans text-sm text-charcoal-200 font-400">{card.tagline}</p>
                 </div>
                 <div className="flex items-baseline gap-1 mb-7 pb-7 border-b border-charcoal-700">
                   <span className="font-cormorant text-3xl font-700 italic text-gold">Pricing based on your project</span>
                 </div>
-                <p className="font-sans text-sm text-charcoal-300 leading-relaxed flex-1 mb-8">{card.description}</p>
+                <p className="font-sans text-sm text-charcoal-200 leading-relaxed flex-1 mb-8">{card.description}</p>
                 <Link
                   href="/pricing"
                   className={clsx(
@@ -119,7 +121,7 @@ export default function HomePricingSection() {
 
       {/* Slim banner */}
       <div className="mt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 bg-charcoal-800 border border-charcoal-700 rounded-xl">
-        <p className="font-sans text-sm text-charcoal-300">
+        <p className="font-sans text-sm text-charcoal-200">
           Looking for a one-time engagement? Tell us about your project and we will send you a custom quote.
         </p>
         <button

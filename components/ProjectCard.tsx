@@ -105,10 +105,10 @@ export default function ProjectCard({ project }: { project: Project }) {
             <ArrowUpRight size={18} className="text-charcoal-500 hover:text-gold transition-colors mt-1 flex-shrink-0" />
           </a>
         </div>
-        <p className="font-sans text-sm text-charcoal-300 leading-relaxed mb-5">{project.description}</p>
+        <p className="font-sans text-sm text-charcoal-200 leading-relaxed mb-5">{project.description}</p>
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="font-sans text-xs text-charcoal-300 bg-charcoal-800 border border-charcoal-700 px-3 py-1 rounded-full">
+            <span key={tag} className="font-sans text-xs text-charcoal-200 bg-charcoal-800 border border-charcoal-700 px-3 py-1 rounded-full">
               {tag}
             </span>
           ))}

@@ -26,10 +26,10 @@ export default function PricingCard({
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.65, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
       className={clsx(
-        'relative flex flex-col rounded-xl overflow-hidden transition-all duration-300',
+        'relative flex flex-col rounded-xl overflow-hidden transition-[border-color,box-shadow] duration-200',
         highlighted
-          ? 'bg-white border-2 border-gold shadow-gold-lg scale-[1.02] lg:scale-[1.04]'
-          : 'bg-white border border-charcoal-700 hover:border-charcoal-600 shadow-surface'
+          ? 'bg-charcoal-800 border-2 border-gold shadow-gold-lg scale-[1.02] lg:scale-[1.04]'
+          : 'bg-charcoal-800 border border-charcoal-600 hover:border-charcoal-500 shadow-surface'
       )}
     >
       {/* Accent top stripe for highlighted */}
@@ -54,7 +54,7 @@ export default function PricingCard({
           )}>
             {name}
           </h3>
-          <p className="font-sans text-sm text-charcoal-300 font-400">{tagline}</p>
+          <p className="font-sans text-sm text-charcoal-200 font-400">{tagline}</p>
         </div>
 
         <div className="flex items-baseline gap-1 mb-7 pb-7 border-b border-charcoal-700">
@@ -64,7 +64,7 @@ export default function PricingCard({
           )}>
             {price}
           </span>
-          <span className="font-sans text-sm text-charcoal-300 font-400">{period}</span>
+          <span className="font-sans text-sm text-charcoal-200 font-400">{period}</span>
         </div>
 
         <ul className="space-y-3.5 flex-1 mb-8">
@@ -84,7 +84,7 @@ export default function PricingCard({
         <Link
           href="/start"
           className={clsx(
-            'w-full text-center font-sans text-sm font-600 py-4 rounded-lg transition-all duration-200',
+            'w-full text-center font-sans text-sm font-600 py-4 rounded-lg transition-[border-color,color,background-color] duration-200',
             highlighted
               ? 'btn-primary'
               : 'border border-charcoal-600 text-charcoal-200 hover:border-gold/40 hover:text-gold hover:bg-gold/5'

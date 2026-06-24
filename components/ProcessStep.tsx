@@ -34,7 +34,7 @@ export default function ProcessStep({ number, title, description, index = 0, isL
             {number}
           </span>
           {/* Step indicator */}
-          <div className="relative z-10 w-10 h-10 rounded-full border-2 border-charcoal-600 group-hover:border-gold bg-white flex items-center justify-center transition-all duration-300 shadow-surface">
+          <div className="relative z-10 w-10 h-10 rounded-full border-2 border-charcoal-600 group-hover:border-gold bg-charcoal-800 flex items-center justify-center transition-[border-color] duration-200 shadow-surface">
             <span className="font-sans text-xs font-700 text-gold">{number}</span>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function ProcessStep({ number, title, description, index = 0, isL
         <h3 className="font-cormorant text-2xl lg:text-3xl font-700 text-charcoal-100 mb-3 group-hover:text-gold transition-colors duration-300 tracking-tight">
           {title}
         </h3>
-        <p className="font-sans text-base text-charcoal-300 leading-relaxed max-w-xl font-400">
+        <p className="font-sans text-base text-charcoal-200 leading-relaxed max-w-xl font-400">
           {description}
         </p>
       </div>

@@ -51,24 +51,26 @@ export default function PricingTabSwitcher() {
           <button
             onClick={() => setTab('flatfee')}
             className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-all duration-200',
+              'font-sans text-sm px-5 py-2.5 rounded-lg transition-colors duration-200 touch-manipulation',
               tab === 'flatfee'
                 ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-300 hover:text-cream'
+                : 'text-charcoal-200 hover:text-cream'
             )}
           >
-            Flat Fee Services
+            <span className="hidden sm:inline">Flat Fee Services</span>
+            <span className="sm:hidden">Flat Fee</span>
           </button>
           <button
             onClick={() => setTab('subscription')}
             className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-all duration-200',
+              'font-sans text-sm px-5 py-2.5 rounded-lg transition-colors duration-200 touch-manipulation',
               tab === 'subscription'
                 ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-300 hover:text-cream'
+                : 'text-charcoal-200 hover:text-cream'
             )}
           >
-            Subscription Services
+            <span className="hidden sm:inline">Subscription Services</span>
+            <span className="sm:hidden">Subscriptions</span>
           </button>
         </div>
       </div>
@@ -109,7 +111,7 @@ export default function PricingTabSwitcher() {
                   <h3 className={clsx('font-cormorant text-3xl font-700 mb-1 tracking-tight', card.badge ? 'text-gold' : 'text-charcoal-100')}>
                     {card.title}
                   </h3>
-                  <p className="font-sans text-sm text-charcoal-300 font-400">{card.description}</p>
+                  <p className="font-sans text-sm text-charcoal-200 font-400">{card.description}</p>
                 </div>
                 <div className="flex items-baseline gap-1 mb-7 pb-7 border-b border-charcoal-700">
                   <span className="font-cormorant text-3xl font-700 italic text-gold">Pricing based on your project</span>

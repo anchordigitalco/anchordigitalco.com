@@ -323,7 +323,8 @@ export default function HeroSection() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="font-sans text-base lg:text-lg text-charcoal-300 leading-relaxed mb-10 max-w-md"
+              className="font-sans text-base lg:text-lg leading-relaxed mb-10 max-w-md"
+              style={{ color: 'var(--color-text-body)' }}
             >
               {slide.sub}
             </motion.p>
@@ -414,7 +415,7 @@ export default function HeroSection() {
             { value: '95+', label: 'Lighthouse Score' },
           ].map(({ value, label }) => (
             <div key={label}>
-              <div className="font-cormorant text-2xl lg:text-3xl font-700" style={{ color: slide.color }}>{value}</div>
+              <div className="font-cormorant text-2xl lg:text-3xl font-700 tabular-nums" style={{ color: slide.color }}>{value}</div>
               <div className="font-sans text-[11px] text-charcoal-400 mt-0.5 font-500 tracking-[0.12em] uppercase">{label}</div>
             </div>
           ))}

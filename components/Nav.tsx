@@ -30,7 +30,7 @@ export default function Nav() {
     <>
       <nav
         className={clsx(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-400',
+          'fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300',
           scrolled
             ? 'bg-charcoal-900/95 backdrop-blur-xl border-b border-charcoal-700 shadow-surface'
             : 'bg-transparent'
@@ -52,7 +52,7 @@ export default function Nav() {
                     'font-sans text-sm font-500 tracking-wide transition-colors duration-200 relative group',
                     pathname === link.href
                       ? 'text-gold'
-                      : 'text-charcoal-300 hover:text-charcoal-100'
+                      : 'text-charcoal-200 hover:text-cream'
                   )}
                 >
                   {link.label}
@@ -62,7 +62,7 @@ export default function Nav() {
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gold rounded-full"
                     />
                   )}
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gold/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gold/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-[180ms] origin-left rounded-full" />
                 </Link>
               ))}
               <Link
@@ -92,7 +92,7 @@ export default function Nav() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.15 }}
             className="fixed inset-0 z-[100] bg-charcoal-900"
           >
             {/* Blue glow */}

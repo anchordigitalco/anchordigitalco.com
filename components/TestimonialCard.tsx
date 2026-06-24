@@ -16,10 +16,10 @@ export default function TestimonialCard({ quote, name, role, company, index = 0 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.65, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-      className="relative bg-white border border-charcoal-700 rounded-xl p-7 lg:p-8 overflow-hidden group hover:border-gold/30 hover:shadow-surface-lg transition-all duration-400"
+      className="relative bg-charcoal-800 border border-charcoal-600 rounded-xl p-7 lg:p-8 overflow-hidden group hover:border-gold/30 hover:shadow-surface-lg transition-[border-color,box-shadow] duration-200"
     >
       {/* Blue top accent on hover */}
-      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left rounded-t-xl" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-t-xl" />
 
       {/* Opening mark */}
       <div
