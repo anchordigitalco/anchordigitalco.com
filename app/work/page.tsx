@@ -19,6 +19,14 @@ const projects = [
     tags: ['Fitness & Coaching', 'Web Design', 'Dev'],
   },
   {
+    name: 'Hide the Film',
+    category: 'Film & Creative',
+    description:
+      'A cinematic digital home for Hide the Film — built to showcase their work, establish a distinct creative identity, and connect with collaborators and clients in the film industry.',
+    url: 'https://hidethefilm.com',
+    tags: ['Film & Creative', 'Web Design', 'Dev'],
+  },
+  {
     name: 'Akil Bello',
     category: 'Personal Brand',
     description:
