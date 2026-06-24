@@ -32,7 +32,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <div
-      className="group bg-charcoal-900 border border-charcoal-700 rounded-2xl overflow-hidden hover:border-gold/40 transition-all duration-300"
+      className="group bg-charcoal-900 border border-charcoal-700 rounded-2xl overflow-hidden hover:border-gold/40 transition-[border-color,box-shadow] duration-200"
       style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}
     >
       {/* Before / After toggle */}

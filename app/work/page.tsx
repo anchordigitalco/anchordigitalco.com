@@ -58,7 +58,7 @@ export default function WorkPage() {
             <h1 className="font-cormorant text-[clamp(3rem,7vw,6.5rem)] font-700 text-cream leading-none mb-6 tracking-tight">
               Our work.
             </h1>
-            <p className="font-sans text-lg lg:text-xl text-charcoal-300 leading-relaxed max-w-2xl">
+            <p className="font-sans text-lg lg:text-xl text-charcoal-200 leading-relaxed max-w-2xl">
               Every site is built custom — no templates, no compromises. We work across personal brands, restaurants, e-commerce, and more.
             </p>
           </div>
@@ -84,8 +84,8 @@ export default function WorkPage() {
               </div>
               <div className="p-6">
                 <p className="font-sans text-xs text-gold font-600 tracking-wide uppercase mb-1">In Progress</p>
-                <h2 className="font-cormorant text-2xl font-700 text-cream tracking-tight mb-3">More Coming Soon</h2>
-                <p className="font-sans text-sm text-charcoal-300 leading-relaxed mb-5">
+                <h2 className="font-cormorant text-2xl font-700 text-charcoal-400 tracking-tight mb-3">More Coming Soon</h2>
+                <p className="font-sans text-sm text-charcoal-200 leading-relaxed mb-5">
                   We are currently building out new projects. Check back soon — or become one of them.
                 </p>
                 <Link
@@ -103,10 +103,15 @@ export default function WorkPage() {
       {/* Bottom CTA */}
       <section className="py-24 bg-charcoal-900 border-t border-charcoal-700">
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="w-8 h-0.5 rounded-full bg-gold" />
+            <span className="font-sans text-xs font-600 tracking-[0.25em] uppercase text-gold">Let&apos;s Build</span>
+            <div className="w-8 h-0.5 rounded-full bg-gold" />
+          </div>
           <h3 className="font-cormorant text-3xl lg:text-4xl font-700 text-cream mb-4 tracking-tight">
             Want your brand here?
           </h3>
-          <p className="font-sans text-charcoal-300 mb-8 text-sm leading-relaxed">
+          <p className="font-sans text-charcoal-200 mb-8 text-sm leading-relaxed">
             Every great site starts with a conversation. Tell us what you&apos;re building.
           </p>
           <Link

@@ -38,7 +38,7 @@ export default function HomePage() {
       <HeroSection />
 
       {/* WHO WE WORK WITH */}
-      <section className="relative py-24 lg:py-32 bg-charcoal-800">
+      <section className="relative py-24 lg:py-32 bg-charcoal-800 border-t border-charcoal-700/50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <SectionHeader
             eyebrow="Industries We Serve"
@@ -54,7 +54,7 @@ export default function HomePage() {
       </section>
 
       {/* MEET THE FOUNDERS */}
-      <section className="relative py-24 lg:py-32 bg-charcoal-900">
+      <section className="relative py-24 lg:py-32 bg-charcoal-900 border-t border-charcoal-700/50">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] opacity-[0.07] pointer-events-none"
           style={{ background: 'radial-gradient(ellipse, rgba(43,127,255,0.6) 0%, transparent 70%)', filter: 'blur(80px)' }}
@@ -68,7 +68,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14 max-w-3xl mx-auto">
             {founders.map(({ name, title, initials, image, gradientFrom, gradientTo }) => (
               <Link key={name} href="/team" className="group block">
-                <div className="relative overflow-hidden rounded-2xl bg-charcoal-800 border border-charcoal-700 hover:border-gold/30 transition-all duration-300 hover:shadow-gold-lg">
+                <div className="relative overflow-hidden rounded-2xl bg-charcoal-800 border border-charcoal-700 hover:border-gold/30 transition-[border-color,box-shadow] duration-200 hover:shadow-gold-lg">
                   {/* Photo area */}
                   <div className="aspect-[4/3] relative overflow-hidden">
                     {image ? (
@@ -92,7 +92,7 @@ export default function HomePage() {
                   </div>
                   <div className="px-6 pb-6 pt-4">
                     <h3 className="font-cormorant text-2xl font-700 text-cream mb-1">{name}</h3>
-                    <p className="font-sans text-sm text-charcoal-300">{title}</p>
+                    <p className="font-sans text-sm text-charcoal-200">{title}</p>
                     <div className="mt-4 flex items-center gap-2 text-gold font-sans text-sm font-600 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200">
                       Read bio <ArrowRight size={13} />
                     </div>
@@ -113,7 +113,7 @@ export default function HomePage() {
       </section>
 
       {/* PROCESS */}
-      <section id="process" className="relative py-24 lg:py-32 overflow-hidden bg-charcoal-800">
+      <section id="process" className="relative py-24 lg:py-32 overflow-hidden bg-charcoal-800 border-t border-charcoal-700/50">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-[0.07] pointer-events-none"
           style={{ background: 'radial-gradient(circle, rgba(43,127,255,0.8) 0%, transparent 70%)', filter: 'blur(80px)' }}
@@ -129,7 +129,7 @@ export default function HomePage() {
               />
               <div className="mt-10 p-6 bg-charcoal-900 border border-charcoal-700 rounded-xl shadow-surface">
                 <div className="font-cormorant text-4xl font-700 text-gold mb-2 tracking-tight">7 Days</div>
-                <p className="font-sans text-sm text-charcoal-300">
+                <p className="font-sans text-sm text-charcoal-200">
                   Average time from kickoff to live launch. We move fast without cutting corners.
                 </p>
               </div>
@@ -144,7 +144,7 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="relative py-24 lg:py-32 bg-charcoal-900">
+      <section id="pricing" className="relative py-24 lg:py-32 bg-charcoal-900 border-t border-charcoal-700/50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <SectionHeader
             eyebrow="Pricing"
@@ -161,7 +161,7 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-32 lg:py-40 overflow-hidden bg-charcoal-800">
+      <section className="relative py-32 lg:py-40 overflow-hidden bg-charcoal-800 border-t border-charcoal-700/50">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] animate-pulse-accent pointer-events-none"
           style={{ background: 'radial-gradient(ellipse, rgba(43,127,255,0.10) 0%, transparent 70%)', filter: 'blur(60px)' }}
@@ -175,7 +175,7 @@ export default function HomePage() {
           <h2 className="font-cormorant text-[clamp(2.8rem,6vw,5.5rem)] font-700 text-charcoal-50 leading-none mb-6 tracking-tight">
             Ready to build<br />something great?
           </h2>
-          <p className="font-sans text-lg text-charcoal-300 max-w-xl mx-auto leading-relaxed mb-10">
+          <p className="font-sans text-lg text-charcoal-200 max-w-xl mx-auto leading-relaxed mb-10">
             Tell us about your project and we&apos;ll get back to you within 24 hours.
             No commitment, no pressure — just a real conversation.
           </p>

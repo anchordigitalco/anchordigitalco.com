@@ -77,7 +77,7 @@ export default function ServicesPage() {
                 What We Build
               </span>
             </div>
-            <h1 className="font-cormorant text-[clamp(3rem,7vw,7rem)] font-300 text-cream leading-none mb-6">
+            <h1 className="font-cormorant text-[clamp(3rem,7vw,7rem)] font-600 text-cream leading-none mb-6 tracking-tight">
               What we build.
             </h1>
             <p className="font-sans text-lg lg:text-xl text-charcoal-200 leading-relaxed max-w-2xl">
@@ -88,13 +88,13 @@ export default function ServicesPage() {
       </section>
 
       {/* Flat Fee category header */}
-      <section className="bg-charcoal-800 border-y border-charcoal-700 py-10">
+      <section className="bg-gold/[0.04] border-y border-charcoal-700 py-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="w-8 h-px bg-gold" />
+          <div className="flex items-center gap-5">
+            <div className="w-0.5 h-10 rounded-full bg-gold flex-shrink-0" />
             <div>
-              <p className="font-sans text-xs font-600 tracking-[0.2em] uppercase text-gold mb-0.5">Flat Fee Services</p>
-              <p className="font-sans text-sm text-charcoal-300">One-time engagements for businesses that need a specific result, not an ongoing plan.</p>
+              <p className="font-sans text-xs font-600 tracking-[0.2em] uppercase text-gold mb-1">Flat Fee Services</p>
+              <p className="font-sans text-sm text-charcoal-200">One-time engagements for businesses that need a specific result, not an ongoing plan.</p>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function ServicesPage() {
         <section
           key={service.id}
           id={service.id}
-          className={`relative py-24 lg:py-32 ${i % 2 === 0 ? 'bg-charcoal-900' : 'bg-charcoal-800'}`}
+          className={`relative py-16 lg:py-24 ${i % 2 === 0 ? 'bg-charcoal-900' : 'bg-charcoal-800'}`}
         >
           {i % 2 !== 0 && (
             <div className="absolute inset-0 pointer-events-none">
@@ -131,7 +131,7 @@ export default function ServicesPage() {
                       <div key={tier.name} className="flex items-start gap-4 p-4 bg-charcoal-900/50 border border-charcoal-700 rounded-xl">
                         <div>
                           <p className="font-sans text-sm font-700 text-cream mb-1">{tier.name}</p>
-                          <p className="font-sans text-xs text-charcoal-300 leading-relaxed">{tier.detail}</p>
+                          <p className="font-sans text-xs text-charcoal-200 leading-relaxed">{tier.detail}</p>
                         </div>
                       </div>
                     ))}
@@ -147,7 +147,7 @@ export default function ServicesPage() {
               </div>
               <div>
                 <div className="bg-charcoal-900/60 border border-charcoal-700 rounded-xl p-8">
-                  <h3 className="font-sans text-xs tracking-[0.15em] uppercase text-charcoal-300 mb-6">What&apos;s Included</h3>
+                  <h3 className="font-cormorant text-xl font-600 text-cream mb-6">What&apos;s Included</h3>
                   <ul className="space-y-4">
                     {service.includes.map((item) => (
                       <li key={item} className="flex items-start gap-3">
@@ -168,7 +168,7 @@ export default function ServicesPage() {
       {/* Divider callout */}
       <section className="bg-charcoal-800 border-y border-charcoal-700 py-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <p className="font-sans text-sm text-charcoal-300 max-w-lg">
+          <p className="font-sans text-sm text-charcoal-200 max-w-lg">
             Not sure which path fits? Tell us about your business and we will recommend the right option.
           </p>
           <Link href="/start" className="font-sans text-sm font-600 text-gold hover:text-cream transition-colors flex-shrink-0">
@@ -178,13 +178,13 @@ export default function ServicesPage() {
       </section>
 
       {/* Subscription Services category header */}
-      <section className="bg-charcoal-900 border-b border-charcoal-700 py-10">
+      <section className="bg-gold/[0.04] border-b border-charcoal-700 py-10">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="w-8 h-px bg-gold" />
+          <div className="flex items-center gap-5">
+            <div className="w-0.5 h-10 rounded-full bg-gold flex-shrink-0" />
             <div>
-              <p className="font-sans text-xs font-600 tracking-[0.2em] uppercase text-gold mb-0.5">Subscription Services</p>
-              <p className="font-sans text-sm text-charcoal-300">Monthly subscription plans — build your site and keep it growing.</p>
+              <p className="font-sans text-xs font-600 tracking-[0.2em] uppercase text-gold mb-1">Subscription Services</p>
+              <p className="font-sans text-sm text-charcoal-200">Monthly subscription plans — build your site and keep it growing.</p>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function ServicesPage() {
         <section
           key={service.id}
           id={service.id}
-          className={`relative py-24 lg:py-32 ${i % 2 === 0 ? 'bg-charcoal-900' : 'bg-charcoal-800'}`}
+          className={`relative py-16 lg:py-24 ${i % 2 === 0 ? 'bg-charcoal-900' : 'bg-charcoal-800'}`}
         >
           {i % 2 !== 0 && (
             <div className="absolute inset-0 pointer-events-none">
@@ -211,7 +211,7 @@ export default function ServicesPage() {
                 <div className="flex items-center gap-3 mb-6">
                   <span
                     className="font-cormorant text-[6rem] lg:text-[8rem] font-300 leading-none select-none"
-                    style={{ color: 'rgba(43,127,255,0.08)' }}
+                    style={{ color: 'rgba(43,127,255,0.18)' }}
                   >
                     {service.number}
                   </span>
@@ -261,7 +261,7 @@ export default function ServicesPage() {
       {/* Divider callout */}
       <section className="bg-charcoal-800 border-y border-charcoal-700 py-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <p className="font-sans text-sm text-charcoal-300 max-w-lg">
+          <p className="font-sans text-sm text-charcoal-200 max-w-lg">
             Not sure which path fits? Tell us about your business and we will recommend the right option.
           </p>
           <Link href="/start" className="font-sans text-sm font-600 text-gold hover:text-cream transition-colors flex-shrink-0">

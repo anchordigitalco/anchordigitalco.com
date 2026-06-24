@@ -54,7 +54,7 @@ export default function TeamPage() {
             <h1 className="font-cormorant text-[clamp(3rem,7vw,6.5rem)] font-700 text-cream leading-none mb-6 tracking-tight">
               Meet the founders.
             </h1>
-            <p className="font-sans text-lg lg:text-xl text-charcoal-300 leading-relaxed max-w-2xl">
+            <p className="font-sans text-lg lg:text-xl text-charcoal-200 leading-relaxed max-w-2xl">
               Two builders with a shared obsession: making small and mid-size businesses
               look and perform like industry leaders online.
             </p>
@@ -69,10 +69,10 @@ export default function TeamPage() {
             {founders.map((founder) => (
               <div key={founder.name} className="relative pb-3 pr-3 group/card">
                 {/* Offset decorative border */}
-                <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border border-gold/25 group-hover/card:border-gold/55 transition-all duration-300 pointer-events-none" />
+                <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border border-gold/25 group-hover/card:border-gold/55 transition-[border-color] duration-200 pointer-events-none" />
                 {/* Hover glow layer */}
                 <div className="absolute inset-0 z-0 rounded-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: '0 0 40px rgba(43,127,255,0.22)' }} />
-                <div className="relative z-10 bg-charcoal-900 border border-charcoal-700 rounded-2xl overflow-hidden group-hover/card:border-gold/40 transition-all duration-300" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}>
+                <div className="relative z-10 bg-charcoal-900 border border-charcoal-700 rounded-2xl overflow-hidden group-hover/card:border-gold/40 transition-[border-color] duration-200" style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}>
                 {/* Photo area */}
                 <div className="relative aspect-square bg-charcoal-800 overflow-hidden">
                   {founder.image ? (
@@ -114,7 +114,7 @@ export default function TeamPage() {
                     </p>
                   </div>
 
-                  <p className="font-sans text-base text-charcoal-300 leading-relaxed mb-7">
+                  <p className="font-sans text-base text-charcoal-200 leading-relaxed mb-7">
                     {founder.bio}
                   </p>
 
@@ -122,7 +122,7 @@ export default function TeamPage() {
                   <div className="flex items-center gap-3 pt-5 border-t border-charcoal-700">
                     <a
                       href={founder.links.linkedin}
-                      className="w-9 h-9 rounded-lg border border-charcoal-700 hover:border-gold/50 flex items-center justify-center text-charcoal-400 hover:text-gold transition-all duration-200"
+                      className="w-9 h-9 rounded-lg border border-charcoal-700 hover:border-gold/50 flex items-center justify-center text-charcoal-400 hover:text-gold transition-[border-color,color] duration-200"
                       aria-label={`${founder.name} on LinkedIn`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -131,7 +131,7 @@ export default function TeamPage() {
                     </a>
                     <a
                       href={`mailto:${founder.links.email}`}
-                      className="w-9 h-9 rounded-lg border border-charcoal-700 hover:border-gold/50 flex items-center justify-center text-charcoal-400 hover:text-gold transition-all duration-200"
+                      className="w-9 h-9 rounded-lg border border-charcoal-700 hover:border-gold/50 flex items-center justify-center text-charcoal-400 hover:text-gold transition-[border-color,color] duration-200"
                       aria-label={`Email ${founder.name}`}
                     >
                       <Mail size={16} />
@@ -161,15 +161,15 @@ export default function TeamPage() {
             ].map((value) => (
               <div
                 key={value.number}
-                className="relative bg-charcoal-800 border border-charcoal-700 rounded-xl p-7 hover:border-gold/30 transition-all duration-300 group"
+                className="relative bg-charcoal-800 border border-charcoal-700 rounded-xl p-7 hover:border-gold/30 transition-[border-color,box-shadow] duration-200 group"
               >
                 <div className="font-cormorant text-[5rem] font-800 leading-none mb-4 select-none" style={{ color: 'rgba(43,127,255,0.10)' }}>
                   {value.number}
                 </div>
-                <h3 className="font-sans text-base font-700 text-cream mb-2 group-hover:text-gold transition-colors">
+                <h3 className="font-cormorant text-xl font-700 text-cream mb-2 group-hover:text-gold transition-colors tracking-tight">
                   {value.title}
                 </h3>
-                <p className="font-sans text-sm text-charcoal-300 leading-relaxed">
+                <p className="font-sans text-sm text-charcoal-200 leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -181,10 +181,15 @@ export default function TeamPage() {
       {/* CTA */}
       <section className="py-24 bg-charcoal-800 border-t border-charcoal-700">
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="w-8 h-0.5 rounded-full bg-gold" />
+            <span className="font-sans text-xs font-600 tracking-[0.25em] uppercase text-gold">Let&apos;s Build</span>
+            <div className="w-8 h-0.5 rounded-full bg-gold" />
+          </div>
           <h2 className="font-cormorant text-4xl lg:text-5xl font-700 text-cream mb-4 tracking-tight">
             Want to work with us?
           </h2>
-          <p className="font-sans text-charcoal-300 mb-8">
+          <p className="font-sans text-charcoal-200 mb-8">
             Start with a conversation. We respond to every inquiry within 24 hours.
           </p>
           <Link href="/start" className="btn-primary inline-flex items-center gap-2 font-sans text-sm px-8 py-4 rounded-lg">

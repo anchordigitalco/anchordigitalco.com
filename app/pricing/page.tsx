@@ -56,7 +56,7 @@ export default function PricingPage() {
             </span>
             <div className="w-8 h-px bg-gold" />
           </div>
-          <h1 className="font-cormorant text-[clamp(3rem,7vw,7rem)] font-300 text-cream leading-none mb-6">
+          <h1 className="font-cormorant text-[clamp(3rem,7vw,7rem)] font-600 text-cream leading-none mb-6 tracking-tight">
             Simple, transparent pricing.
           </h1>
           <p className="font-sans text-lg lg:text-xl text-charcoal-200 leading-relaxed max-w-2xl mx-auto">
@@ -121,9 +121,9 @@ export default function PricingPage() {
                   <th className="text-left pb-4 font-sans text-xs tracking-[0.12em] uppercase text-charcoal-400 w-1/2">
                     Feature
                   </th>
-                  <th className="pb-4 font-cormorant text-lg font-500 text-cream/70 text-center">Starter</th>
-                  <th className="pb-4 font-cormorant text-lg font-500 text-gold text-center">Growth</th>
-                  <th className="pb-4 font-cormorant text-lg font-500 text-cream/70 text-center">Elite</th>
+                  <th className="pb-4 font-cormorant text-2xl font-700 text-cream/70 text-center">Starter</th>
+                  <th className="pb-4 font-cormorant text-2xl font-700 text-gold text-center">Growth</th>
+                  <th className="pb-4 font-cormorant text-2xl font-700 text-cream/70 text-center">Elite</th>
                 </tr>
               </thead>
               <tbody>
@@ -170,6 +170,7 @@ export default function PricingPage() {
           <SectionHeader
             eyebrow="FAQ"
             title="Common questions."
+            align="left"
           />
           <div className="mt-12">
             <PricingFAQ />
@@ -180,10 +181,15 @@ export default function PricingPage() {
       {/* CTA */}
       <section className="py-24 bg-charcoal-800 border-t border-charcoal-700">
         <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="font-cormorant text-4xl lg:text-5xl font-300 text-cream mb-4">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="w-8 h-0.5 rounded-full bg-gold" />
+            <span className="font-sans text-xs font-600 tracking-[0.25em] uppercase text-gold">Get in Touch</span>
+            <div className="w-8 h-0.5 rounded-full bg-gold" />
+          </div>
+          <h2 className="font-cormorant text-4xl lg:text-5xl font-600 text-cream mb-4 tracking-tight">
             Still have questions?
           </h2>
-          <p className="font-sans text-charcoal-300 mb-8">
+          <p className="font-sans text-charcoal-200 mb-8">
             Reach out and we&apos;ll sort it out. We typically respond within a few hours.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
