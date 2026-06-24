@@ -172,7 +172,7 @@ export default function HomePage() {
             <span className="font-sans text-xs font-600 tracking-[0.25em] uppercase text-gold">Let&apos;s Build</span>
             <div className="w-8 h-0.5 rounded-full bg-gold" />
           </div>
-          <h2 className="font-cormorant text-[clamp(2.8rem,6vw,5.5rem)] font-700 text-charcoal-50 leading-none mb-6 tracking-tight">
+          <h2 className="font-cormorant text-[clamp(2.8rem,6vw,5.5rem)] font-700 text-charcoal-50 leading-tight mb-6 tracking-tight">
             Ready to build<br />something great?
           </h2>
           <p className="font-sans text-lg text-charcoal-200 max-w-xl mx-auto leading-relaxed mb-10">

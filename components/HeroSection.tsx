@@ -308,7 +308,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-              className="font-cormorant font-700 leading-[0.92] tracking-tight mb-7 text-cream"
+              className="font-cormorant font-700 leading-[1.05] tracking-tight mb-7 text-cream"
               style={{ fontSize: 'clamp(3rem, 6vw, 7rem)' }}
             >
               <span className="block">{slide.headline}</span>
