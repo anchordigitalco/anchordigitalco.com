@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         // cormorant maps to Sora — display/heading font throughout the site
-        cormorant: ['var(--font-playfair)', 'Georgia', 'serif'],
+        cormorant: ['var(--font-fraunces)', 'Georgia', 'serif'],
         sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
       },
       colors: {
