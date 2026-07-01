@@ -308,11 +308,11 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-              className="font-cormorant font-700 leading-[1.05] tracking-tight mb-7 text-cream"
-              style={{ fontSize: 'clamp(3rem, 6vw, 7rem)' }}
+              className="font-cormorant font-700 leading-none tracking-tight mb-7 text-cream flex flex-col"
+              style={{ fontSize: 'clamp(3rem, 6vw, 7rem)', gap: '0.08em' }}
             >
-              <span className="block">{slide.headline}</span>
-              <span className="block" style={{ color: slide.color }}>{slide.accentLine}</span>
+              <span>{slide.headline}</span>
+              <span style={{ color: slide.color }}>{slide.accentLine}</span>
             </motion.h1>
           </AnimatePresence>
 
