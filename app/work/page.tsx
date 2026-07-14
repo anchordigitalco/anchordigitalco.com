@@ -35,6 +35,14 @@ const projects = [
     tags: ['Personal Brand', 'Web Design', 'Dev'],
   },
   {
+    name: 'FairTest',
+    category: 'Education & Advocacy',
+    description:
+      'A page built for FairTest — the National Center for Fair & Open Testing. Designed to clearly communicate research and resources for students, families, and institutions navigating test-optional admissions.',
+    url: 'https://fairtest.org/10769-2/',
+    tags: ['Education', 'Web Design', 'Dev'],
+  },
+  {
     name: 'Marcus Bleecker',
     category: 'Personal Brand',
     description:
