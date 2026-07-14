@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, ExternalLink } from 'lucide-react'
 
 interface Project {
   name: string
@@ -9,6 +9,7 @@ interface Project {
   url: string
   beforeUrl?: string
   tags: string[]
+  previewDisabled?: boolean
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
@@ -61,38 +62,60 @@ export default function ProjectCard({ project }: { project: Project }) {
         </div>
       )}
 
-      {/* Live preview */}
-      <a
-        href={view === 'before' ? project.beforeUrl : project.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block relative overflow-hidden bg-charcoal-700 mt-3 mx-4 rounded-xl"
-        style={{ aspectRatio: '16/9' }}
-      >
-        <iframe
-          key={view}
-          src={view === 'before' ? project.beforeUrl : project.url}
-          title={`${project.name} ${view} preview`}
-          scrolling="no"
-          className="absolute top-0 left-0 border-0"
-          style={{
-            width: '1440px',
-            height: '900px',
-            transform: 'scale(0.5)',
-            transformOrigin: 'top left',
-            pointerEvents: 'none',
-          }}
-        />
-        <div className="absolute inset-0 bg-charcoal-900/10 group-hover:bg-transparent transition-colors duration-300" />
-        <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-charcoal-900/80 border border-charcoal-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <ArrowUpRight size={14} className="text-gold" />
-        </div>
-        {view === 'before' && (
-          <div className="absolute bottom-3 left-3 font-sans text-xs bg-charcoal-900/80 border border-charcoal-700 text-charcoal-300 px-2 py-1 rounded-md">
-            Archived — before Bello Bleecker
+      {/* Preview */}
+      {project.previewDisabled ? (
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block relative overflow-hidden mt-3 mx-4 rounded-xl group/preview"
+          style={{ aspectRatio: '16/9', background: 'linear-gradient(135deg, #0E1528 0%, #080B18 100%)', border: '1px solid rgba(43,127,255,0.12)' }}
+        >
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <div
+              className="w-12 h-12 rounded-2xl flex items-center justify-center"
+              style={{ background: 'rgba(43,127,255,0.10)', border: '1px solid rgba(43,127,255,0.20)' }}
+            >
+              <ExternalLink size={20} className="text-gold" />
+            </div>
+            <span className="font-sans text-sm text-charcoal-300 group-hover/preview:text-cream transition-colors duration-200">
+              View Live Page
+            </span>
           </div>
-        )}
-      </a>
+        </a>
+      ) : (
+        <a
+          href={view === 'before' ? project.beforeUrl : project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block relative overflow-hidden bg-charcoal-700 mt-3 mx-4 rounded-xl"
+          style={{ aspectRatio: '16/9' }}
+        >
+          <iframe
+            key={view}
+            src={view === 'before' ? project.beforeUrl : project.url}
+            title={`${project.name} ${view} preview`}
+            scrolling="no"
+            className="absolute top-0 left-0 border-0"
+            style={{
+              width: '1440px',
+              height: '900px',
+              transform: 'scale(0.5)',
+              transformOrigin: 'top left',
+              pointerEvents: 'none',
+            }}
+          />
+          <div className="absolute inset-0 bg-charcoal-900/10 group-hover:bg-transparent transition-colors duration-300" />
+          <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-charcoal-900/80 border border-charcoal-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <ArrowUpRight size={14} className="text-gold" />
+          </div>
+          {view === 'before' && (
+            <div className="absolute bottom-3 left-3 font-sans text-xs bg-charcoal-900/80 border border-charcoal-700 text-charcoal-300 px-2 py-1 rounded-md">
+              Archived — before Bello Bleecker
+            </div>
+          )}
+        </a>
+      )}
 
       {/* Info */}
       <div className="p-6">

@@ -11,6 +11,15 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    name: 'FairTest',
+    category: 'Education & Advocacy',
+    description:
+      'A custom page and system built for FairTest — the National Center for Fair & Open Testing. We designed and developed this specific page to clearly communicate research and resources for students, families, and institutions navigating test-optional admissions.',
+    url: 'https://fairtest.org/10769-2/',
+    tags: ['Education', 'Web Design', 'Dev'],
+    previewDisabled: true,
+  },
+  {
     name: 'Ray Cuevo Training',
     category: 'Fitness & Coaching',
     description:
@@ -33,14 +42,6 @@ const projects = [
       'A sleek personal brand site for Akil Bello — educator, test-prep expert, and advocate for equity in education. Built to establish digital authority and drive speaking and consulting inquiries.',
     url: 'https://akilbello.com',
     tags: ['Personal Brand', 'Web Design', 'Dev'],
-  },
-  {
-    name: 'FairTest',
-    category: 'Education & Advocacy',
-    description:
-      'A custom page and system built for FairTest — the National Center for Fair & Open Testing. We designed and developed this specific page to clearly communicate research and resources for students, families, and institutions navigating test-optional admissions.',
-    url: 'https://fairtest.org/10769-2/',
-    tags: ['Education', 'Web Design', 'Dev'],
   },
   {
     name: 'Marcus Bleecker',
