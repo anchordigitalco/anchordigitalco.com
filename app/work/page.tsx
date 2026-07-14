@@ -17,7 +17,7 @@ const projects = [
       'A custom page and system built for FairTest — the National Center for Fair & Open Testing. We designed and developed this specific page to clearly communicate research and resources for students, families, and institutions navigating test-optional admissions.',
     url: 'https://fairtest.org/10769-2/',
     tags: ['Education', 'Web Design', 'Dev'],
-    previewDisabled: true,
+    previewImage: '/previews/fairtest-preview.png',
   },
   {
     name: 'Ray Cuevo Training',

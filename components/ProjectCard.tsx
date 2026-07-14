@@ -10,6 +10,7 @@ interface Project {
   beforeUrl?: string
   tags: string[]
   previewDisabled?: boolean
+  previewImage?: string
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
@@ -63,7 +64,26 @@ export default function ProjectCard({ project }: { project: Project }) {
       )}
 
       {/* Preview */}
-      {project.previewDisabled ? (
+      {project.previewImage ? (
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block relative overflow-hidden bg-charcoal-700 mt-3 mx-4 rounded-xl"
+          style={{ aspectRatio: '16/9' }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={project.previewImage}
+            alt={`${project.name} preview`}
+            className="absolute top-0 left-0 w-full h-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-charcoal-900/10 group-hover:bg-transparent transition-colors duration-300" />
+          <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-charcoal-900/80 border border-charcoal-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <ArrowUpRight size={14} className="text-gold" />
+          </div>
+        </a>
+      ) : project.previewDisabled ? (
         <a
           href={project.url}
           target="_blank"
