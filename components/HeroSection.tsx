@@ -272,7 +272,6 @@ export default function HeroSection() {
         transition={{ duration: 1.5, ease: 'easeInOut' }}
         className="absolute inset-0 pointer-events-none overflow-hidden"
       >
-        <div className="hero-blob-1" />
         <div className="hero-blob-2" />
         <div className="hero-blob-3" />
         <div className="hero-blob-4" />
