@@ -18,11 +18,9 @@ const featured = [
     heading: ['AI-Powered Web Tools'],
     body: "The most ambitious project we've shipped. We led design, layout, and nearly every front-end feature for Score Signal, and conceived its AI helper ourselves, from the original idea through the interface.",
   },
-  {
-    slug: 'fairtest',
-    heading: ['National Non-Profits'],
-    body: 'A custom page built for FairTest, the National Center for Fair & Open Testing, communicating research and test-optional admissions data clearly for students and families nationwide.',
-  },
+  // FairTest removed from the work page for the time being — data stays
+  // intact in lib/constants.ts PROJECTS, just add this object back to
+  // re-feature it here.
   {
     slug: 'ray-cuevo',
     heading: ['Small Businesses'],
