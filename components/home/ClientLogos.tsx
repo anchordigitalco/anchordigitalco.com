@@ -5,7 +5,10 @@ const LOGOS = [
   { name: 'FairTest', src: '/logos/fairtest.jpg', href: '/work#fairtest' },
   { name: 'Akil Bello', src: '/logos/akil-bello.png', href: '/work#akil-bello' },
   { name: 'Score Signal', src: '/logos/score-signal.png', href: '/work#score-signal' },
-  { name: 'Marcus Bleecker', src: '/logos/marcus-bleecker.png', href: '/work#marcus-bleecker' },
+  // Dark, edge-to-edge mark with no built-in margin of its own — matted
+  // with a white inset border so it doesn't bleed into the tiles next to
+  // it the way a plain object-cover fill would.
+  { name: 'Bell Curves', src: '/logos/bell-curves.jpg', href: '/work', padded: true, bg: 'bg-white' },
   { name: 'Ray Cuevo Training', src: '/logos/ray-cuevo.png', href: '/work#ray-cuevo' },
   // The source file has a lot of empty white space above the mark and the
   // mark itself nearly fills the frame edge-to-edge — object-cover alone
@@ -45,18 +48,31 @@ export default function ClientLogos({ className = '' }: { className?: string }) 
           aria-label={`View the ${logo.name} project`}
           className={`group relative transition-transform duration-300 ease-reveal hover:z-10 hover:scale-110 hover:shadow-2xl ${logo.bg ?? 'bg-ground'}`}
         >
-          <Image
-            src={logo.src}
-            alt={`${logo.name} website homepage designed and built by Anchor Digital`}
-            fill
-            sizes="(min-width: 768px) 180px, 30vw"
-            quality={92}
-            className="object-cover"
-            style={{
-              ...(logo.objectPosition ? { objectPosition: logo.objectPosition } : undefined),
-              ...(logo.scale ? { transform: `scale(${logo.scale})` } : undefined),
-            }}
-          />
+          {logo.padded ? (
+            <div className="absolute inset-3 max-[479px]:inset-2">
+              <Image
+                src={logo.src}
+                alt={`${logo.name} website homepage designed and built by Anchor Digital`}
+                fill
+                sizes="(min-width: 768px) 180px, 30vw"
+                quality={92}
+                className="object-contain"
+              />
+            </div>
+          ) : (
+            <Image
+              src={logo.src}
+              alt={`${logo.name} website homepage designed and built by Anchor Digital`}
+              fill
+              sizes="(min-width: 768px) 180px, 30vw"
+              quality={92}
+              className="object-cover"
+              style={{
+                ...(logo.objectPosition ? { objectPosition: logo.objectPosition } : undefined),
+                ...(logo.scale ? { transform: `scale(${logo.scale})` } : undefined),
+              }}
+            />
+          )}
         </Link>
       ))}
     </div>
