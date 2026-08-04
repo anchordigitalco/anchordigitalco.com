@@ -9,9 +9,11 @@ interface CTA {
 export default function ClosingStatement({
   lines,
   ctas = [],
+  footnote,
 }: {
   lines: string[]
   ctas?: CTA[]
+  footnote?: string
 }) {
   return (
     <section
@@ -34,6 +36,11 @@ export default function ClosingStatement({
               </PillButton>
             ))}
           </div>
+        )}
+        {footnote && (
+          <p className="mt-16 max-w-[60ch] border-t border-white/10 pt-6 text-small text-dark-ink opacity-50">
+            {footnote}
+          </p>
         )}
       </div>
     </section>

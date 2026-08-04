@@ -75,6 +75,7 @@ export default function WorkPage() {
       <ClosingStatement
         lines={['Every project starts with a real conversation,', 'not a template']}
         ctas={[{ label: 'Start a project', href: '/start' }]}
+        footnote="Out of respect for client privacy, we don't showcase the majority of our work here. Ask us during a call and we're happy to share more."
       />
     </>
   )
