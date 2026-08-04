@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0; width: 40%;">Name</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.name || '—'}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Email</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.email || '—'}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Company</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.company || '—'}</td></tr>
-          <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Describes them</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.describes || '—'}</td></tr>
+          <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Describes them</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.describes || '—'}${data.describes === 'Other' && data.describesOther ? ` (${data.describesOther})` : ''}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">What they need</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.need || '—'}</td></tr>
           <tr><td style="padding: 10px 0; border-bottom: 1px solid #182038; color: #7080A0;">Timeline</td><td style="padding: 10px 0; border-bottom: 1px solid #182038;">${data.timeline || '—'}</td></tr>
           <tr><td style="padding: 10px 0; color: #7080A0; vertical-align: top;">Message</td><td style="padding: 10px 0;">${data.message || '—'}</td></tr>
@@ -35,7 +35,11 @@ export async function POST(req: NextRequest) {
     `
 
     await transporter.sendMail({
-      from: 'Anchor Digital <adam@anchordigitalco.com>',
+      // The "From" address has to match the authenticated Gmail account
+      // (GMAIL_USER) or Gmail silently rewrites/flags it, which can bounce
+      // or spam-fold the message. Recipients (the inbox this actually needs
+      // to land in) are set separately below and are unaffected by this.
+      from: `Anchor Digital <${process.env.GMAIL_USER}>`,
       to: RECIPIENTS,
       replyTo: data.email,
       subject: `New Inquiry: ${data.name || 'Unknown'} — ${data.describes || ''}`,

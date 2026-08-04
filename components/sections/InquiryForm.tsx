@@ -1,5 +1,5 @@
 'use client'
-import { forwardRef, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import { forwardRef, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ChevronDown } from 'lucide-react'
 import PillButton from '@/components/PillButton'
@@ -20,6 +20,7 @@ interface FormData {
   email: string
   company: string
   describes: string
+  describesOther: string
   need: string
   timeline: string
   message: string
@@ -112,21 +113,29 @@ const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function Sel
 })
 
 export default function InquiryForm() {
+  const [submitFailed, setSubmitFailed] = useState(false)
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<FormData>()
 
+  const describesOther = watch('describes') === 'Other'
+
   const onSubmit = async (data: FormData) => {
-    try {
-      await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-    } catch (_) {
-      // still show success — we don't want a flaky mail send to block the user
+    setSubmitFailed(false)
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).catch(() => null)
+
+    // A non-ok response or a network failure both mean the message never
+    // reached us — only show success once the send is actually confirmed.
+    if (!res || !res.ok) {
+      setSubmitFailed(true)
+      throw new Error('submit failed')
     }
   }
 
@@ -163,6 +172,15 @@ export default function InquiryForm() {
         {...register('describes', { required: 'Please choose one.' })}
         error={errors.describes?.message}
       />
+      {describesOther && (
+        <TextField
+          id="describesOther"
+          label="Tell us more"
+          required
+          {...register('describesOther', { required: 'Please tell us a bit more.' })}
+          error={errors.describesOther?.message}
+        />
+      )}
       <TextField
         id="need"
         label="What do you need?"
@@ -178,6 +196,16 @@ export default function InquiryForm() {
           {isSubmitting ? 'Sending…' : 'Send'}
         </PillButton>
       </div>
+
+      {submitFailed && (
+        <p className="text-small text-ink">
+          Something went wrong sending that. Please try again, or email us directly at{' '}
+          <a href="mailto:adam@anchordigitalco.com" className="underline underline-offset-2">
+            adam@anchordigitalco.com
+          </a>
+          .
+        </p>
+      )}
 
       <p className="max-w-[46ch] text-label text-ink-muted">
         By submitting, you agree to be contacted about your project. See our privacy policy.
