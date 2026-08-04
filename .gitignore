@@ -21,3 +21,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# raw/reference material, not built site assets (processed versions live under public/)
+/client logos/
+/font options/
+/hero slide videos/
+/html color mockups/
+/public/untitled folder/

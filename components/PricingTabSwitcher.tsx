@@ -1,146 +1,64 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
-import { Check, ArrowRight } from 'lucide-react'
+import { Check } from 'lucide-react'
 import PricingCard from '@/components/PricingCard'
-import { PRICING_TIERS } from '@/lib/constants'
-import clsx from 'clsx'
+import PillButton from '@/components/PillButton'
+import { PRICING_TIERS, FLAT_FEE_SERVICES } from '@/lib/constants'
 
-const FLAT_FEE_CARDS = [
-  {
-    id: 'web-redesign',
-    title: 'Web Redesign',
-    description: 'A complete site rebuild with no ongoing commitment. Pricing is based on your scope — get a quote from us.',
-    includes: [
-      'Custom redesign from scratch',
-      'Mobile responsive',
-      'SEO basics',
-      'Contact forms',
-      'One round of revisions',
-    ],
-    cta: 'Get a Quote',
-    href: '/start?service=redesign',
-    badge: undefined,
-  },
-  {
-    id: 'digital-brand-elevation',
-    title: 'Digital Brand Elevation',
-    description: 'Our most complete one-time offering. Strategy, brand assessment, and a full redesign in one engagement. Pricing based on your project.',
-    includes: [
-      'Strategy consultation call',
-      'Written brand assessment',
-      'Visual identity recommendations',
-      'Full redesign (up to 6 pages)',
-      'SEO setup and digital roadmap',
-      '30 days post-launch support',
-    ],
-    cta: 'Get a Quote',
-    href: '/start?service=digital-brand-elevation',
-    badge: 'Most Comprehensive',
-  },
-]
-
+/**
+ * NOTE: rebuilt from partial context after an accidental full-site
+ * rewrite was undone — reasonable reconstruction matching the
+ * PRICING_TIERS / FLAT_FEE_SERVICES data shapes, not a guaranteed
+ * byte-exact restoration of the original file.
+ */
 export default function PricingTabSwitcher() {
-  const [tab, setTab] = useState<'subscription' | 'flatfee'>('flatfee')
+  const [tab, setTab] = useState<'monthly' | 'flat'>('monthly')
 
   return (
     <div>
-      {/* Tab toggle */}
-      <div className="flex justify-center mb-12">
-        <div className="inline-flex items-center gap-1 bg-charcoal-800 border border-charcoal-700 rounded-xl p-1">
-          <button
-            onClick={() => setTab('flatfee')}
-            className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-colors duration-200 touch-manipulation',
-              tab === 'flatfee'
-                ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-200 hover:text-cream'
-            )}
-          >
-            <span className="hidden sm:inline">Flat Fee Services</span>
-            <span className="sm:hidden">Flat Fee</span>
-          </button>
-          <button
-            onClick={() => setTab('subscription')}
-            className={clsx(
-              'font-sans text-sm px-5 py-2.5 rounded-lg transition-colors duration-200 touch-manipulation',
-              tab === 'subscription'
-                ? 'bg-gold text-charcoal-900 font-600'
-                : 'text-charcoal-200 hover:text-cream'
-            )}
-          >
-            <span className="hidden sm:inline">Subscription Services</span>
-            <span className="sm:hidden">Subscriptions</span>
-          </button>
-        </div>
+      <div className="mx-auto mb-12 flex w-fit items-center gap-1 rounded-[9999px] border border-hairline p-1">
+        <button
+          onClick={() => setTab('monthly')}
+          className={`rounded-[9999px] px-5 py-2 text-small transition-colors duration-300 ${
+            tab === 'monthly' ? 'bg-ink text-ground' : 'text-ink-muted hover:text-ink'
+          }`}
+        >
+          Monthly plans
+        </button>
+        <button
+          onClick={() => setTab('flat')}
+          className={`rounded-[9999px] px-5 py-2 text-small transition-colors duration-300 ${
+            tab === 'flat' ? 'bg-ink text-ground' : 'text-ink-muted hover:text-ink'
+          }`}
+        >
+          One-time projects
+        </button>
       </div>
 
-      {/* Subscription tier cards */}
-      {tab === 'subscription' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+      {tab === 'monthly' ? (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {PRICING_TIERS.map((tier, i) => (
             <PricingCard key={tier.id} {...tier} index={i} />
           ))}
         </div>
-      )}
-
-      {/* Flat fee cards */}
-      {tab === 'flatfee' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {FLAT_FEE_CARDS.map((card) => (
-            <div
-              key={card.id}
-              className={clsx(
-                'relative flex flex-col rounded-xl overflow-hidden border transition-all duration-300',
-                card.badge
-                  ? 'bg-charcoal-800 border-2 border-gold shadow-gold-lg'
-                  : 'bg-charcoal-800 border border-charcoal-600 hover:border-charcoal-500'
-              )}
-            >
-              {card.badge && <div className="h-1 bg-gradient-to-r from-gold-dark via-gold-light to-gold" />}
-              {card.badge && (
-                <div className="absolute top-5 right-5">
-                  <span className="font-sans text-[10px] font-700 tracking-[0.15em] uppercase bg-gold text-white px-2.5 py-1 rounded-md">
-                    {card.badge}
-                  </span>
-                </div>
-              )}
-              <div className="p-7 lg:p-8 flex flex-col flex-1">
-                <div className="mb-6">
-                  <span className="font-sans text-xs font-600 tracking-[0.15em] uppercase text-charcoal-400 mb-2 block">One-Time</span>
-                  <h3 className={clsx('font-cormorant text-3xl font-700 mb-1 tracking-tight', card.badge ? 'text-gold' : 'text-charcoal-100')}>
-                    {card.title}
-                  </h3>
-                  <p className="font-sans text-sm text-charcoal-200 font-400">{card.description}</p>
-                </div>
-                <div className="flex items-baseline gap-1 mb-7 pb-7 border-b border-charcoal-700">
-                  <span className="font-cormorant text-3xl font-700 italic text-gold">Pricing based on your project</span>
-                </div>
-                <ul className="space-y-3.5 flex-1 mb-8">
-                  {card.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <div className={clsx(
-                        'flex-shrink-0 mt-0.5 w-4 h-4 rounded-md flex items-center justify-center',
-                        card.badge ? 'bg-gold/15 text-gold' : 'bg-charcoal-800 text-charcoal-300 border border-charcoal-600'
-                      )}>
-                        <Check size={10} strokeWidth={3} className={card.badge ? 'text-gold' : 'text-charcoal-300'} />
-                      </div>
-                      <span className="font-sans text-sm text-charcoal-200 leading-relaxed font-400">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={card.href}
-                  className={clsx(
-                    'w-full text-center font-sans text-sm font-600 py-4 rounded-lg transition-all duration-200 inline-flex items-center justify-center gap-2',
-                    card.badge
-                      ? 'btn-primary'
-                      : 'border border-charcoal-600 text-charcoal-200 hover:border-gold/40 hover:text-gold hover:bg-gold/5'
-                  )}
-                >
-                  {card.cta} <ArrowRight size={14} />
-                </Link>
-              </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {FLAT_FEE_SERVICES.map((service) => (
+            <div key={service.id} className="flex flex-col rounded-[20px] border border-hairline bg-ground p-7 lg:p-8">
+              <span className="font-mono text-label text-ink-muted">{service.number}</span>
+              <h3 className="mt-3 text-lead font-normal text-ink">{service.title}</h3>
+              <p className="mt-3 text-small text-ink-muted">{service.description}</p>
+              <ul className="mt-6 flex flex-1 flex-col gap-2">
+                {service.includes.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-small text-ink-muted">
+                    <Check size={15} className="mt-0.5 flex-shrink-0 text-ink" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <PillButton href={service.ctaHref} className="mt-8 w-full justify-center">
+                {service.cta}
+              </PillButton>
             </div>
           ))}
         </div>

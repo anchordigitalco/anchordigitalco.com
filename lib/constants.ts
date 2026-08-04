@@ -2,8 +2,101 @@ export const NAV_LINKS = [
   { label: 'Work', href: '/work' },
   { label: 'Services', href: '/services' },
   { label: 'Team', href: '/team' },
-  { label: 'Pricing', href: '/pricing' },
   { label: 'Contact', href: '/start' },
+]
+
+export const PROJECTS = [
+  {
+    slug: 'score-signal',
+    name: 'Score Signal',
+    category: 'Sports Analytics & AI',
+    description:
+      'Our most ambitious build to date. We led the full front-end (design, layout, and nearly every interactive feature) and originated the idea for its AI helper, designing both the concept and the interface ourselves.',
+    url: 'https://getscoresignal.com',
+    tags: ['Web design', 'Dev', 'AI features'],
+    // Sends X-Frame-Options: SAMEORIGIN and sits behind a Cloudflare bot
+    // challenge, so it can't be embedded live: uses a static screenshot
+    // instead, same as FairTest.
+    previewImage: '/previews/score-signal-preview.png',
+  },
+  {
+    slug: 'fairtest',
+    name: 'FairTest',
+    category: 'Education & Advocacy',
+    description:
+      'A custom page and system built for FairTest, the National Center for Fair & Open Testing. We designed and developed this specific page to clearly communicate research and resources for students, families, and institutions navigating test-optional admissions.',
+    url: 'https://fairtest.org/10769-2/',
+    tags: ['Education', 'Web design', 'Dev'],
+    previewImage: '/previews/fairtest-preview.png',
+  },
+  {
+    slug: 'ray-cuevo',
+    name: 'Ray Cuevo Training',
+    category: 'Fitness & Coaching',
+    description:
+      'A high-performance training site for Ray Cuevo, fitness coach and athlete. Built to drive client inquiries, showcase credentials, and establish a strong digital presence in the competitive fitness space.',
+    url: 'https://raycuevotraining.com',
+    tags: ['Fitness & coaching', 'Web design', 'Dev'],
+  },
+  {
+    slug: 'hide-the-film',
+    name: 'Hide the Film',
+    category: 'Film & Creative',
+    description:
+      'A cinematic digital home for Hide the Film, built to showcase their work, establish a distinct creative identity, and connect with collaborators and clients in the film industry.',
+    url: 'https://hidethefilm.com',
+    tags: ['Film & creative', 'Web design', 'Dev'],
+  },
+  {
+    slug: 'akil-bello',
+    name: 'Akil Bello',
+    category: 'Personal Brand',
+    description:
+      'A sleek personal brand site for Akil Bello, educator, test-prep expert, and advocate for equity in education. Built to establish digital authority and drive speaking and consulting inquiries.',
+    url: 'https://akilbello.com',
+    tags: ['Personal brand', 'Web design', 'Dev'],
+  },
+  {
+    slug: 'marcus-bleecker',
+    name: 'Marcus Bleecker',
+    category: 'Personal Brand',
+    description: 'A modern personal brand site for Marcus Bleecker. Built to establish a strong digital presence and showcase his work and story.',
+    url: 'https://marcusbleecker.com',
+    tags: ['Personal brand', 'Web design', 'Dev'],
+  },
+]
+
+// Companies grouped by the state they're based in, for the interactive state map
+// on the Work page hero. `href` points at that company's dedicated section on this
+// page (`/work#slug`) when one exists in `featured` above, otherwise it's just
+// `/work`, same fallback `ClientLogos` already uses for companies without one.
+export const STATE_PROJECTS = [
+  {
+    id: 'ny',
+    name: 'New York',
+    companies: [
+      { name: 'Score Signal', logo: '/logos/score-signal.png', href: '/work#score-signal' },
+      { name: 'FairTest', logo: '/logos/fairtest.jpg', href: '/work#fairtest' },
+      { name: 'Hide the Film', logo: null, href: '/work' },
+      { name: 'Akil Bello', logo: '/logos/akil-bello.png', href: '/work' },
+      { name: 'A Better Chance', logo: '/logos/a-better-chance.jpg', href: '/work' },
+      { name: 'Bell Curves', logo: '/logos/bell-curves.jpg', href: '/work' },
+    ],
+  },
+  {
+    id: 'me',
+    name: 'Maine',
+    companies: [
+      { name: 'Ray Cuevo Training', logo: '/logos/ray-cuevo.png', href: '/work#ray-cuevo' },
+    ],
+  },
+  {
+    id: 'nj',
+    name: 'New Jersey',
+    companies: [
+      { name: 'Marcus Bleecker', logo: '/logos/marcus-bleecker.png', href: '/work#marcus-bleecker' },
+    ],
+  },
 ]
 
 export const INDUSTRIES = [
@@ -49,122 +142,51 @@ export const INDUSTRIES = [
   },
 ]
 
-// Projects will be added here once real case studies are ready
-export const PROJECTS: {
-  slug: string
-  name: string
-  industry: string
-  tagline: string
-  description: string
-  gradient: string
-  accentColor: string
-  result: string
-  overview: string
-  problem: string
-  solution: string
-  features: string[]
-}[] = []
-
-const _PLACEHOLDER_PROJECTS = [
+export const FLAT_FEE_SERVICES = [
   {
-    slug: 'nuevo-sabor',
-    name: 'Nuevo Sabor',
-    industry: 'Restaurant',
-    tagline: 'Where bold flavors meet modern digital presence.',
+    id: 'web-redesign',
+    number: '04',
+    title: 'Web Redesign',
     description:
-      'A complete rebrand and digital overhaul for a celebrated Mexican restaurant in Brooklyn — from reservation flows to late-night event pages.',
-    gradient: 'from-[#6B1A0A] via-[#3D0E05] to-[#1A0800]',
-    accentColor: '#E85D2A',
-    result: 'Reservations up 60% in the first month post-launch.',
-    overview:
-      'Nuevo Sabor came to us with an outdated site built on a free template that didn\'t reflect the restaurant\'s bold, intimate atmosphere. They needed a digital presence as alive as their food.',
-    problem:
-      'The old site had no online reservation system, slow load times, a menu buried in a PDF, and zero mobile optimization. Walk-ins were their only reliable source of new customers.',
-    solution:
-      'We designed a full custom site around their brand identity — warm terracotta tones, hand-drawn type accents, and a mobile-first reservation flow integrated with OpenTable. We built a dynamic menu page with seasonal updates the team manages themselves.',
-    features: [
-      'OpenTable reservation integration',
-      'Seasonal menu CMS with photo upload',
-      'Event & private dining landing pages',
-      'Instagram feed integration',
-      'Local SEO & Google Business optimization',
-      'SMS reservation reminders',
+      'Your site should be your strongest sales tool. If it is not converting, not ranking, or not representing your brand the way it should, we rebuild it from the ground up. One-time engagement, no ongoing commitment required.',
+    tiers: [
+      {
+        name: 'Starter Redesign',
+        detail: '1 to 3 pages, mobile responsive, contact form, modern design, SEO basics. Best for local businesses, personal brands, and restaurants.',
+      },
+      {
+        name: 'Full Redesign',
+        detail: 'Up to 6 pages, animations, booking or e-commerce integrations, CMS, advanced SEO, custom features. Best for startups and brands with multiple offerings.',
+      },
     ],
+    includes: [
+      'Full custom redesign from scratch',
+      'Mobile responsive across all devices',
+      'On-page SEO foundation',
+      'Contact forms and lead capture',
+      'Cross-browser QA testing',
+      'One round of revisions',
+    ],
+    cta: 'Get a Quote',
+    ctaHref: '/start?service=redesign',
   },
   {
-    slug: 'apex-cuts',
-    name: 'Apex Cuts',
-    industry: 'Barbershop',
-    tagline: 'Where precision meets elevated style.',
+    id: 'digital-brand-elevation',
+    number: '05',
+    title: 'Digital Brand Elevation',
     description:
-      'A sleek booking platform and brand identity for a high-end Harlem barbershop known for its expert fades and loyal clientele.',
-    gradient: 'from-[#0D1A2E] via-[#0A1020] to-[#050810]',
-    accentColor: '#4A90D9',
-    result: '85% of appointments now booked online within 6 weeks.',
-    overview:
-      'Apex Cuts had built a loyal following through word of mouth and Instagram, but lacked a professional digital home. Walk-in-only operations were limiting growth and creating unpredictable wait times.',
-    problem:
-      'No online booking meant customers couldn\'t plan ahead. The shop\'s Instagram was doing heavy lifting as a de facto website, with DMs for every appointment request — unsustainable at scale.',
-    solution:
-      'We built a streamlined booking site with real-time stylist availability, a gallery of work showcased with editorial photography, and a system that sends automatic confirmations and reminders. The dark, refined aesthetic matches their premium positioning.',
-    features: [
-      'Real-time stylist availability calendar',
-      'Service menu with pricing and duration',
-      'Work gallery with before/after feature',
-      'Automated SMS/email confirmations',
-      'Gift card and referral flow',
-      'Google Maps & review integration',
+      'For businesses not getting the traction they expected. We go beyond the website, auditing your entire digital presence, developing a brand strategy, and rebuilding your site to match. One engagement, complete transformation.',
+    price: 'Custom Quote',
+    includes: [
+      'Strategy consultation call (60 minutes)',
+      'Written digital brand assessment',
+      'Visual identity and positioning recommendations',
+      'Full website redesign (up to 6 pages)',
+      'SEO setup and digital roadmap',
+      '30 days of post-launch support',
     ],
-  },
-  {
-    slug: 'maison-noir',
-    name: 'Maison Noir',
-    industry: 'Clothing Brand',
-    tagline: 'Luxury streetwear for those who move in silence.',
-    description:
-      'An e-commerce platform and editorial brand site for an independent streetwear label bringing luxury aesthetics to limited-drop culture.',
-    gradient: 'from-[#1A0A1E] via-[#110816] to-[#08050C]',
-    accentColor: '#9B6FBA',
-    result: 'Sold out first drop in 4 hours after launch.',
-    overview:
-      'Maison Noir was operating through Instagram DMs and a basic Shopify template. As they prepared for their first major drop, they needed a site that matched their elevated brand positioning.',
-    problem:
-      'The existing Shopify template communicated "generic" when the brand demanded "exclusive." Product photography was stellar but the site couldn\'t showcase it. No newsletter capture meant no owned audience for future drops.',
-    solution:
-      'We built a custom Shopify storefront with a cinematic editorial layout — full-bleed photography, a drop countdown mechanic, and an email waitlist that captured 2,000+ subscribers before launch. The checkout flow was optimized for speed on mobile.',
-    features: [
-      'Custom Shopify storefront theme',
-      'Drop countdown with email waitlist',
-      'Editorial lookbook layout',
-      'Size guide and care instructions CMS',
-      'Loyalty and early access program',
-      'Email marketing integration (Klaviyo)',
-    ],
-  },
-  {
-    slug: 'vltg-studios',
-    name: 'VLTG Studios',
-    industry: 'Photography',
-    tagline: 'Visual storytelling for brands that move culture.',
-    description:
-      'A portfolio and client booking platform for a New York-based commercial photography studio working with musicians, athletes, and lifestyle brands.',
-    gradient: 'from-[#0A0A0A] via-[#1A1A1A] to-[#0A0A0A]',
-    accentColor: '#F5F2ED',
-    result: 'Inquiries increased 3x and average project value grew 40%.',
-    overview:
-      'VLTG Studios was undercharging because clients couldn\'t perceive their true value. The old site showed work in small thumbnails and had no clear path for new clients to engage.',
-    problem:
-      'The portfolio didn\'t communicate scale. Clients saw small web images instead of the cinematic, high-production work that defined the studio. Inquiry conversion was low because there was no framing of the studio\'s process or credibility signals.',
-    solution:
-      'We designed a full-screen, editorial portfolio experience where each project feels like entering a world. A client portal for project briefing and asset delivery. Clear service positioning with a booking flow that pre-qualifies leads.',
-    features: [
-      'Full-screen editorial portfolio viewer',
-      'Client portal for briefs and delivery',
-      'Service packages and inquiry form',
-      'Press and client roster section',
-      'Password-protected client galleries',
-      'Integrated contract and invoicing links',
-    ],
+    cta: 'Get a Quote',
+    ctaHref: '/start?service=digital-brand-elevation',
   },
 ]
 
@@ -174,7 +196,7 @@ export const SERVICES = [
     number: '01',
     title: 'Website Design & Development',
     description:
-      'We create fully custom, conversion-focused websites from the ground up. No templates, no shortcuts — every pixel is intentional.',
+      'We create fully custom, conversion-focused websites from the ground up. No templates, no shortcuts: every pixel is intentional.',
     includes: [
       'Custom visual design and brand direction',
       'Responsive development across all devices',
@@ -184,14 +206,14 @@ export const SERVICES = [
       'Contact forms, booking flows, and lead capture',
       'Cross-browser and device QA testing',
     ],
-    startingPrice: 'From $50/mo',
+    startingPrice: 'Reach out for a quote',
   },
   {
     id: 'brand-systems',
     number: '02',
     title: 'Brand Digital Systems',
     description:
-      'Beyond the homepage — we build the full digital ecosystem your brand needs to capture leads, drive conversions, and grow an owned audience.',
+      'We build what your brand needs to capture leads, turn them into customers, and grow an audience you actually own.',
     includes: [
       'Email capture and automation setup',
       'Landing pages for campaigns and launches',
@@ -201,7 +223,7 @@ export const SERVICES = [
       'Analytics dashboards and conversion tracking',
       'Social media and SEO alignment',
     ],
-    startingPrice: 'From $150/mo',
+    startingPrice: 'Reach out for a quote',
   },
   {
     id: 'maintenance',
@@ -218,7 +240,86 @@ export const SERVICES = [
       'Emergency support and uptime monitoring',
       'Quarterly redesign check-ins',
     ],
-    startingPrice: 'Included in all plans',
+    startingPrice: '$50/mo',
+  },
+]
+
+export const CLIENT_PROCESS = [
+  {
+    label: 'Reaching out',
+    heading: 'Reaching out',
+    body: 'A message with your business name and what you\'re trying to fix. That\'s all we need to start.',
+  },
+  {
+    label: 'Free consultation',
+    heading: 'Free consultation',
+    body: 'Fifteen to thirty minutes on the phone. We ask what your business does, who you\'re trying to reach, and what\'s not working. No cost, no obligation.',
+  },
+  {
+    label: 'Identifying the problem',
+    heading: 'Identifying the problem',
+    body: 'We figure out the right move (sometimes a full rebuild, sometimes a refresh, sometimes just search work) and tell you what we\'d actually do, even when the answer is less than you expected.',
+  },
+  {
+    label: 'Quote and plan',
+    heading: 'Quote and plan',
+    body: 'A written quote and a plain-language breakdown of exactly what we\'re building and what happens after. You take as long as you need. Questions are free.',
+  },
+  {
+    label: 'Build and support',
+    heading: 'Build and support',
+    body: 'We build it, launch it, and stay on after: the people you call when something needs to change, not a ticket queue.',
+  },
+]
+
+export const SERVICES_FAQ = [
+  {
+    question: 'How much does a website cost?',
+    answer: 'It depends on what you need, so we don\'t publish prices. What we do instead is give you a real number fast, usually within a day or two of the first call. That call is free and there\'s no obligation attached to the quote.',
+  },
+  {
+    question: 'How long does it take to build a website?',
+    answer: 'Most projects go live seven to fourteen days after you approve the quote. Timelines stretch when we\'re also doing branding, copywriting, or photography.',
+  },
+  {
+    question: 'Can you work on my existing website instead of building a new one?',
+    answer: 'Yes. If what you have is fundamentally sound, we\'ll rebuild and modernize it rather than start over. If it\'s holding you back, we\'ll say so.',
+  },
+  {
+    question: 'Do you do SEO?',
+    answer: 'Yes. Technical SEO is part of every build: site structure, page speed, mobile performance, and clean markup. Ongoing SEO, local search, and Google Business Profile management are available as part of a maintenance subscription.',
+  },
+  {
+    question: 'Who owns the domain and hosting?',
+    answer: 'You do. We register the domain in your name, then pay for and manage it along with hosting, so you never have to deal with renewals, certificates, or downtime. If you\'d rather hold and pay for it yourself, that\'s fine too. We\'ll set it up and hand you the keys. Either way, it\'s your name on it and it stays yours.',
+  },
+  {
+    question: 'What happens after my website launches?',
+    answer: 'Ongoing maintenance runs as a monthly subscription: updates, fixes, security, monitoring, and improvements. You get a direct line to the person who built it, not a ticket queue.',
+  },
+  {
+    question: 'How many revisions do I get?',
+    answer: 'We work until you\'re happy with it. We\'d rather spend an extra day getting it right than hand over something you\'re lukewarm about.',
+  },
+  {
+    question: 'Do you write the copy?',
+    answer: 'Yes, we write everything as part of the build. Photography is available for an additional fee: we have a photographer on staff.',
+  },
+  {
+    question: 'Can you help with online ordering or e-commerce?',
+    answer: 'We set you up on the platforms customers already use (Google Business Profile, Yelp, ordering and delivery services) and connect them properly. Full custom e-commerce is a conversation, not a default.',
+  },
+  {
+    question: 'Do you only work with certain industries?',
+    answer: 'No. Most of our clients are small businesses, trades, and independent brands, but the work is the same regardless of sector: make you look as good as you are, and make you easy to find.',
+  },
+  {
+    question: 'Where are you based, and do you work with businesses outside your area?',
+    answer: 'We\'re in Maine and New York, and we work with clients anywhere. Everything runs over calls, email, and shared links, so you never need to be in a room with us for this to go well.',
+  },
+  {
+    question: 'Do you help bring in new customers, or just build the website?',
+    answer: 'Yes. Outreach is a service we offer: researched, direct contact with the people most likely to need what you do, sent on your behalf. Useful for businesses that rely on referrals and want a second source of work.',
   },
 ]
 
@@ -227,13 +328,13 @@ export const PROCESS_STEPS = [
     number: '01',
     title: 'Discovery Call',
     description:
-      'We spend 30–45 minutes learning your business, your goals, what\'s not working, and what success looks like. No decks, no sales scripts — just a real conversation.',
+      'We spend 30–45 minutes learning your business, your goals, what\'s not working, and what success looks like. No decks, no sales scripts, just a real conversation.',
   },
   {
     number: '02',
     title: 'Design Mockups',
     description:
-      'We deliver a custom homepage concept tailored to your brand — before any code is written. You approve the direction, we refine until it\'s exactly right.',
+      'We deliver a custom homepage concept built around your brand, before any code is written. You approve the direction, we refine until it\'s exactly right.',
   },
   {
     number: '03',
@@ -325,12 +426,12 @@ export const PRICING_FAQ = [
   {
     question: 'How long does a site take to build?',
     answer:
-      'Most projects launch in 7–14 days from the start of development. Rush builds can be completed in as few as 5 business days — ask about our "Website in 7 Days" offer.',
+      'Most projects launch in 7–14 days from the start of development. Rush builds can be completed in as few as 5 business days. Ask about our "Website in 7 Days" offer.',
   },
   {
     question: 'Do you work with businesses outside New York?',
     answer:
-      'Yes. We work with clients nationwide and have delivered projects for businesses in 12+ states. Location doesn\'t limit what we can build for you.',
+      'Yes. We work with clients nationwide. Location doesn\'t limit what we can build for you.',
   },
   {
     question: 'Can I upgrade my plan later?',
@@ -340,7 +441,7 @@ export const PRICING_FAQ = [
   {
     question: 'What do I need to get started?',
     answer:
-      'Just a discovery call. We\'ll gather everything we need from there — brand assets, content, and goals. If you don\'t have a logo or copy yet, we can help with that too.',
+      'Just a discovery call. We\'ll gather everything we need from there: brand assets, content, and goals. If you don\'t have a logo or copy yet, we can help with that too.',
   },
   {
     question: 'Will I be able to update the site myself?',
@@ -350,11 +451,11 @@ export const PRICING_FAQ = [
   {
     question: 'What is the difference between a subscription plan and a flat fee service?',
     answer:
-      'Subscription plans include ongoing support, monthly updates, and SEO monitoring as part of the monthly fee. Flat fee services are one-time engagements — you pay once, we deliver the project, and there is no ongoing commitment unless you choose to add a plan later.',
+      'Subscription plans include ongoing support, monthly updates, and SEO monitoring as part of the monthly fee. Flat fee services are one-time engagements: you pay once, we deliver the project, and there is no ongoing commitment unless you choose to add a plan later.',
   },
   {
     question: 'Can I move to a subscription plan after a flat fee project?',
     answer:
-      'Yes. Many clients start with a Web Redesign or Digital Brand Elevation and then add a maintenance plan once their site is live. We make that transition seamless.',
+      'Yes. Many clients start with a Web Redesign or Digital Brand Elevation and then add a maintenance plan once their site is live. Setting that up takes one conversation, nothing complicated.',
   },
 ]

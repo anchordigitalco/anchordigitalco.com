@@ -1,22 +1,25 @@
 {
-  "name": "bello-bleecker",
+  "name": "anchor-digital",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "process:hero-videos": "node scripts/process-hero-videos.mjs"
   },
   "dependencies": {
     "@types/nodemailer": "^8.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.0",
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.13",
     "lucide-react": "^0.400.0",
-    "next": "14.2.5",
+    "next": "15.5.21",
     "nodemailer": "^8.0.9",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-hook-form": "^7.52.1",
     "resend": "^6.12.3"
   },
@@ -26,7 +29,9 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.5",
+    "eslint-config-next": "15.5.21",
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
