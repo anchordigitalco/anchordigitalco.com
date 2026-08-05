@@ -5,7 +5,6 @@ const LOGOS: { id: string; name: string; src: string; fit: 'cover' | 'contain' }
   { id: 'fairtest', name: 'FairTest', src: '/logos/fairtest.jpg', fit: 'cover' },
   { id: 'score-signal', name: 'Score Signal', src: '/logos/score-signal-logo-icon.png', fit: 'contain' },
   { id: 'bell-curves', name: 'Bell Curves', src: '/logos/bell-curves.jpg', fit: 'contain' },
-  { id: 'ray-cuevo', name: 'Ray Cuevo Training', src: '/logos/ray-cuevo.png', fit: 'cover' },
   { id: 'a-better-chance', name: 'A Better Chance', src: '/logos/a-better-chance.jpg', fit: 'contain' },
 ]
 
@@ -20,7 +19,7 @@ const cards: CardData[] = LOGOS.map((logo) => ({
         fill
         sizes="300px"
         quality={92}
-        // Just 6 small thumbnails, and every one of them IS the visible
+        // Just a handful of small thumbnails, and every one of them IS the visible
         // content of its card (stack/grid) — skipping next/image's default
         // lazy-load avoids a blank tile flashing while a card that's
         // already on-screen waits for its logo to load in.
