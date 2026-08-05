@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import FeatureBlock from '@/components/sections/FeatureBlock'
-import ClientLogos from '@/components/home/ClientLogos'
+import ClientLogoStack from '@/components/home/ClientLogoStack'
 import { SERVICES } from '@/lib/constants'
 
 // Real photo per service — same rounded/hairline-bordered rectangle
@@ -32,7 +32,7 @@ export default function FeatureBlocks() {
           media={
             <div className={`md:max-w-[82%] ${i % 2 === 1 ? 'md:ml-auto' : ''}`}>
               {service.id === 'design-dev' ? (
-                <ClientLogos />
+                <ClientLogoStack />
               ) : (
                 <div
                   className="relative overflow-hidden rounded-[14px] border border-hairline"
