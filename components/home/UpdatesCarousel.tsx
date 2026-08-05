@@ -25,10 +25,6 @@ const CARD_WIDTH_MIN = 240
 const CARD_ASPECT = 700 / 440
 const CARD_ASPECT_MOBILE = 0.85
 const IMAGE_COLUMN_FRACTION = 0.42
-// The two flanking (inactive) cards get a subtle 3D lean instead of a flat
-// scale-down — also lifted from the reference.
-const INACTIVE_SCALE = 0.94
-const INACTIVE_TILT_DEG = 6
 
 /** Wraps i-index to a stable {-1, 0, 1} slot around the active card, so with
  * exactly 3 updates every position always has one neighbor on each side —
@@ -243,19 +239,14 @@ function UpdateCard({
       hoverSpeed={42}
       className="flex h-full border-hairline bg-ground p-4 text-ink transition-colors duration-300"
       style={{
-        // scale + rotateX share one `transform`, so they're combined here
-        // rather than split across a Tailwind class and this style prop —
-        // two separate `transform` declarations can't both survive.
-        transform: active ? 'scale(1) rotateX(0deg)' : `scale(${INACTIVE_SCALE}) rotateX(${INACTIVE_TILT_DEG}deg)`,
-        // 'bottom' (a hinge-from-the-base lean) reads fine for a single
-        // isolated card, but scaling flanking cards down from their own
-        // bottom edge shifts their top edge down relative to the active
-        // card next to them — the whole row reads as uneven/misaligned,
-        // worse the taller the card (much more visible on mobile's taller
-        // aspect than desktop's short landscape one). Centered keeps every
-        // card's vertical center on the same line regardless of scale.
-        transformOrigin: 'center',
-        transition: 'transform 500ms cubic-bezier(0.4, 0, 0.2, 1), filter 500ms ease, opacity 500ms ease',
+        // Deliberately no scale/rotate here — a scale(0.94) or rotateX
+        // tilt on the flanking cards shrinks their rendered bounding box
+        // (measured directly: ~283px vs the active card's ~303px tall at
+        // the same CSS height), which read as the cards being uneven
+        // sizes rather than a deliberate "receding" effect. Grayscale +
+        // opacity alone still clearly distinguish active from inactive
+        // without changing anyone's actual rendered size.
+        transition: 'filter 500ms ease, opacity 500ms ease',
         filter: active ? 'none' : 'grayscale(1)',
         opacity: active ? 1 : 0.6,
       }}
