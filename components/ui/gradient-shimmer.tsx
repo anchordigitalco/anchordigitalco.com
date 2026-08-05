@@ -496,3 +496,126 @@ export function GradientShimmer({
 }
 
 export default GradientShimmer
+
+/* -------------------------------------------------------------------------- */
+/*  IconShimmer — the same sweep, for an image instead of text                */
+/* -------------------------------------------------------------------------- */
+
+const ICON_MAX_SPREAD_PX = 60
+const ICON_SPREAD_FRACTION = 0.22
+
+export interface IconShimmerProps {
+  /** Path to an opaque-on-transparent source image (its alpha channel
+   * becomes the shimmer's shape via CSS `mask-image`, the same way
+   * GradientShimmer clips its gradient to glyph shapes via
+   * `background-clip: text`). */
+  src: string
+  gradient?: GradientInput
+  angle?: number
+  duration?: number
+  pauseBetween?: number
+  baseColor?: string
+  className?: string
+  style?: CSSProperties
+}
+
+/**
+ * A same-family sibling to GradientShimmer for non-text marks (an icon,
+ * a logo) — same band gradient and sweep timing, but painted through a
+ * `mask-image` instead of clipped to text. Not built on the shared
+ * visibility/reduced-motion gating helpers above; this only ever wraps a
+ * small, always-in-view hero mark, so the simpler measure-once-and-loop
+ * form is enough.
+ */
+export function IconShimmer({
+  src,
+  gradient,
+  angle = DEFAULT_ANGLE,
+  duration = DEFAULT_DURATION_SECONDS,
+  pauseBetween = 1000,
+  baseColor = 'currentColor',
+  className,
+  style,
+}: IconShimmerProps) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const stops = useMemo(() => resolveStops(gradient), [gradient])
+  const backgroundImage = useMemo(() => buildBandGradient(stops, angle), [stops, angle])
+  const easingValue = easingPresets.smooth
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (prefersReducedMotion()) return
+    if (typeof el.animate !== 'function') return
+
+    let anim: Animation | null = null
+    let pauseTimer: ReturnType<typeof setTimeout> | undefined
+    let cancelled = false
+
+    const measure = () => {
+      const width = el.getBoundingClientRect().width || FALLBACK_TEXT_WIDTH_PX
+      const spreadPx = Math.min(width * ICON_SPREAD_FRACTION, ICON_MAX_SPREAD_PX)
+      const layerWidth = Math.max(1, width + spreadPx * 2)
+      const start = -spreadPx - layerWidth / 2
+      const end = width + spreadPx - layerWidth / 2
+      el.style.setProperty('--gs-spread', `${spreadPx}px`)
+      el.style.setProperty('--gs-spread-mid', `${spreadPx * SPREAD_MID_RATIO}px`)
+      el.style.backgroundSize = `${layerWidth}px 100%`
+      return { start, end, durationMs: duration * 1000 }
+    }
+
+    const runSweep = () => {
+      if (cancelled) return
+      const { start, end, durationMs } = measure()
+      const next = el.animate(
+        [
+          { backgroundPosition: `${start}px center` },
+          { backgroundPosition: `${end}px center` },
+        ],
+        { duration: durationMs, easing: easingValue, fill: 'forwards' },
+      )
+      anim?.cancel()
+      anim = next
+      next.onfinish = () => {
+        pauseTimer = setTimeout(runSweep, Math.max(0, pauseBetween))
+      }
+    }
+
+    runSweep()
+
+    return () => {
+      cancelled = true
+      anim?.cancel()
+      clearTimeout(pauseTimer)
+    }
+  }, [duration, pauseBetween, easingValue])
+
+  const maskStyle: CSSProperties = {
+    WebkitMaskImage: `url(${src})`,
+    maskImage: `url(${src})`,
+    WebkitMaskSize: 'contain',
+    maskSize: 'contain',
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat',
+    WebkitMaskPosition: 'center',
+    maskPosition: 'center',
+  }
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        backgroundImage,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% 100%',
+        backgroundColor: 'var(--gs-base)',
+        ...maskStyle,
+        ['--gs-base' as string]: baseColor,
+        ['--gs-spread' as string]: `${Math.min(80 * ICON_SPREAD_FRACTION, ICON_MAX_SPREAD_PX)}px`,
+        ['--gs-spread-mid' as string]: `${Math.min(80 * ICON_SPREAD_FRACTION, ICON_MAX_SPREAD_PX) * SPREAD_MID_RATIO}px`,
+        ...style,
+      }}
+    />
+  )
+}

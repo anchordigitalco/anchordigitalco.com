@@ -53,12 +53,13 @@ const SWIPE_THRESHOLD = 50
 // Stack and grid cards are the same fixed square — switching between those
 // two views repositions cards, it never resizes them. List rows are a
 // distinct short, full-width shape (hence showing the company name there).
-// Stack is the first, featured view — its tile runs larger than grid/list.
-const STACK_CARD_SIZE = 208
+// Stack is the first, featured view — its tile runs a fair bit larger than
+// grid/list, to fill the space rather than leaving it mostly blank.
+const STACK_CARD_SIZE = 300
 const GRID_CARD_SIZE = 160
 // Extra room around the stack's tile so the fanned-out cards behind it
 // (offset/rotated per position) aren't clipped by the container.
-const STACK_FAN_PAD = 64
+const STACK_FAN_PAD = 80
 const GRID_COLUMNS = 2
 const GRID_GAP = 12
 const GRID_WIDTH = GRID_COLUMNS * GRID_CARD_SIZE + (GRID_COLUMNS - 1) * GRID_GAP

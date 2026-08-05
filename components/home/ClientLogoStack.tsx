@@ -3,7 +3,6 @@ import { Component as MorphingCardStack, type CardData } from '@/components/ui/m
 
 const LOGOS: { id: string; name: string; src: string; fit: 'cover' | 'contain' }[] = [
   { id: 'fairtest', name: 'FairTest', src: '/logos/fairtest.jpg', fit: 'cover' },
-  { id: 'akil-bello', name: 'Akil Bello', src: '/logos/akil-bello.png', fit: 'cover' },
   { id: 'score-signal', name: 'Score Signal', src: '/logos/score-signal-logo-icon.png', fit: 'contain' },
   { id: 'bell-curves', name: 'Bell Curves', src: '/logos/bell-curves.jpg', fit: 'contain' },
   { id: 'ray-cuevo', name: 'Ray Cuevo Training', src: '/logos/ray-cuevo.png', fit: 'cover' },
@@ -19,7 +18,7 @@ const cards: CardData[] = LOGOS.map((logo) => ({
         src={logo.src}
         alt={`${logo.name} logo`}
         fill
-        sizes="160px"
+        sizes="300px"
         quality={92}
         // Just 6 small thumbnails, and every one of them IS the visible
         // content of its card (stack/grid) — skipping next/image's default
@@ -32,7 +31,7 @@ const cards: CardData[] = LOGOS.map((logo) => ({
   ),
 }))
 
-/** Replaces the old flat ClientLogos grid — same 6 clients, shown as an
+/** Replaces the old flat ClientLogos grid — same clients, shown as an
  * interactive stack that can morph into a grid or list. */
 export default function ClientLogoStack({ className = '' }: { className?: string }) {
   return <MorphingCardStack cards={cards} className={className} />
