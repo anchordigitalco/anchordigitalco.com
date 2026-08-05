@@ -29,8 +29,13 @@ const BG_FADE_END = 0.7
 // Extra scroll distance (beyond the pinned 100svh) the expand/split sequence
 // scrubs across.
 const PIN_SCROLL_VH = 85
+// Collapsed video card: landscape-ish on desktop, where there's width to
+// spare; on mobile the same vw/vh split would come out as a tall, narrow
+// strip, so it's flipped to a wide-and-short card that fits the screen.
 const BOX_COLLAPSED_VW = 44
 const BOX_COLLAPSED_VH = 54
+const BOX_COLLAPSED_VW_MOBILE = 86
+const BOX_COLLAPSED_VH_MOBILE = 30
 const BOX_RADIUS_COLLAPSED = 28
 const SPLIT_MAX_RATIO = 0.68
 const LOGO_SPLIT_RATIO = 0.8
@@ -132,7 +137,11 @@ export default function Hero() {
     }
   }, [])
 
-  const staticMode = reduced || isMobile
+  // Reduced-motion is the only thing that falls back to a plain static
+  // photo now — mobile gets the same scroll-expand sequence as desktop,
+  // just with a differently-proportioned collapsed card (see box sizing
+  // below).
+  const staticMode = reduced
 
   // Desktop only: the intro's "photo opens up into the cycling video" scroll
   // sequence. Pinned via plain CSS `sticky` (not GSAP's pin:true) — the
@@ -242,15 +251,21 @@ export default function Hero() {
   // `progress` advances — this is what you're scrolling to "zoom into".
   // Fixed at its collapsed size whenever there's no scroll sequence running
   // (staticMode never renders the card at all).
-  const boxWidth = `${lerp(BOX_COLLAPSED_VW, 100, progress)}vw`
-  const boxHeight = `${lerp(BOX_COLLAPSED_VH, 100, progress)}svh`
+  const collapsedVw = isMobile ? BOX_COLLAPSED_VW_MOBILE : BOX_COLLAPSED_VW
+  const collapsedVh = isMobile ? BOX_COLLAPSED_VH_MOBILE : BOX_COLLAPSED_VH
+  const boxWidth = `${lerp(collapsedVw, 100, progress)}vw`
+  const boxHeight = `${lerp(collapsedVh, 100, progress)}svh`
   const boxRadius = lerp(BOX_RADIUS_COLLAPSED, 0, progress)
   const boxShadowAlpha = 0.5 * (1 - smoothstep(0.7, 1, progress))
   // The "original hero photo" sits behind the card as a fixed full-bleed
-  // backdrop — it's the whole picture in staticMode (reduced motion /
-  // mobile skip the scroll sequence and the video entirely), and otherwise
-  // dissolves away as the card grows to cover it.
+  // backdrop — it's the whole picture in staticMode (reduced motion only,
+  // now that mobile gets the same scroll sequence as desktop), and
+  // otherwise dissolves away as the card grows to cover it.
   const bgPhotoOpacity = staticMode ? 1 : 1 - smoothstep(0, BG_FADE_END, progress)
+  // Once the video has fully taken over, a plain (unsplit) icon fades back
+  // in as the one persistent mark over the cycling video — the overlap
+  // with `lockupOpacity` fading out over the same stretch is the handoff.
+  const finalIconOpacity = staticMode ? 0 : smoothstep(0.85, 1, progress)
 
   // "Anchor" slides left, "Digital" slides right, and the logo mark's two
   // halves pull apart the same way — all driven by the same scroll
@@ -347,6 +362,21 @@ export default function Hero() {
           }}
           aria-hidden="true"
         />
+
+        {/* Once fully zoomed into the video, the split wordmark has faded
+            and slid off — this plain, unsplit icon fades in in its place as
+            the one mark left sitting over the cycling video. */}
+        {!staticMode && (
+          <div
+            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            style={{ opacity: finalIconOpacity }}
+            aria-hidden="true"
+          >
+            <div className="relative" style={{ height: 'clamp(64px, 9vw, 140px)', aspectRatio: `${LOGO_ASPECT}` }}>
+              <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
+            </div>
+          </div>
+        )}
 
         {/* Content layer */}
         <div
