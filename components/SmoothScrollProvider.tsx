@@ -5,6 +5,7 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { setLenisInstance } from '@/lib/lenis-instance'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -28,6 +29,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
 
     const lenis = new Lenis({ lerp: 0.09, duration: 1.2 })
     lenisRef.current = lenis
+    setLenisInstance(lenis)
     lenis.on('scroll', ScrollTrigger.update)
 
     const update = (time: number) => lenis.raf(time * 1000)
@@ -49,6 +51,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       gsap.ticker.remove(update)
       lenis.destroy()
       lenisRef.current = null
+      setLenisInstance(null)
     }
   }, [reduced])
 
@@ -58,8 +61,18 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
   // still scrolled down (or visibly animate back up) instead of
   // actually opening at the top. Forcing Lenis's position to match,
   // instantly, on every route change keeps them in sync.
+  //
+  // usePathname() excludes any #hash, so a link to e.g. /#updates would
+  // otherwise still get force-scrolled to 0 here, canceling out the
+  // anchor jump. Scroll to that section instead when one's present.
   useEffect(() => {
-    lenisRef.current?.scrollTo(0, { immediate: true })
+    const hash = window.location.hash
+    const target = hash ? document.querySelector(hash) : null
+    if (target instanceof HTMLElement) {
+      lenisRef.current?.scrollTo(target, { immediate: true, offset: -88 })
+    } else {
+      lenisRef.current?.scrollTo(0, { immediate: true })
+    }
   }, [pathname])
 
   return <>{children}</>
