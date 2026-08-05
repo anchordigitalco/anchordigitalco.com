@@ -30,9 +30,9 @@ export const UPDATES: Update[] = [
   {
     slug: 'score-signal',
     status: 'live',
-    logo: '/logos/score-signal.png',
+    logo: '/logos/score-signal-whole-logo.png',
     logoAlt: 'Score Signal logo',
-    fit: 'cover',
+    fit: 'contain',
     category: 'AI-Powered Tool',
     date: '7/31/2026',
     title: 'Score Signal, an AI-powered SAT and ACT tool, launches in partnership with Anchor Digital',

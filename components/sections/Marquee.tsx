@@ -1,5 +1,5 @@
 'use client'
-import { PointerEvent, useEffect, useRef, useState } from 'react'
+import { PointerEvent, ReactNode, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import SitePreview from '@/components/SitePreview'
@@ -8,6 +8,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 const LOOP_SECONDS = 38
 const WHEEL_SENSITIVITY = 1.4
+const MIN_SPACER = 96
 
 export interface MarqueeItem {
   id: string
@@ -52,7 +53,17 @@ export default function Marquee({
   const reduced = useReducedMotion()
   const trackRef = useRef<HTMLDivElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const measureRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
+  // Duplicating `items` just once (or even several times) doesn't stop the
+  // same card from showing twice at once if a single un-padded copy of
+  // `items` is narrower than the viewport — which it is here, with only 4
+  // short cards. No amount of extra copies fixes that: if the viewport is
+  // wider than one lap of unique content, some card is always going to
+  // repeat somewhere in view. What actually fixes it is a trailing spacer
+  // after each lap, sized so that lap-plus-spacer is at least as wide as
+  // the viewport — measured against a hidden, unrepeated copy of `items`.
+  const [spacerWidth, setSpacerWidth] = useState(MIN_SPACER)
   const stateRef = useRef({
     x: 0,
     halfWidth: 0,
@@ -63,6 +74,24 @@ export default function Marquee({
     lastT: 0,
     velocity: 0,
   })
+
+  useEffect(() => {
+    const measure = () => {
+      const measureEl = measureRef.current
+      const natural = measureEl?.scrollWidth
+      if (!measureEl || !natural) return
+      // A viewport-width window can still catch the same card twice even
+      // when one lap's content alone already exceeds the viewport — the
+      // window can straddle the tail of one lap and the head of the next.
+      // The gap between two copies of the same card needs to clear the
+      // viewport *plus* that card's own width, not just the viewport.
+      const cardWidth = (measureEl.firstElementChild as HTMLElement | null)?.offsetWidth ?? 0
+      setSpacerWidth(Math.max(MIN_SPACER, window.innerWidth + cardWidth - natural + MIN_SPACER))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [items])
 
   useEffect(() => {
     if (reduced) return
@@ -104,7 +133,7 @@ export default function Marquee({
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', measure)
     }
-  }, [reduced, hovered])
+  }, [reduced, hovered, spacerWidth])
 
   // Only a genuinely horizontal gesture browses the cards — plain vertical
   // wheel/trackpad scroll is left alone to keep moving the page.
@@ -146,7 +175,56 @@ export default function Marquee({
     stateRef.current.dragging = false
   }
 
-  const displayItems = [...items, ...items]
+  const renderCard = (item: MarqueeItem, key: string): ReactNode => {
+    const card = (
+      <div className={`group flex-shrink-0 ${compact ? 'w-[280px] md:w-[400px]' : 'w-[320px] md:w-[380px]'}`}>
+        {item.preview && (
+          <SitePreview
+            name={item.preview.name}
+            url={item.preview.url}
+            previewImage={item.preview.previewImage}
+            previewDisabled={item.preview.previewDisabled}
+            className="mb-5 aspect-[8/5] border border-hairline transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+        )}
+        {!item.preview && item.image !== undefined && (
+          item.image ? (
+            <div
+              className="relative mb-5 overflow-hidden rounded-[14px] border border-hairline"
+              style={{ aspectRatio: '3 / 4' }}
+            >
+              <Image
+                src={item.image}
+                alt=""
+                fill
+                sizes={compact ? '400px' : '380px'}
+                quality={92}
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              />
+            </div>
+          ) : (
+            <PlaceholderFrame aspect="3 / 4" className="mb-5 transition-transform duration-500 group-hover:scale-[1.04]" />
+          )
+        )}
+        <p className="text-body text-ink">{item.title}</p>
+        <p className="mt-1 max-w-[28ch] whitespace-pre-line text-small text-ink-muted">{item.description}</p>
+      </div>
+    )
+    return (
+      <div key={key}>
+        {/* SitePreview (when present) already renders its own <a> — nesting
+            a Link around it would put an anchor inside an anchor, which is
+            invalid HTML and breaks hydration. */}
+        {item.href && !item.preview ? (
+          <Link href={item.href} aria-label={item.title}>
+            {card}
+          </Link>
+        ) : (
+          card
+        )}
+      </div>
+    )
+  }
 
   return (
     <section
@@ -155,10 +233,17 @@ export default function Marquee({
       className="overflow-hidden bg-ground"
       style={{ paddingTop: noTopGap ? 0 : 'var(--section-y)', paddingBottom: noBottomGap ? 0 : 'var(--section-y)' }}
     >
+      {/* Hidden, unrepeated reference copy — exists only so its rendered
+          width can be measured to size the spacer above. */}
+      <div ref={measureRef} aria-hidden="true" className="pointer-events-none absolute left-0 top-0 -z-10 flex gap-6 opacity-0">
+        {items.map((item) => renderCard(item, `measure-${item.id}`))}
+      </div>
+
       <div
         ref={wrapRef}
         data-lenis-prevent-horizontal
         className="cursor-grab select-none touch-pan-y active:cursor-grabbing"
+        style={{ paddingLeft: 'var(--gutter)' }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onPointerDown={onPointerDown}
@@ -166,57 +251,12 @@ export default function Marquee({
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
-        <div ref={trackRef} className="marquee-track flex gap-6" style={{ paddingLeft: 'var(--gutter)' }}>
-          {displayItems.map((item, i) => {
-            const card = (
-              <div className={`group flex-shrink-0 ${compact ? 'w-[220px] md:w-[260px]' : 'w-[320px] md:w-[380px]'}`}>
-                {item.preview && (
-                  <SitePreview
-                    name={item.preview.name}
-                    url={item.preview.url}
-                    previewImage={item.preview.previewImage}
-                    previewDisabled={item.preview.previewDisabled}
-                    className="mb-5 aspect-[8/5] border border-hairline transition-transform duration-500 group-hover:scale-[1.04]"
-                  />
-                )}
-                {!item.preview && item.image !== undefined && (
-                  item.image ? (
-                    <div
-                      className="relative mb-5 overflow-hidden rounded-[14px] border border-hairline"
-                      style={{ aspectRatio: '3 / 4' }}
-                    >
-                      <Image
-                        src={item.image}
-                        alt=""
-                        fill
-                        sizes={compact ? '260px' : '380px'}
-                        quality={92}
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                  ) : (
-                    <PlaceholderFrame aspect="3 / 4" className="mb-5 transition-transform duration-500 group-hover:scale-[1.04]" />
-                  )
-                )}
-                <p className="text-body text-ink">{item.title}</p>
-                <p className="mt-1 max-w-[28ch] whitespace-pre-line text-small text-ink-muted">{item.description}</p>
-              </div>
-            )
-            return (
-              <div key={`${item.id}-${i}`}>
-                {/* SitePreview (when present) already renders its own <a> —
-                    nesting a Link around it would put an anchor inside an
-                    anchor, which is invalid HTML and breaks hydration. */}
-                {item.href && !item.preview ? (
-                  <Link href={item.href} aria-label={item.title}>
-                    {card}
-                  </Link>
-                ) : (
-                  card
-                )}
-              </div>
-            )
-          })}
+        <div ref={trackRef} className="marquee-track flex">
+          {[0, 1].map((lap) => (
+            <div key={lap} className="flex gap-6" style={{ paddingRight: spacerWidth }}>
+              {items.map((item) => renderCard(item, `${item.id}-${lap}`))}
+            </div>
+          ))}
         </div>
       </div>
     </section>

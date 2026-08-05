@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Reveal from '@/components/Reveal'
+import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { UPDATES } from '@/lib/updates'
 
@@ -11,7 +12,7 @@ const AUTOPLAY_MS = 5000
 const COUNT = UPDATES.length
 const CARD_WIDTH_FRACTION = 0.66
 const CARD_WIDTH_MAX = 700
-const CARD_HEIGHT = 360
+const CARD_HEIGHT = 440
 const CARD_PADDING = 16
 const IMAGE_COLUMN_FRACTION = 0.42
 
@@ -201,8 +202,16 @@ function UpdateCard({
   onSelect: () => void
 }) {
   const inner = (
-    <div
-      className={`flex h-full overflow-hidden rounded-[20px] border border-hairline bg-ground p-4 transition-all duration-500 ease-reveal ${
+    <BorderBeamPanel
+      radius={20}
+      beams={2}
+      // Same color family as the hero wordmark's shimmer (bay: teal/navy) —
+      // an on-brand pair instead of Motiq's default blue/coral.
+      colors={['#2D8E9A', '#154288']}
+      // No speed-up on hover/focus — the beam just keeps its resting pace,
+      // it's not a button-style "energized on interaction" cue here.
+      hoverSpeed={42}
+      className={`flex h-full border-hairline bg-ground p-4 text-ink transition-all duration-500 ease-reveal ${
         active ? 'grayscale-0 opacity-100' : 'scale-[0.92] grayscale opacity-60'
       }`}
     >
@@ -231,7 +240,7 @@ function UpdateCard({
           <span className="text-label text-ink-muted">Read More</span>
         </div>
       </div>
-    </div>
+    </BorderBeamPanel>
   )
 
   if (active) {

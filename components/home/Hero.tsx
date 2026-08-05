@@ -1,15 +1,46 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Reveal from '@/components/Reveal'
-import { Logo } from '@/components/BrandLogo'
+import { GradientShimmer } from '@/components/ui/gradient-shimmer'
 import { quicksand } from '@/app/fonts'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { heroPosterBlur } from '@/lib/hero-poster-data'
+import { getLenisInstance } from '@/lib/lenis-instance'
+import heroPhoto from '@/public/hero-slide-videos/hero-image.png'
+import logoIcon from '@/public/anchor-icon.png'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const SLIDE_MS = 3000
 const CROSSFADE_S = 0.7
 const EASE = [0.16, 1, 0.3, 1] as const
+
+// How much of the sequence the background photo takes to fade out — it sits
+// behind the growing video card and is fully covered by progress 1 anyway,
+// but fading it a bit earlier reads as a deliberate dissolve rather than an
+// abrupt cover-up.
+const BG_FADE_END = 0.7
+// Extra scroll distance (beyond the pinned 100svh) the expand/split sequence
+// scrubs across.
+const PIN_SCROLL_VH = 85
+const BOX_COLLAPSED_VW = 44
+const BOX_COLLAPSED_VH = 54
+const BOX_RADIUS_COLLAPSED = 28
+const SPLIT_MAX_RATIO = 0.68
+const LOGO_SPLIT_RATIO = 0.8
+const LOGO_ASPECT = 827 / 438
+// Once the expand sequence fully resolves into the cycling video, hold the
+// scroll here for a beat — otherwise a normal scroll's momentum carries
+// straight through and the video is never actually seen.
+const HOLD_MS = 500
+const HOLD_TRIGGER_AT = 0.999
+const HOLD_RESET_BELOW = 0.9
 
 const SLIDES = [
   {
@@ -42,14 +73,29 @@ const SLIDES = [
   },
 ]
 
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)))
+  return t * t * (3 - 2 * t)
+}
+
 export default function Hero() {
   const reduced = useReducedMotion()
   const [isMobile, setIsMobile] = useState(false)
   const [hydrated, setHydrated] = useState(false)
   const [current, setCurrent] = useState(0)
   const [progressKey, setProgressKey] = useState(0)
+  // Scroll-through progress of the intro's expand/split sequence, 0..1 —
+  // stays permanently 0 in staticMode (no ScrollTrigger is ever created
+  // there), which conveniently doubles as "resting, unsplit" for the lockup.
+  const [progress, setProgress] = useState(0)
+  const [viewportW, setViewportW] = useState(1440)
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const outerRef = useRef<HTMLElement | null>(null)
+  const heldRef = useRef(false)
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   /**
    * Each clip's native duration is scaled so one full loop exactly spans
@@ -75,10 +121,63 @@ export default function Hero() {
     setIsMobile(mq.matches)
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
     mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
+
+    const updateWidth = () => setViewportW(window.innerWidth)
+    updateWidth()
+    window.addEventListener('resize', updateWidth)
+
+    return () => {
+      mq.removeEventListener('change', handler)
+      window.removeEventListener('resize', updateWidth)
+    }
   }, [])
 
   const staticMode = reduced || isMobile
+
+  // Desktop only: the intro's "photo opens up into the cycling video" scroll
+  // sequence. Pinned via plain CSS `sticky` (not GSAP's pin:true) — the
+  // section is simply taller than one viewport, and ScrollTrigger just reads
+  // scroll position against it for `progress`, which Lenis already keeps
+  // synced (see SmoothScrollProvider). No wheel-hijacking, no fighting Lenis
+  // for ownership of the scroll.
+  useEffect(() => {
+    if (staticMode) return
+    const el = outerRef.current
+    if (!el) return
+    const trigger = ScrollTrigger.create({
+      trigger: el,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.3,
+      onUpdate: (self) => {
+        const p = self.progress
+        if (p >= HOLD_TRIGGER_AT && !heldRef.current) {
+          // Lenis owns the actual scrolling — `.stop()`/`.start()` is its
+          // own public API for pausing input for a moment, so this holds
+          // the whole page (not just this section) without fighting it via
+          // wheel-preventDefault or any other scroll-jacking trick.
+          heldRef.current = true
+          const lenis = getLenisInstance()
+          lenis?.stop()
+          holdTimerRef.current = setTimeout(() => {
+            lenis?.start()
+            holdTimerRef.current = null
+          }, HOLD_MS)
+        } else if (p < HOLD_RESET_BELOW) {
+          heldRef.current = false
+        }
+        setProgress(p)
+      },
+    })
+    return () => {
+      trigger.kill()
+      if (holdTimerRef.current) {
+        clearTimeout(holdTimerRef.current)
+        holdTimerRef.current = null
+        getLenisInstance()?.start()
+      }
+    }
+  }, [staticMode])
 
   const advance = useCallback(() => {
     setCurrent((c) => (c + 1) % SLIDES.length)
@@ -89,6 +188,11 @@ export default function Hero() {
     setCurrent(i)
     setProgressKey((k) => k + 1)
   }, [])
+
+  // The video lives inside the card from the very start (it's what you're
+  // zooming into), so it's active for the whole sequence — just not in
+  // staticMode, which never renders the card or the video at all.
+  const videosActive = !staticMode
 
   /**
    * Advancing used to run off a `setInterval` independent of the videos'
@@ -102,7 +206,7 @@ export default function Hero() {
    * next slide — so the restart and the transition can never desync.
    */
   useEffect(() => {
-    if (staticMode) return
+    if (staticMode || !videosActive) return
     videoRefs.current.forEach((el, i) => {
       if (!el) return
       if (i === current) {
@@ -117,7 +221,14 @@ export default function Hero() {
     if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current)
     fallbackTimerRef.current = setTimeout(advance, SLIDE_MS + 1500)
     return () => { if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current) }
-  }, [current, staticMode, advance])
+  }, [current, staticMode, videosActive, advance])
+
+  // Scrolled back up above the activation point — stop the videos rather
+  // than let them keep playing silently behind the photo.
+  useEffect(() => {
+    if (staticMode || videosActive) return
+    videoRefs.current.forEach((el) => el?.pause())
+  }, [staticMode, videosActive])
 
   const handleEnded = useCallback((index: number) => {
     if (index !== current) return
@@ -125,154 +236,244 @@ export default function Hero() {
   }, [current, advance])
 
   const slide = SLIDES[current]
+  void slide
+
+  // Video card: small and centered at rest, growing to fill the viewport as
+  // `progress` advances — this is what you're scrolling to "zoom into".
+  // Fixed at its collapsed size whenever there's no scroll sequence running
+  // (staticMode never renders the card at all).
+  const boxWidth = `${lerp(BOX_COLLAPSED_VW, 100, progress)}vw`
+  const boxHeight = `${lerp(BOX_COLLAPSED_VH, 100, progress)}svh`
+  const boxRadius = lerp(BOX_RADIUS_COLLAPSED, 0, progress)
+  const boxShadowAlpha = 0.5 * (1 - smoothstep(0.7, 1, progress))
+  // The "original hero photo" sits behind the card as a fixed full-bleed
+  // backdrop — it's the whole picture in staticMode (reduced motion /
+  // mobile skip the scroll sequence and the video entirely), and otherwise
+  // dissolves away as the card grows to cover it.
+  const bgPhotoOpacity = staticMode ? 1 : 1 - smoothstep(0, BG_FADE_END, progress)
+
+  // "Anchor" slides left, "Digital" slides right, and the logo mark's two
+  // halves pull apart the same way — all driven by the same scroll
+  // progress, all zeroed out (recombined, centered) whenever there's
+  // nothing to scroll through.
+  const splitPx = progress * viewportW * SPLIT_MAX_RATIO
+  const logoSplitPx = splitPx * LOGO_SPLIT_RATIO
+  const lockupOpacity = staticMode ? 1 : 1 - smoothstep(0.82, 1, progress)
 
   return (
-    <section data-theme="dark" data-hero-video="true" aria-labelledby="hero-heading" className="relative w-full overflow-hidden" style={{ height: '100svh' }}>
-      {/* Video / poster layer */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ scale: 1.06, filter: 'blur(8px)' }}
-        animate={{ scale: 1, filter: 'blur(0px)' }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+    <section
+      ref={outerRef}
+      data-theme="dark"
+      data-hero-video="true"
+      aria-labelledby="hero-heading"
+      className="relative w-full"
+      style={{ height: staticMode ? '100svh' : `calc(100svh + ${PIN_SCROLL_VH}vh)` }}
+    >
+      <div
+        className={staticMode ? 'relative h-full w-full overflow-hidden' : 'sticky top-0 h-[100svh] w-full overflow-hidden'}
       >
-        {staticMode ? (
+        {/* Media layer */}
+        <div className="absolute inset-0 bg-dark" />
+
+        {/* Background photo — fixed full-bleed, behind the card, dissolving
+            away as the card grows to cover it. */}
+        <div className="absolute inset-0" style={{ opacity: bgPhotoOpacity }}>
+          <Image
+            src={heroPhoto}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={92}
+            placeholder="blur"
+            priority
+            className="object-cover"
+            style={{ objectPosition: '72% 30%' }}
+          />
+        </div>
+
+        {/* The video card — small and centered at rest, this is what you
+            scroll to zoom into fullscreen. */}
+        {!staticMode && (
           <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${SLIDES[0].blur})` }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+            style={{
+              width: boxWidth,
+              height: boxHeight,
+              borderRadius: boxRadius,
+              border: '1px solid rgba(242,240,236,0.14)',
+              boxShadow: `0 30px 80px -20px rgba(0,0,0,${boxShadowAlpha.toFixed(2)})`,
+            }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={SLIDES[0].poster} alt="" className="absolute inset-0 w-full h-full object-cover" />
-          </div>
-        ) : (
-          SLIDES.map((s, i) => {
-            const isCurrent = i === current
-            return (
-              <motion.div
-                key={s.slot}
-                className="absolute inset-0"
-                initial={false}
-                animate={{
-                  opacity: isCurrent ? 1 : 0,
-                  scale: isCurrent ? 1 : 1.03,
-                }}
-                transition={{ duration: CROSSFADE_S, ease: EASE }}
-                style={{ zIndex: isCurrent ? 1 : 0 }}
-              >
-                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${s.blur})` }}>
-                  <video
-                    ref={(el) => { videoRefs.current[i] = el }}
-                    onLoadedMetadata={(e) => applyPlaybackRate(e.currentTarget)}
-                    onEnded={() => handleEnded(i)}
-                    muted
-                    playsInline
-                    preload="auto"
-                    poster={s.poster}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  >
-                    <source src={s.webm} type="video/webm" />
-                    <source src={s.mp4} type="video/mp4" />
-                  </video>
-                </div>
-              </motion.div>
-            )
-          })
-        )}
-      </motion.div>
-
-      {/* Legibility scrim — soft, feathered, centered behind the centered text */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse 55% 45% at 50% 50%, rgba(19,19,19,0.4), transparent 70%)',
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Content layer */}
-      <div
-        className="relative h-full flex flex-col items-center justify-center text-center"
-        style={{ paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}
-      >
-        {hydrated && (
-          <>
-            <div className="flex items-center justify-center gap-4 md:gap-6">
-              <h1 id="hero-heading">
-                <Reveal
-                  as="span"
-                  split="lines"
-                  delay={0.18}
-                  stagger={0.09}
-                  immediate
-                  className={`${quicksand.className} block text-display font-semibold text-dark-ink`}
+            {SLIDES.map((s, i) => {
+              const isCurrent = i === current
+              return (
+                <motion.div
+                  key={s.slot}
+                  className="absolute inset-0"
+                  initial={false}
+                  animate={{
+                    opacity: isCurrent ? 1 : 0,
+                    scale: isCurrent ? 1 : 1.03,
+                  }}
+                  transition={{ duration: CROSSFADE_S, ease: EASE }}
+                  style={{ zIndex: isCurrent ? 1 : 0 }}
                 >
-                  {['anchor digital']}
-                </Reveal>
+                  <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${s.blur})` }}>
+                    <video
+                      ref={(el) => { videoRefs.current[i] = el }}
+                      onLoadedMetadata={(e) => applyPlaybackRate(e.currentTarget)}
+                      onEnded={() => handleEnded(i)}
+                      muted
+                      playsInline
+                      preload="auto"
+                      poster={s.poster}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    >
+                      <source src={s.webm} type="video/webm" />
+                      <source src={s.mp4} type="video/mp4" />
+                    </video>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        )}
+
+        {/* Legibility scrim — soft, feathered, centered behind the centered text */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 55% 45% at 50% 50%, rgba(19,19,19,0.4), transparent 70%)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Content layer */}
+        <div
+          className="relative h-full flex flex-col items-center justify-center text-center"
+          style={{ paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}
+        >
+          {hydrated && (
+            <div style={{ opacity: lockupOpacity }}>
+              {/* The two words are separate DOM nodes (each independently
+                  transformed by scroll) with no literal space between them
+                  — `aria-label` supplies the real accessible name so
+                  screen readers/search engines still read "Anchor Digital". */}
+              <h1
+                id="hero-heading"
+                aria-label="Anchor Digital"
+                className="flex items-center justify-center gap-[0.4em] text-dark-ink"
+              >
+                <span style={{ display: 'inline-block', transform: `translateX(-${splitPx}px)` }}>
+                  {/* The size/weight class lives here, on Reveal's own
+                      wrapper — not down on GradientShimmer's span — since
+                      `.reveal-mask`'s descender-clearance padding is an
+                      `em` value relative to *its own* font-size. Pushed
+                      down onto an inner element instead, the mask would
+                      inherit only the ambient (much smaller) font-size and
+                      clip the display text's descenders (the "g" in
+                      "digital"). */}
+                  <Reveal
+                    as="span"
+                    split="none"
+                    delay={0.18}
+                    immediate
+                    className={`${quicksand.className} block text-display font-semibold`}
+                  >
+                    <GradientShimmer gradient="bay">anchor</GradientShimmer>
+                  </Reveal>
+                </span>
+                <span style={{ display: 'inline-block', transform: `translateX(${splitPx}px)` }}>
+                  <Reveal
+                    as="span"
+                    split="none"
+                    delay={0.27}
+                    immediate
+                    className={`${quicksand.className} block text-display font-semibold`}
+                  >
+                    <GradientShimmer gradient="bay">digital</GradientShimmer>
+                  </Reveal>
+                </span>
               </h1>
+
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
+                className="relative mx-auto mt-3 md:mt-4"
+                style={{ height: 'clamp(28px, 4vw, 44px)', aspectRatio: `${LOGO_ASPECT}` }}
               >
-                <Logo invert className="h-7 md:h-9 lg:h-11" />
+                <div
+                  className="absolute inset-0 overflow-hidden"
+                  style={{ clipPath: 'inset(0 50% 0 0)', transform: `translateX(-${logoSplitPx}px)` }}
+                >
+                  <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
+                </div>
+                <div
+                  className="absolute inset-0 overflow-hidden"
+                  style={{ clipPath: 'inset(0 0 0 50%)', transform: `translateX(${logoSplitPx}px)` }}
+                >
+                  <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
+                </div>
               </motion.div>
             </div>
+          )}
 
-          </>
-        )}
+          {/* Scroll cue — fades once the expand sequence starts moving */}
+          {!staticMode && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: (1 - smoothstep(0, 0.12, progress)) * 0.9 }}
+              transition={{ delay: 0.9, duration: 0.4 }}
+              className="absolute bottom-8 left-[var(--gutter)] flex flex-col items-center gap-3"
+            >
+              <span className="text-label text-dark-ink opacity-70">Scroll</span>
+              <div className="relative h-8 w-px overflow-hidden" style={{ backgroundColor: 'rgba(242,240,236,0.3)' }}>
+                <motion.div
+                  className="absolute inset-x-0 top-0 h-3 bg-dark-ink"
+                  animate={{ y: [-12, 32] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              </div>
+            </motion.div>
+          )}
 
-        {/* Scroll cue */}
-        {!staticMode && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.4 }}
-            className="absolute bottom-8 left-[var(--gutter)] flex flex-col items-center gap-3"
-          >
-            <span className="text-label text-dark-ink opacity-70">Scroll</span>
-            <div className="relative h-8 w-px overflow-hidden" style={{ backgroundColor: 'rgba(242,240,236,0.3)' }}>
-              <motion.div
-                className="absolute inset-x-0 top-0 h-3 bg-dark-ink"
-                animate={{ y: [-12, 32] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            </div>
-          </motion.div>
-        )}
-
-        {/* Slide indicator */}
-        {!staticMode && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.4 }}
-            className="absolute bottom-8 right-[var(--gutter)] flex items-center gap-3"
-          >
-            <span className="text-label text-dark-ink tabular-nums opacity-70">
-              {String(current + 1).padStart(2, '0')}
-            </span>
-            <div className="flex items-center gap-2">
-              {SLIDES.map((s, i) => (
-                <button
-                  key={s.slot}
-                  onClick={() => goTo(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className="relative h-px w-7 overflow-hidden"
-                  style={{ backgroundColor: 'rgba(242,240,236,0.3)' }}
-                >
-                  {i === current && (
-                    <motion.div
-                      key={progressKey}
-                      className="absolute inset-y-0 left-0 bg-dark-ink"
-                      initial={{ width: '0%' }}
-                      animate={{ width: '100%' }}
-                      transition={{ duration: SLIDE_MS / 1000, ease: 'linear' }}
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
+          {/* Slide indicator — only once the expand sequence has resolved
+              into the cycling video */}
+          {!staticMode && progress > 0.92 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+              className="absolute bottom-8 right-[var(--gutter)] flex items-center gap-3"
+            >
+              <span className="text-label text-dark-ink tabular-nums opacity-70">
+                {String(current + 1).padStart(2, '0')}
+              </span>
+              <div className="flex items-center gap-2">
+                {SLIDES.map((s, i) => (
+                  <button
+                    key={s.slot}
+                    onClick={() => goTo(i)}
+                    aria-label={`Go to slide ${i + 1}`}
+                    className="relative h-px w-7 overflow-hidden"
+                    style={{ backgroundColor: 'rgba(242,240,236,0.3)' }}
+                  >
+                    {i === current && (
+                      <motion.div
+                        key={progressKey}
+                        className="absolute inset-y-0 left-0 bg-dark-ink"
+                        initial={{ width: '0%' }}
+                        animate={{ width: '100%' }}
+                        transition={{ duration: SLIDE_MS / 1000, ease: 'linear' }}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
     </section>
   )

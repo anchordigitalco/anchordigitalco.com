@@ -75,7 +75,7 @@ export const STATE_PROJECTS = [
     id: 'ny',
     name: 'New York',
     companies: [
-      { name: 'Score Signal', logo: '/logos/score-signal.png', href: '/work#score-signal' },
+      { name: 'Score Signal', logo: '/logos/score-signal-logo-icon.png', href: '/work#score-signal' },
       { name: 'FairTest', logo: '/logos/fairtest.jpg', href: '/work#fairtest' },
       { name: 'Hide the Film', logo: null, href: '/work' },
       { name: 'Akil Bello', logo: '/logos/akil-bello.png', href: '/work' },
