@@ -1,5 +1,9 @@
+'use client'
+import { useId } from 'react'
 import Link from 'next/link'
 import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { LiquidButton, LiquidGlassOverlay, liquidbuttonVariants } from '@/components/ui/liquid-glass-button'
+import { cn } from '@/lib/utils'
 
 interface SharedProps {
   children: ReactNode
@@ -17,30 +21,38 @@ interface PillButtonElProps extends SharedProps, Omit<ButtonHTMLAttributes<HTMLB
 }
 
 /**
- * The one button-style CTA on the site — hairline pill, fills solid on
- * hover. Matches the Hero's "Our work" button exactly, so every primary
- * action (pricing plans, form navigation) reads as the same control.
- * Anything lighter-weight than this should be a TextLink, not a variant
- * of this component.
+ * The one button-style CTA on the site — now the liquid-glass pill
+ * (`components/ui/liquid-glass-button`) rather than a flat hairline
+ * outline. Every call site (14+ across the app) keeps using this same
+ * href-or-button component unchanged; only what it renders inside changed.
  */
 export default function PillButton(props: PillLinkProps | PillButtonElProps) {
   const { children, className = '', dark = false, ...rest } = props
-  const colors = dark
-    ? 'border-dark-ink text-dark-ink hover:bg-dark-ink hover:text-dark'
-    : 'border-ink text-ink hover:bg-ink hover:text-ground'
-  const base = `inline-flex items-center justify-center gap-2 border font-rounded text-small px-7 py-3.5 transition-colors duration-[400ms] ${colors} ${className}`
+  const filterId = useId()
+  // `dark` flips the pill for dark-theme sections — same idea as before,
+  // just as a text-color override on top of the liquid-glass surface
+  // rather than a full color-scheme swap.
+  const textColor = dark ? 'text-dark-ink' : 'text-ink'
 
   if ('href' in props && props.href) {
     return (
-      <Link href={props.href} className={base} style={{ borderRadius: '9999px' }}>
-        {children}
+      <Link
+        href={props.href}
+        className={cn('relative', liquidbuttonVariants({ size: 'lg' }), textColor, className)}
+      >
+        <LiquidGlassOverlay filterId={filterId} />
+        <span className="pointer-events-none relative z-10">{children}</span>
       </Link>
     )
   }
 
   return (
-    <button {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)} className={base} style={{ borderRadius: '9999px' }}>
+    <LiquidButton
+      {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
+      size="lg"
+      className={cn(textColor, className)}
+    >
       {children}
-    </button>
+    </LiquidButton>
   )
 }
