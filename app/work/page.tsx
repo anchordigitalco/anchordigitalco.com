@@ -54,12 +54,19 @@ export default function WorkPage() {
               reverse={i % 2 === 1}
               extraBottomGap={i === featured.length - 1}
               media={
-                <SitePreview
-                  name={project.name}
-                  url={project.url}
-                  previewImage={project.previewImage}
-                  className="aspect-[8/5] border border-hairline"
-                />
+                <div>
+                  <SitePreview
+                    name={project.name}
+                    url={project.url}
+                    previewImage={project.previewImage}
+                    className="aspect-[8/5] border border-hairline"
+                  />
+                  {item.slug === 'marcus-bleecker' && (
+                    <p className="mt-4 max-w-[60ch] text-small text-ink-muted">
+                      Out of respect for client privacy, we don&apos;t showcase the majority of our work here. Ask us during a call and we&apos;re happy to share more.
+                    </p>
+                  )}
+                </div>
               }
             />
           </div>
@@ -75,7 +82,6 @@ export default function WorkPage() {
       <ClosingStatement
         lines={['Every project starts with a real conversation,', 'not a template']}
         ctas={[{ label: 'Start a project', href: '/start' }]}
-        footnote="Out of respect for client privacy, we don't showcase the majority of our work here. Ask us during a call and we're happy to share more."
       />
     </>
   )
