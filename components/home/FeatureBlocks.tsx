@@ -30,23 +30,25 @@ export default function FeatureBlocks() {
           extraBottomGap={i === SERVICES.length - 1}
           link={i === SERVICES.length - 1 ? { label: 'Contact us', href: '/start' } : undefined}
           media={
-            service.id === 'design-dev' ? (
-              <ClientLogos />
-            ) : (
-              <div
-                className="relative overflow-hidden rounded-[14px] border border-hairline"
-                style={{ aspectRatio: '4 / 3' }}
-              >
-                <Image
-                  src={SERVICE_IMAGES[service.id]}
-                  alt=""
-                  fill
-                  sizes="(min-width: 768px) 58vw, 100vw"
-                  quality={92}
-                  className="object-cover"
-                />
-              </div>
-            )
+            <div className={`md:max-w-[82%] ${i % 2 === 1 ? 'md:ml-auto' : ''}`}>
+              {service.id === 'design-dev' ? (
+                <ClientLogos />
+              ) : (
+                <div
+                  className="relative overflow-hidden rounded-[14px] border border-hairline"
+                  style={{ aspectRatio: '4 / 3' }}
+                >
+                  <Image
+                    src={SERVICE_IMAGES[service.id]}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 48vw, 100vw"
+                    quality={92}
+                    className="object-cover"
+                  />
+                </div>
+              )}
+            </div>
           }
         />
       ))}

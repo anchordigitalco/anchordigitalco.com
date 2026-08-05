@@ -39,7 +39,7 @@ export default function WorkPage() {
       <PageHero
         title={['Work']}
         subhead="Every project here started as an empty file and a conversation. Nothing is a template, and nothing was handed off and forgotten."
-        ctas={[{ label: 'Start a project', href: '/start' }]}
+        ctas={[{ label: 'Read about recent work', href: '/#updates' }]}
         image="/images/work-header.png"
       />
 

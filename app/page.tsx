@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Hero from '@/components/home/Hero'
 import Statement from '@/components/home/Statement'
-import Marquee from '@/components/home/Marquee'
+import UpdatesCarousel from '@/components/home/UpdatesCarousel'
 import PillarCycle from '@/components/sections/PillarCycle'
 import FeatureBlocks from '@/components/home/FeatureBlocks'
 import Closer from '@/components/home/Closer'
@@ -16,7 +16,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Statement />
-      <Marquee />
+      <UpdatesCarousel />
       <PillarCycle />
       <FeatureBlocks />
       <Closer />
