@@ -2,7 +2,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import PillButton from '@/components/PillButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger)
@@ -55,10 +54,6 @@ export default function Statement() {
             </span>
           ))}
         </p>
-
-        <div className="mt-12 flex items-center justify-center gap-8">
-          <PillButton href="/work">See our work</PillButton>
-        </div>
       </div>
     </section>
   )
