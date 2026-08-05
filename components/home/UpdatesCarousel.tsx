@@ -11,14 +11,19 @@ import { UPDATES } from '@/lib/updates'
 const AUTOPLAY_MS = 5000
 const COUNT = UPDATES.length
 // Both dimensions now scale together from one width measurement, locked to
-// CARD_ASPECT, rather than width being responsive but height pinned to a
-// flat 440px — that fixed height was what made the card read as a
+// an aspect ratio, rather than width being responsive but height pinned to
+// a flat 440px — that fixed height was what made the card read as a
 // cramped, oddly tall sliver once the width itself shrank on mobile.
 // Adapted from the shadcn "carousel" reference's viewport-relative sizing.
+// The desktop aspect is a wide landscape card; locking mobile to that same
+// ratio came out too SHORT once width was already constrained by the
+// narrow viewport — the title/excerpt text had nowhere near enough height
+// to sit in, so mobile gets its own, taller aspect instead.
 const CARD_WIDTH_FRACTION = 0.66
 const CARD_WIDTH_MAX = 700
 const CARD_WIDTH_MIN = 240
 const CARD_ASPECT = 700 / 440
+const CARD_ASPECT_MOBILE = 0.85
 const IMAGE_COLUMN_FRACTION = 0.42
 // The two flanking (inactive) cards get a subtle 3D lean instead of a flat
 // scale-down — also lifted from the reference.
@@ -84,7 +89,10 @@ export default function UpdatesCarousel() {
   }
 
   const cardWidth = Math.min(Math.max(containerWidth * CARD_WIDTH_FRACTION, CARD_WIDTH_MIN), CARD_WIDTH_MAX)
-  const cardHeight = cardWidth / CARD_ASPECT
+  // `containerWidth` is already measured for cardWidth above — reusing it
+  // for the aspect breakpoint instead of a separate matchMedia state.
+  const cardAspect = containerWidth > 0 && containerWidth < 640 ? CARD_ASPECT_MOBILE : CARD_ASPECT
+  const cardHeight = cardWidth / cardAspect
   // Derived so exactly 1/3 of a neighbor's width peeks past the container
   // edge, regardless of what fraction of the container the card itself
   // occupies (see the worked math in the project notes for this component).
@@ -239,7 +247,14 @@ function UpdateCard({
         // rather than split across a Tailwind class and this style prop —
         // two separate `transform` declarations can't both survive.
         transform: active ? 'scale(1) rotateX(0deg)' : `scale(${INACTIVE_SCALE}) rotateX(${INACTIVE_TILT_DEG}deg)`,
-        transformOrigin: 'bottom',
+        // 'bottom' (a hinge-from-the-base lean) reads fine for a single
+        // isolated card, but scaling flanking cards down from their own
+        // bottom edge shifts their top edge down relative to the active
+        // card next to them — the whole row reads as uneven/misaligned,
+        // worse the taller the card (much more visible on mobile's taller
+        // aspect than desktop's short landscape one). Centered keeps every
+        // card's vertical center on the same line regardless of scale.
+        transformOrigin: 'center',
         transition: 'transform 500ms cubic-bezier(0.4, 0, 0.2, 1), filter 500ms ease, opacity 500ms ease',
         filter: active ? 'none' : 'grayscale(1)',
         opacity: active ? 1 : 0.6,
