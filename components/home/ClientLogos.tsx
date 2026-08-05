@@ -4,7 +4,7 @@ import Link from 'next/link'
 const LOGOS = [
   { name: 'FairTest', src: '/logos/fairtest.jpg', href: '/work#fairtest' },
   { name: 'Akil Bello', src: '/logos/akil-bello.png', href: '/work#akil-bello' },
-  { name: 'Score Signal', src: '/logos/score-signal.png', href: '/work#score-signal' },
+  { name: 'Score Signal', src: '/logos/score-signal-logo-icon.png', href: '/work#score-signal', padded: true },
   // Dark, edge-to-edge mark with no built-in margin of its own — matted
   // with a white inset border so it doesn't bleed into the tiles next to
   // it the way a plain object-cover fill would.
