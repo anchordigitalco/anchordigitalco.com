@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Palette, Code2, LifeBuoy } from 'lucide-react'
 import PageHero from '@/components/sections/PageHero'
 import Marquee from '@/components/sections/Marquee'
 import PinnedSequence from '@/components/sections/PinnedSequence'
@@ -6,6 +7,7 @@ import PillarCards from '@/components/sections/PillarCards'
 import TabbedPanel from '@/components/sections/TabbedPanel'
 import Accordion from '@/components/sections/Accordion'
 import ClosingStatement from '@/components/sections/ClosingStatement'
+import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
 import { CLIENT_PROCESS, SERVICES_FAQ } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -76,17 +78,21 @@ export default function ServicesPage() {
           PinnedSequence's boxed variant for why. */}
       <div className="bg-ground" style={{ paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
         <div data-theme="light" style={{ height: 'calc(var(--gutter) + 1rem)' }} aria-hidden="true" />
-        <section
-          data-theme="dark"
-          className="mx-auto max-w-site rounded-[20px] bg-dark"
-          style={{
-            paddingTop: 'clamp(2.5rem, 6vw, 4rem)',
-            paddingBottom: 'clamp(2.5rem, 6vw, 4rem)',
-            paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
-            paddingRight: 'clamp(1.5rem, 5vw, 4rem)',
-          }}
-        >
-          <TabbedPanel panels={panels} dark heading={['Our process']} />
+        <section data-theme="dark" className="mx-auto max-w-site">
+          <BorderBeamPanel
+            radius={20}
+            beams={2}
+            glow={false}
+            className="border-[rgba(242,240,236,0.14)] bg-dark text-dark-ink"
+            style={{
+              paddingTop: 'clamp(2.5rem, 6vw, 4rem)',
+              paddingBottom: 'clamp(2.5rem, 6vw, 4rem)',
+              paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
+              paddingRight: 'clamp(1.5rem, 5vw, 4rem)',
+            }}
+          >
+            <TabbedPanel panels={panels} dark heading={['Our process']} />
+          </BorderBeamPanel>
         </section>
         <div data-theme="light" style={{ height: 'var(--gutter)' }} aria-hidden="true" />
       </div>
@@ -96,7 +102,11 @@ export default function ServicesPage() {
       <PinnedSequence
         heading={['Built once', 'Maintained always']}
         paragraph="One partner for design, development, and everything after launch, so your site keeps working as hard as you do."
-        states={['Design that reflects your brand.', 'Development that performs.', 'Support that never stops.']}
+        cards={[
+          { icon: <Palette className="size-4 text-dark-ink" />, title: 'Design', description: 'that reflects your brand.' },
+          { icon: <Code2 className="size-4 text-dark-ink" />, title: 'Development', description: 'that performs.' },
+          { icon: <LifeBuoy className="size-4 text-dark-ink" />, title: 'Support', description: 'that never stops.' },
+        ]}
         boxed
       />
 
