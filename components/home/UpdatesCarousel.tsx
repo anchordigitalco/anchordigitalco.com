@@ -2,7 +2,7 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { IconArrowNarrowRight } from '@tabler/icons-react'
 import Reveal from '@/components/Reveal'
 import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -10,11 +10,20 @@ import { UPDATES } from '@/lib/updates'
 
 const AUTOPLAY_MS = 5000
 const COUNT = UPDATES.length
+// Both dimensions now scale together from one width measurement, locked to
+// CARD_ASPECT, rather than width being responsive but height pinned to a
+// flat 440px — that fixed height was what made the card read as a
+// cramped, oddly tall sliver once the width itself shrank on mobile.
+// Adapted from the shadcn "carousel" reference's viewport-relative sizing.
 const CARD_WIDTH_FRACTION = 0.66
 const CARD_WIDTH_MAX = 700
-const CARD_HEIGHT = 440
-const CARD_PADDING = 16
+const CARD_WIDTH_MIN = 240
+const CARD_ASPECT = 700 / 440
 const IMAGE_COLUMN_FRACTION = 0.42
+// The two flanking (inactive) cards get a subtle 3D lean instead of a flat
+// scale-down — also lifted from the reference.
+const INACTIVE_SCALE = 0.94
+const INACTIVE_TILT_DEG = 6
 
 /** Wraps i-index to a stable {-1, 0, 1} slot around the active card, so with
  * exactly 3 updates every position always has one neighbor on each side —
@@ -25,11 +34,13 @@ function relativeSlot(i: number, index: number) {
 
 /**
  * Coverflow-style carousel: the active slide sits centered, full size and
- * color, in a vertical card (full-bleed portrait photo on top, title/excerpt
- * below). Neighbors sit off to each side in grayscale, scaled down, about a
- * third of each showing. Loops in both directions and auto-advances every
- * 5s, shown by the active dot filling up like a timer — stopping only when
- * someone actually clicks an arrow, a dot, or a card.
+ * color; both neighbors stay flanking it (not just the next one, unlike the
+ * shadcn reference's one-sided strip — this keeps its own two-sided
+ * layout), tilted back and grayed out. Loops in both directions and
+ * auto-advances every 5s, shown by the active dot filling up like a timer —
+ * stopping only when someone actually clicks an arrow, a dot, or a card.
+ * The slide/arrow movement feel is adapted from the shadcn "carousel"
+ * reference component; the card's own content design is unchanged.
  */
 export default function UpdatesCarousel() {
   const reduced = useReducedMotion()
@@ -72,7 +83,8 @@ export default function UpdatesCarousel() {
     if (e.key === 'ArrowLeft') goTo(index - 1)
   }
 
-  const cardWidth = Math.min(containerWidth * CARD_WIDTH_FRACTION, CARD_WIDTH_MAX)
+  const cardWidth = Math.min(Math.max(containerWidth * CARD_WIDTH_FRACTION, CARD_WIDTH_MIN), CARD_WIDTH_MAX)
+  const cardHeight = cardWidth / CARD_ASPECT
   // Derived so exactly 1/3 of a neighbor's width peeks past the container
   // edge, regardless of what fraction of the container the card itself
   // occupies (see the worked math in the project notes for this component).
@@ -99,7 +111,13 @@ export default function UpdatesCarousel() {
         tabIndex={0}
         onKeyDown={onKeyDown}
         className="relative mt-8 focus:outline-none"
-        style={{ height: CARD_HEIGHT }}
+        // `perspective` lives here, on the one stable ancestor that never
+        // itself animates — not on each per-card wrapper (which also
+        // carries the animated translateX). Re-declaring perspective on an
+        // element mid-transform every render was producing a visible
+        // jump/snap on click, on top of not even being where the 3D depth
+        // for the cards' own tilt needs to be established.
+        style={{ height: cardHeight, perspective: 1200 }}
       >
         {UPDATES.map((update, i) => {
           const rel = relativeSlot(i, index)
@@ -116,10 +134,10 @@ export default function UpdatesCarousel() {
               className="absolute left-1/2 top-0"
               style={{
                 width: containerWidth > 0 ? cardWidth : `${CARD_WIDTH_FRACTION * 100}%`,
-                height: CARD_HEIGHT,
+                height: cardHeight,
                 marginLeft: containerWidth > 0 ? -cardWidth / 2 : 0,
                 transform: `translateX(${rel * step}px)`,
-                transition: reduced || isWrapJump ? 'none' : 'transform 550ms cubic-bezier(0.16, 1, 0.3, 1)',
+                transition: reduced || isWrapJump ? 'none' : 'transform 1000ms ease-in-out',
                 zIndex: active ? 10 : 1,
               }}
             >
@@ -127,25 +145,10 @@ export default function UpdatesCarousel() {
             </div>
           )
         })}
-
-        <button
-          type="button"
-          onClick={() => goTo(index - 1)}
-          aria-label="Previous update"
-          className="absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-hairline bg-ground text-ink transition-colors duration-300 hover:bg-ground-alt sm:flex"
-        >
-          <ChevronLeft size={18} />
-        </button>
-        <button
-          type="button"
-          onClick={() => goTo(index + 1)}
-          aria-label="Next update"
-          className="absolute right-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-hairline bg-ground text-ink transition-colors duration-300 hover:bg-ground-alt sm:flex"
-        >
-          <ChevronRight size={18} />
-        </button>
       </div>
 
+      {/* Arrows sit below the timer dots, not beside the cards — visible at
+          every width now that they're clear of the cards themselves. */}
       <div className="mt-12 flex items-center justify-center gap-3">
         {UPDATES.map((update, i) => (
           <button
@@ -158,6 +161,25 @@ export default function UpdatesCarousel() {
             {i === index && <TimerFill key={index} duration={AUTOPLAY_MS} running={!paused && !reduced} />}
           </button>
         ))}
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-4">
+        <button
+          type="button"
+          onClick={() => goTo(index - 1)}
+          aria-label="Previous update"
+          className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-transparent bg-ground-alt text-ink transition duration-200 hover:-translate-y-0.5 focus-visible:border-ink focus-visible:outline-none active:translate-y-0.5"
+        >
+          <IconArrowNarrowRight className="rotate-180" size={20} />
+        </button>
+        <button
+          type="button"
+          onClick={() => goTo(index + 1)}
+          aria-label="Next update"
+          className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-transparent bg-ground-alt text-ink transition duration-200 hover:-translate-y-0.5 focus-visible:border-ink focus-visible:outline-none active:translate-y-0.5"
+        >
+          <IconArrowNarrowRight size={20} />
+        </button>
       </div>
     </section>
   )
@@ -211,9 +233,17 @@ function UpdateCard({
       // No speed-up on hover/focus — the beam just keeps its resting pace,
       // it's not a button-style "energized on interaction" cue here.
       hoverSpeed={42}
-      className={`flex h-full border-hairline bg-ground p-4 text-ink transition-all duration-500 ease-reveal ${
-        active ? 'grayscale-0 opacity-100' : 'scale-[0.92] grayscale opacity-60'
-      }`}
+      className="flex h-full border-hairline bg-ground p-4 text-ink transition-colors duration-300"
+      style={{
+        // scale + rotateX share one `transform`, so they're combined here
+        // rather than split across a Tailwind class and this style prop —
+        // two separate `transform` declarations can't both survive.
+        transform: active ? 'scale(1) rotateX(0deg)' : `scale(${INACTIVE_SCALE}) rotateX(${INACTIVE_TILT_DEG}deg)`,
+        transformOrigin: 'bottom',
+        transition: 'transform 500ms cubic-bezier(0.4, 0, 0.2, 1), filter 500ms ease, opacity 500ms ease',
+        filter: active ? 'none' : 'grayscale(1)',
+        opacity: active ? 1 : 0.6,
+      }}
     >
       <div
         className={`relative h-full flex-shrink-0 overflow-hidden rounded-[12px] ${update.fit === 'cover' ? 'bg-ground-alt' : 'bg-white'}`}
