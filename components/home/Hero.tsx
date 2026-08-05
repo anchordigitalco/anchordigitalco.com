@@ -5,7 +5,7 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Reveal from '@/components/Reveal'
-import { GradientShimmer } from '@/components/ui/gradient-shimmer'
+import { GradientShimmer, IconShimmer } from '@/components/ui/gradient-shimmer'
 import { quicksand } from '@/app/fonts'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { heroPosterBlur } from '@/lib/hero-poster-data'
@@ -37,13 +37,20 @@ const BOX_COLLAPSED_VH = 54
 const BOX_COLLAPSED_VW_MOBILE = 86
 const BOX_COLLAPSED_VH_MOBILE = 30
 const BOX_RADIUS_COLLAPSED = 28
+// "Anchor" slides left, "Digital" slides right, and the small icon under
+// them splits into its two halves the same way — how far each travels, as
+// a fraction of viewport width, by progress 1.
 const SPLIT_MAX_RATIO = 0.68
 const LOGO_SPLIT_RATIO = 0.8
 const LOGO_ASPECT = 827 / 438
+// Small icon under the wordmark at rest, vs. the medium-large standalone
+// icon that fades in once fully zoomed in (no wordmark there).
+const LOGO_HEIGHT_REST = 'clamp(28px, 4vw, 44px)'
+const LOGO_HEIGHT_ZOOMED = 'clamp(64px, 9vw, 140px)'
 // Once the expand sequence fully resolves into the cycling video, hold the
 // scroll here for a beat — otherwise a normal scroll's momentum carries
 // straight through and the video is never actually seen.
-const HOLD_MS = 500
+const HOLD_MS = 1400
 const HOLD_TRIGGER_AT = 0.999
 const HOLD_RESET_BELOW = 0.9
 
@@ -161,15 +168,21 @@ export default function Hero() {
       onUpdate: (self) => {
         const p = self.progress
         if (p >= HOLD_TRIGGER_AT && !heldRef.current) {
-          // Lenis owns the actual scrolling — `.stop()`/`.start()` is its
-          // own public API for pausing input for a moment, so this holds
-          // the whole page (not just this section) without fighting it via
-          // wheel-preventDefault or any other scroll-jacking trick.
+          // Lenis owns wheel-driven scrolling — `.stop()`/`.start()` is its
+          // own public API for pausing that input for a moment. But Lenis
+          // doesn't sync touch scroll by default (touch is native), so
+          // `.stop()` alone is a no-op for it; `touch-action: none` blocks
+          // touch-driven scrolling directly instead. Deliberately NOT
+          // `overflow: hidden/clip` on <html> here — that's the more usual
+          // way to lock scroll, but it breaks `position: sticky` (which
+          // this section's own pin depends on) for as long as it's set.
           heldRef.current = true
           const lenis = getLenisInstance()
           lenis?.stop()
+          document.documentElement.style.touchAction = 'none'
           holdTimerRef.current = setTimeout(() => {
             lenis?.start()
+            document.documentElement.style.touchAction = ''
             holdTimerRef.current = null
           }, HOLD_MS)
         } else if (p < HOLD_RESET_BELOW) {
@@ -184,6 +197,7 @@ export default function Hero() {
         clearTimeout(holdTimerRef.current)
         holdTimerRef.current = null
         getLenisInstance()?.start()
+        document.documentElement.style.touchAction = ''
       }
     }
   }, [staticMode])
@@ -267,10 +281,10 @@ export default function Hero() {
   // with `lockupOpacity` fading out over the same stretch is the handoff.
   const finalIconOpacity = staticMode ? 0 : smoothstep(0.85, 1, progress)
 
-  // "Anchor" slides left, "Digital" slides right, and the logo mark's two
-  // halves pull apart the same way — all driven by the same scroll
-  // progress, all zeroed out (recombined, centered) whenever there's
-  // nothing to scroll through.
+  // "Anchor" slides left, "Digital" slides right, and the small icon under
+  // them splits into its two halves the same way — all driven by the same
+  // scroll progress, all zeroed out (recombined, centered) whenever
+  // there's nothing to scroll through.
   const splitPx = progress * viewportW * SPLIT_MAX_RATIO
   const logoSplitPx = splitPx * LOGO_SPLIT_RATIO
   const lockupOpacity = staticMode ? 1 : 1 - smoothstep(0.82, 1, progress)
@@ -302,7 +316,7 @@ export default function Hero() {
             placeholder="blur"
             priority
             className="object-cover"
-            style={{ objectPosition: '72% 30%' }}
+            style={{ objectPosition: '55% 30%' }}
           />
         </div>
 
@@ -372,7 +386,7 @@ export default function Hero() {
             style={{ opacity: finalIconOpacity }}
             aria-hidden="true"
           >
-            <div className="relative" style={{ height: 'clamp(64px, 9vw, 140px)', aspectRatio: `${LOGO_ASPECT}` }}>
+            <div className="relative" style={{ height: LOGO_HEIGHT_ZOOMED, aspectRatio: `${LOGO_ASPECT}` }}>
               <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
             </div>
           </div>
@@ -430,20 +444,24 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
-                className="relative mx-auto mt-3 md:mt-4"
-                style={{ height: 'clamp(28px, 4vw, 44px)', aspectRatio: `${LOGO_ASPECT}` }}
+                className="relative mx-auto mt-3 md:mt-4 text-dark-ink"
+                style={{ height: LOGO_HEIGHT_REST, aspectRatio: `${LOGO_ASPECT}` }}
               >
+                {/* Same bay shimmer as the wordmark above (not on the plain
+                    icon you see once fully zoomed in) — a mask-image sweep
+                    rather than GradientShimmer's text-clip, since this is
+                    an icon, not glyphs. */}
                 <div
                   className="absolute inset-0 overflow-hidden"
                   style={{ clipPath: 'inset(0 50% 0 0)', transform: `translateX(-${logoSplitPx}px)` }}
                 >
-                  <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
+                  <IconShimmer src="/anchor-icon.png" gradient="bay" className="h-full w-full" />
                 </div>
                 <div
                   className="absolute inset-0 overflow-hidden"
                   style={{ clipPath: 'inset(0 0 0 50%)', transform: `translateX(${logoSplitPx}px)` }}
                 >
-                  <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
+                  <IconShimmer src="/anchor-icon.png" gradient="bay" className="h-full w-full" />
                 </div>
               </motion.div>
             </div>

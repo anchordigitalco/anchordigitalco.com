@@ -27,6 +27,17 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
   useEffect(() => {
     if (reduced) return
 
+    // NOTE: `autoToggle: true` looked like the fix for lenis.stop() not
+    // blocking touch scroll (Lenis doesn't sync touch by default — see
+    // Hero's hold logic) — it makes .stop() set `overflow: clip` on
+    // <html>. Reverted: that overflow change breaks `position: sticky`
+    // for any sticky element on the page for as long as it's engaged
+    // (confirmed directly — sticky's `top` reads 0 with overflow:visible,
+    // and jumps to tracking raw scrollY, i.e. not sticking at all, the
+    // instant overflow:clip is applied), which is exactly the Hero's own
+    // pin mechanism. Touch is instead handled with `touch-action: none`
+    // in Hero's hold effect — it blocks touch-driven scrolling without
+    // touching `overflow` at all, so sticky is unaffected.
     const lenis = new Lenis({ lerp: 0.09, duration: 1.2 })
     lenisRef.current = lenis
     setLenisInstance(lenis)
