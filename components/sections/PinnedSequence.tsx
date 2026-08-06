@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Reveal from '@/components/Reveal'
 import FadeUp from '@/components/FadeUp'
 import DisplayCards from '@/components/ui/display-cards'
-import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
 import { useInViewOnce } from '@/hooks/useInViewOnce'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -91,16 +90,13 @@ export default function PinnedSequence({
 
   if (boxed) {
     return (
-      <section data-theme="light" className="bg-ground" style={{ paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
-        <BorderBeamPanel
-          radius={20}
-          beams={2}
-          glow={false}
-          className="mx-auto max-w-site border-hairline bg-ground text-ink"
+      <section data-theme="light" className="bg-ground" style={{ paddingTop: 'var(--section-y)', paddingBottom: 'var(--section-y)', paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
+        <div
+          className="mx-auto max-w-site rounded-[20px] border border-hairline bg-ground text-ink"
           style={{ paddingTop: 'var(--section-y)', paddingBottom: 'var(--section-y)', paddingLeft: 'clamp(1.5rem, 5vw, 4rem)', paddingRight: 'clamp(1.5rem, 5vw, 4rem)' }}
         >
           {content}
-        </BorderBeamPanel>
+        </div>
       </section>
     )
   }

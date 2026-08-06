@@ -6,7 +6,6 @@ import PillarCards from '@/components/sections/PillarCards'
 import TabbedPanel from '@/components/sections/TabbedPanel'
 import Accordion from '@/components/sections/Accordion'
 import ClosingStatement from '@/components/sections/ClosingStatement'
-import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
 import { ZoomParallax } from '@/components/ui/zoom-parallax'
 import { CLIENT_PROCESS, SERVICES_FAQ } from '@/lib/constants'
 
@@ -65,11 +64,8 @@ export default function ServicesPage() {
       <div className="bg-ground" style={{ paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
         <div data-theme="light" style={{ height: 'calc(var(--gutter) + 1rem)' }} aria-hidden="true" />
         <section data-theme="dark" className="mx-auto max-w-site">
-          <BorderBeamPanel
-            radius={20}
-            beams={2}
-            glow={false}
-            className="border-[rgba(242,240,236,0.14)] bg-dark text-dark-ink"
+          <div
+            className="rounded-[20px] border border-[rgba(242,240,236,0.14)] bg-dark text-dark-ink"
             style={{
               paddingTop: 'clamp(2.5rem, 6vw, 4rem)',
               paddingBottom: 'clamp(2.5rem, 6vw, 4rem)',
@@ -78,7 +74,7 @@ export default function ServicesPage() {
             }}
           >
             <TabbedPanel panels={panels} dark heading={['Our process']} />
-          </BorderBeamPanel>
+          </div>
         </section>
         <div data-theme="light" style={{ height: 'var(--gutter)' }} aria-hidden="true" />
       </div>

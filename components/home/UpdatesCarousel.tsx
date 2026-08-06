@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { IconArrowNarrowRight } from '@tabler/icons-react'
 import Reveal from '@/components/Reveal'
-import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { UPDATES } from '@/lib/updates'
 
@@ -228,16 +227,8 @@ function UpdateCard({
   onSelect: () => void
 }) {
   const inner = (
-    <BorderBeamPanel
-      radius={20}
-      beams={2}
-      // Same color family as the hero wordmark's shimmer (bay: teal/navy) —
-      // an on-brand pair instead of Motiq's default blue/coral.
-      colors={['#2D8E9A', '#154288']}
-      // No speed-up on hover/focus — the beam just keeps its resting pace,
-      // it's not a button-style "energized on interaction" cue here.
-      hoverSpeed={42}
-      className="flex h-full border-hairline bg-ground p-4 text-ink transition-colors duration-300"
+    <div
+      className="flex h-full rounded-[20px] border border-hairline bg-ground p-4 text-ink transition-colors duration-300"
       style={{
         // Deliberately no scale/rotate here — a scale(0.94) or rotateX
         // tilt on the flanking cards shrinks their rendered bounding box
@@ -276,7 +267,7 @@ function UpdateCard({
           <span className="text-label text-ink-muted">Read More</span>
         </div>
       </div>
-    </BorderBeamPanel>
+    </div>
   )
 
   if (active) {
