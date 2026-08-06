@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { ChevronDown } from 'lucide-react'
 import PillButton from '@/components/PillButton'
 import Reveal from '@/components/Reveal'
+import { Recaptcha } from '@/components/ui/recaptcha'
 
 const DESCRIBES = [
   'Restaurant or cafe',
@@ -114,6 +115,8 @@ const SelectField = forwardRef<HTMLSelectElement, SelectFieldProps>(function Sel
 
 export default function InquiryForm() {
   const [submitFailed, setSubmitFailed] = useState(false)
+  const [captchaError, setCaptchaError] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
@@ -125,10 +128,17 @@ export default function InquiryForm() {
 
   const onSubmit = async (data: FormData) => {
     setSubmitFailed(false)
+    setCaptchaError(false)
+
+    if (!captchaToken) {
+      setCaptchaError(true)
+      throw new Error('captcha missing')
+    }
+
     const res = await fetch('/api/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, recaptchaToken: captchaToken }),
     }).catch(() => null)
 
     // A non-ok response or a network failure both mean the message never
@@ -190,6 +200,11 @@ export default function InquiryForm() {
       />
       <SelectField id="timeline" label="Timeline" options={TIMELINES} {...register('timeline')} />
       <TextAreaField id="message" label="How can we help?" {...register('message')} />
+
+      <div>
+        <Recaptcha onChange={setCaptchaToken} />
+        {captchaError && <p className="mt-2 text-label text-ink">Please confirm you&apos;re not a robot.</p>}
+      </div>
 
       <div className="flex items-center gap-6 pt-2">
         <PillButton type="submit" disabled={isSubmitting}>
