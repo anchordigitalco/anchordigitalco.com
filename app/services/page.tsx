@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import { Palette, Code2, LifeBuoy } from 'lucide-react'
 import PageHero from '@/components/sections/PageHero'
-import Marquee from '@/components/sections/Marquee'
 import PinnedSequence from '@/components/sections/PinnedSequence'
 import PillarCards from '@/components/sections/PillarCards'
 import TabbedPanel from '@/components/sections/TabbedPanel'
 import Accordion from '@/components/sections/Accordion'
 import ClosingStatement from '@/components/sections/ClosingStatement'
 import { BorderBeamPanel } from '@/components/ui/border-beam-panel'
+import { ZoomParallax } from '@/components/ui/zoom-parallax'
 import { CLIENT_PROCESS, SERVICES_FAQ } from '@/lib/constants'
 
 export const metadata: Metadata = {
@@ -26,33 +26,19 @@ const faqSchema = {
   })),
 }
 
-// Same four cards (and photos) as the landing page's marquee, just a
-// smaller version of it here.
-const marqueeItems = [
-  {
-    id: 'strategy',
-    title: 'Strategy',
-    description: 'A real conversation about your goals,\naudience, and what success looks like.',
-    image: '/images/design-card.png',
-  },
-  {
-    id: 'collaboration',
-    title: 'Collaboration',
-    description: 'Direct access to your designer and\ndeveloper: no account managers, ever.',
-    image: '/images/collaboration-card.png',
-  },
-  {
-    id: 'development',
-    title: 'Development',
-    description: 'Clean, well-structured code with fast\nload times and pixel-perfect execution.',
-    image: '/images/development-card.png',
-  },
-  {
-    id: 'deployment',
-    title: 'Deployment',
-    description: 'Cross-device QA, domain, and analytics:\nperforming exactly as expected on day one.',
-    image: '/images/deployment-card.png',
-  },
+// The old inline carousel's own four photos, plus three more real,
+// non-logo images already in the project that weren't otherwise in use on
+// this page — up to 7 tiles for the zoom-parallax gallery. Index 0 is the
+// widest/strongest shot, since that's the one that ends up filling the
+// screen at full zoom.
+const galleryImages = [
+  { src: '/images/brand-digital-systems.png', alt: '' },
+  { src: '/images/design-card.png', alt: '' },
+  { src: '/images/collaboration-card.png', alt: '' },
+  { src: '/images/development-card.png', alt: '' },
+  { src: '/images/deployment-card.png', alt: '' },
+  { src: '/images/ongoing-maintenance.png', alt: '' },
+  { src: '/images/live-in-days-block.png', alt: '' },
 ]
 
 const panels = CLIENT_PROCESS
@@ -97,7 +83,7 @@ export default function ServicesPage() {
         <div data-theme="light" style={{ height: 'var(--gutter)' }} aria-hidden="true" />
       </div>
 
-      <Marquee items={marqueeItems} compact />
+      <ZoomParallax images={galleryImages} />
 
       <PinnedSequence
         heading={['Built once', 'Maintained always']}

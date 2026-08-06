@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import FeatureBlock from '@/components/sections/FeatureBlock'
-import ClientLogoStack from '@/components/home/ClientLogoStack'
 import { SERVICES } from '@/lib/constants'
 
 // Real photo per service — same rounded/hairline-bordered rectangle
-// PlaceholderFrame used, just filled in rather than left flat.
+// PlaceholderFrame used, just filled in rather than left flat. The
+// design-dev slot previously held the interactive ClientLogoStack;
+// replaced with a plain photo to match the other two services.
 const SERVICE_IMAGES: Record<string, string> = {
+  'design-dev': '/images/ggg.png',
   'brand-systems': '/images/brand-digital-systems.png',
   maintenance: '/images/ongoing-maintenance.png',
 }
@@ -31,23 +33,19 @@ export default function FeatureBlocks() {
           link={i === SERVICES.length - 1 ? { label: 'Contact us', href: '/start' } : undefined}
           media={
             <div className={`md:max-w-[82%] ${i % 2 === 1 ? 'md:ml-auto' : ''}`}>
-              {service.id === 'design-dev' ? (
-                <ClientLogoStack />
-              ) : (
-                <div
-                  className="relative overflow-hidden rounded-[14px] border border-hairline"
-                  style={{ aspectRatio: '4 / 3' }}
-                >
-                  <Image
-                    src={SERVICE_IMAGES[service.id]}
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 48vw, 100vw"
-                    quality={92}
-                    className="object-cover"
-                  />
-                </div>
-              )}
+              <div
+                className="relative overflow-hidden rounded-[14px] border border-hairline"
+                style={{ aspectRatio: '4 / 3' }}
+              >
+                <Image
+                  src={SERVICE_IMAGES[service.id]}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 48vw, 100vw"
+                  quality={92}
+                  className="object-cover"
+                />
+              </div>
             </div>
           }
         />
