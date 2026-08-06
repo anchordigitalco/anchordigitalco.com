@@ -50,7 +50,7 @@ const LOGO_HEIGHT_ZOOMED = 'clamp(64px, 9vw, 140px)'
 // Once the expand sequence fully resolves into the cycling video, hold the
 // scroll here for a beat — otherwise a normal scroll's momentum carries
 // straight through and the video is never actually seen.
-const HOLD_MS = 700
+const HOLD_MS = 200
 const HOLD_TRIGGER_AT = 0.999
 const HOLD_RESET_BELOW = 0.9
 
