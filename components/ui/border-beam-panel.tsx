@@ -103,7 +103,9 @@ export interface BorderBeamPanelProps extends React.HTMLAttributes<HTMLDivElemen
   idleSpeed?: number;
   /** Hover/focus angular velocity in deg/s — the springs wind up toward it. */
   hoverSpeed?: number;
-  /** Blurred copy of the ring behind the panel, read as cast light. */
+  /** Blurred copy of the ring behind the panel, read as cast light. Off by
+   * default — every call site was either explicitly disabling it already
+   * or relying on the old default without meaning to keep the glow. */
   glow?: boolean;
   /** Corner radius in px. */
   radius?: number;
@@ -199,7 +201,7 @@ function BorderBeamPanelBase({
   thickness = 2,
   idleSpeed = 42,
   hoverSpeed = 240,
-  glow = true,
+  glow = false,
   radius = 16,
   spring,
   seed = 1,

@@ -4,7 +4,6 @@ import SectionHeader from '@/components/SectionHeader'
 import PageHero from '@/components/sections/PageHero'
 import FadeUp from '@/components/FadeUp'
 import PillButton from '@/components/PillButton'
-import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card-effect'
 
 export const metadata: Metadata = {
   title: { absolute: 'About Us: The Team Behind Anchor Digital' },
@@ -60,54 +59,53 @@ export default function TeamPage() {
               <FadeUp
                 key={founder.name}
                 delay={i * 0.1}
-                className="overflow-hidden rounded-[20px] border border-hairline bg-ground"
+                className={`group flex flex-col overflow-hidden rounded-[20px] border border-hairline bg-ground ${
+                  i % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'
+                }`}
               >
-                <CardContainer containerClassName="w-full py-0" className="w-full">
-                  <CardBody className={`flex w-full flex-col ${i % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
-                    <CardItem
-                      translateZ={60}
-                      className="relative aspect-square w-full flex-shrink-0 overflow-hidden bg-ground-alt md:aspect-auto md:w-80 lg:w-96"
-                    >
-                      {founder.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={founder.image} alt={founder.name} className="h-full w-full object-cover object-center" />
-                      ) : (
-                        <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-                          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-hairline">
-                            <span className="text-body font-normal text-ink">{founder.initials}</span>
-                          </div>
-                          <span className="text-label uppercase text-ink-muted">Photo coming soon</span>
-                        </div>
-                      )}
-                    </CardItem>
+                <div className="relative aspect-square flex-shrink-0 overflow-hidden bg-ground-alt md:aspect-auto md:w-80 lg:w-96">
+                  {founder.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={founder.image}
+                      alt={founder.name}
+                      className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-3">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full border border-hairline">
+                        <span className="text-body font-normal text-ink">{founder.initials}</span>
+                      </div>
+                      <span className="text-label uppercase text-ink-muted">Photo coming soon</span>
+                    </div>
+                  )}
+                </div>
 
-                    <CardItem translateZ={30} className="flex w-full flex-1 flex-col justify-center p-6 lg:p-7">
-                      <div className="mb-3">
-                        <h2 className="mb-1 text-body font-normal text-ink">{founder.name}</h2>
-                        <p className="text-small text-ink-muted">{founder.title}</p>
-                      </div>
-                      <p className="mb-4 text-small text-ink-muted">{founder.bio}</p>
-                      <div className="flex items-center gap-3 border-t border-hairline pt-4">
-                        <a
-                          href={founder.links.linkedin}
-                          className="flex h-8 w-8 items-center justify-center border border-hairline text-ink-muted transition-colors duration-300 hover:border-ink hover:text-ink"
-                          aria-label={`${founder.name} on LinkedIn`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Linkedin size={14} />
-                        </a>
-                        <a
-                          href={`mailto:${founder.links.email}`}
-                          className="flex h-8 w-8 items-center justify-center border border-hairline text-ink-muted transition-colors duration-300 hover:border-ink hover:text-ink"
-                          aria-label={`Email ${founder.name}`}
-                        >
-                          <Mail size={14} />
-                        </a>
-                      </div>
-                    </CardItem>
-                  </CardBody>
-                </CardContainer>
+                <div className="flex flex-1 flex-col justify-center p-6 lg:p-7">
+                  <div className="mb-3">
+                    <h2 className="mb-1 text-body font-normal text-ink">{founder.name}</h2>
+                    <p className="text-small text-ink-muted">{founder.title}</p>
+                  </div>
+                  <p className="mb-4 text-small text-ink-muted">{founder.bio}</p>
+                  <div className="flex items-center gap-3 border-t border-hairline pt-4">
+                    <a
+                      href={founder.links.linkedin}
+                      className="flex h-8 w-8 items-center justify-center border border-hairline text-ink-muted transition-colors duration-300 hover:border-ink hover:text-ink"
+                      aria-label={`${founder.name} on LinkedIn`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Linkedin size={14} />
+                    </a>
+                    <a
+                      href={`mailto:${founder.links.email}`}
+                      className="flex h-8 w-8 items-center justify-center border border-hairline text-ink-muted transition-colors duration-300 hover:border-ink hover:text-ink"
+                      aria-label={`Email ${founder.name}`}
+                    >
+                      <Mail size={14} />
+                    </a>
+                  </div>
+                </div>
               </FadeUp>
             ))}
           </div>

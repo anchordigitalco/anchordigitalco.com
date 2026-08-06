@@ -286,10 +286,6 @@ export const SERVICES_FAQ = [
     answer: 'Yes. If what you have is fundamentally sound, we\'ll rebuild and modernize it rather than start over. If it\'s holding you back, we\'ll say so.',
   },
   {
-    question: 'Do you do SEO?',
-    answer: 'Yes. Technical SEO is part of every build: site structure, page speed, mobile performance, and clean markup. Ongoing SEO, local search, and Google Business Profile management are available as part of a maintenance subscription.',
-  },
-  {
     question: 'Who owns the domain and hosting?',
     answer: 'You do. We register the domain in your name, then pay for and manage it along with hosting, so you never have to deal with renewals, certificates, or downtime. If you\'d rather hold and pay for it yourself, that\'s fine too. We\'ll set it up and hand you the keys. Either way, it\'s your name on it and it stays yours.',
   },
@@ -298,28 +294,8 @@ export const SERVICES_FAQ = [
     answer: 'Ongoing maintenance runs as a monthly subscription: updates, fixes, security, monitoring, and improvements. You get a direct line to the person who built it, not a ticket queue.',
   },
   {
-    question: 'How many revisions do I get?',
-    answer: 'We work until you\'re happy with it. We\'d rather spend an extra day getting it right than hand over something you\'re lukewarm about.',
-  },
-  {
-    question: 'Do you write the copy?',
-    answer: 'Yes, we write everything as part of the build. Photography is available for an additional fee: we have a photographer on staff.',
-  },
-  {
-    question: 'Can you help with online ordering or e-commerce?',
-    answer: 'We set you up on the platforms customers already use (Google Business Profile, Yelp, ordering and delivery services) and connect them properly. Full custom e-commerce is a conversation, not a default.',
-  },
-  {
-    question: 'Do you only work with certain industries?',
-    answer: 'No. Most of our clients are small businesses, trades, and independent brands, but the work is the same regardless of sector: make you look as good as you are, and make you easy to find.',
-  },
-  {
     question: 'Where are you based, and do you work with businesses outside your area?',
     answer: 'We\'re in Maine and New York, and we work with clients anywhere. Everything runs over calls, email, and shared links, so you never need to be in a room with us for this to go well.',
-  },
-  {
-    question: 'Do you help bring in new customers, or just build the website?',
-    answer: 'Yes. Outreach is a service we offer: researched, direct contact with the people most likely to need what you do, sent on your behalf. Useful for businesses that rely on referrals and want a second source of work.',
   },
 ]
 

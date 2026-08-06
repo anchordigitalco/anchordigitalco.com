@@ -78,7 +78,13 @@ const liquidbuttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-transparent hover:scale-105 duration-300 transition text-ink",
+        // Was a transparent shell entirely relying on LiquidGlassOverlay's
+        // shadow/backdrop-filter chrome for its visible shape — now that
+        // overlay renders nothing (flat, no-glow direction), the pill
+        // needs its own real edge: a plain hairline border in whatever
+        // color the text already is (PillButton's `dark` prop still just
+        // swaps text color, and the border rides along with it for free).
+        default: "border border-current bg-transparent hover:scale-105 duration-300 transition text-ink",
         destructive: "bg-red-600 text-white hover:bg-red-600/90 focus-visible:ring-red-600/20",
         outline: "border border-hairline bg-ground hover:bg-ground-alt hover:text-ink",
         secondary: "bg-ground-alt text-ink hover:bg-ground-alt/80",
@@ -141,72 +147,15 @@ function LiquidButton({
 }
 
 /**
- * The liquid-glass decorative chrome (inset-shadow overlay + the SVG
- * turbulence/displacement filter applied via `backdrop-filter`) — split out
- * of `LiquidButton` so a caller that needs a different root element (a
- * `next/link` Link rather than a `<button>`) can still get the identical
- * visual treatment. `filterId` must be unique per instance (e.g. from
- * `useId()`) since the SVG `<filter>` id it references would otherwise
- * collide across multiple buttons on the same page.
+ * Used to render a frosted-glass shadow/backdrop-filter chrome (an inset
+ * shadow stack plus an SVG turbulence distortion) — replaced with nothing
+ * per a flat, no-glow/no-shine direction: the pill's own hairline border
+ * (see `liquidbuttonVariants`' default variant) carries the shape now.
+ * Kept as a no-op export, not deleted, so neither call site (`LiquidButton`
+ * below, `PillButton`) needs to change.
  */
-export function LiquidGlassOverlay({ filterId }: { filterId: string }) {
-  return (
-    <>
-      <div className="absolute top-0 left-0 z-0 h-full w-full rounded-full
-          shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]
-        transition-all" />
-      <div
-        className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-full"
-        style={{ backdropFilter: `url(#${filterId})` }}
-      />
-      <GlassFilter id={filterId} />
-    </>
-  )
-}
-
-function GlassFilter({ id }: { id: string }) {
-  return (
-    <svg className="hidden">
-      <defs>
-        <filter
-          id={id}
-          x="0%"
-          y="0%"
-          width="100%"
-          height="100%"
-          colorInterpolationFilters="sRGB"
-        >
-          {/* Generate turbulent noise for distortion */}
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.05 0.05"
-            numOctaves="1"
-            seed="1"
-            result="turbulence"
-          />
-
-          {/* Blur the turbulence pattern slightly */}
-          <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-
-          {/* Displace the source graphic with the noise */}
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="blurredNoise"
-            scale="70"
-            xChannelSelector="R"
-            yChannelSelector="B"
-            result="displaced"
-          />
-
-          {/* Apply overall blur on the final result */}
-          <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-
-          {/* Output the result */}
-          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-        </filter>
-      </defs>
-    </svg>
-  );
+export function LiquidGlassOverlay(_props: { filterId: string }) {
+  return null
 }
 
 type ColorVariant =

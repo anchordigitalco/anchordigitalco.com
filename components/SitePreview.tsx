@@ -18,6 +18,21 @@ const FRAME_HEIGHT = 900
  * — everywhere else on the site uses radius:0. */
 const ROUNDING = 'rounded-[14px]'
 
+/** Plain content-shaped placeholder, shown until the real screenshot/iframe
+ * actually paints — a live-embedded client site (no static screenshot on
+ * file) can take a real, visible moment to load, and an empty tile with no
+ * feedback reads as broken rather than "still loading." */
+function PreviewSkeleton() {
+  return (
+    <div aria-hidden="true" className="absolute inset-0 flex flex-col gap-3 bg-ground-alt p-6">
+      <div className="h-3 w-1/4 animate-pulse bg-ink/10" />
+      <div className="mt-2 h-1/2 w-full animate-pulse bg-ink/10" />
+      <div className="h-2 w-2/3 animate-pulse bg-ink/10" />
+      <div className="h-2 w-1/2 animate-pulse bg-ink/10" />
+    </div>
+  )
+}
+
 function CursorLabel({ pos }: { pos: { x: number; y: number } | null }) {
   return (
     <AnimatePresence>
@@ -50,6 +65,7 @@ export default function SitePreview({ name, url, previewImage, previewDisabled, 
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
   const containerRef = useRef<HTMLAnchorElement>(null)
   const [scale, setScale] = useState(0.3)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     const el = containerRef.current
@@ -77,10 +93,12 @@ export default function SitePreview({ name, url, previewImage, previewDisabled, 
         onMouseLeave={untrack}
         className={`group/preview relative block overflow-hidden bg-ground-alt ${ROUNDING} ${className}`}
       >
+        {!loaded && <PreviewSkeleton />}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={previewImage}
           alt={`${name} website homepage designed and built by Anchor Digital`}
+          onLoad={() => setLoaded(true)}
           className="absolute inset-0 h-full w-full object-cover object-top"
         />
         <div className="absolute inset-0 bg-ink/0 transition-colors duration-300 group-hover/preview:bg-ink/5" />
@@ -117,10 +135,12 @@ export default function SitePreview({ name, url, previewImage, previewDisabled, 
       onMouseLeave={untrack}
       className={`group/preview relative block overflow-hidden bg-ground-alt ${ROUNDING} ${className}`}
     >
+      {!loaded && <PreviewSkeleton />}
       <iframe
         src={url}
         title={`${name} preview`}
         scrolling="no"
+        onLoad={() => setLoaded(true)}
         className="absolute left-0 top-0 border-0"
         style={{
           width: `${FRAME_WIDTH}px`,
