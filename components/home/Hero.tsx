@@ -5,7 +5,6 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Reveal from '@/components/Reveal'
-import { GradientShimmer, IconShimmer } from '@/components/ui/gradient-shimmer'
 import { quicksand } from '@/app/fonts'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { heroPosterBlur } from '@/lib/hero-poster-data'
@@ -410,7 +409,7 @@ export default function Hero() {
               >
                 <span style={{ display: 'inline-block', transform: `translateX(-${splitPx}px)` }}>
                   {/* The size/weight class lives here, on Reveal's own
-                      wrapper — not down on GradientShimmer's span — since
+                      wrapper, since
                       `.reveal-mask`'s descender-clearance padding is an
                       `em` value relative to *its own* font-size. Pushed
                       down onto an inner element instead, the mask would
@@ -424,7 +423,7 @@ export default function Hero() {
                     immediate
                     className={`${quicksand.className} block text-display font-semibold`}
                   >
-                    <GradientShimmer gradient="bay">anchor</GradientShimmer>
+                    anchor
                   </Reveal>
                 </span>
                 <span style={{ display: 'inline-block', transform: `translateX(${splitPx}px)` }}>
@@ -435,7 +434,7 @@ export default function Hero() {
                     immediate
                     className={`${quicksand.className} block text-display font-semibold`}
                   >
-                    <GradientShimmer gradient="bay">digital</GradientShimmer>
+                    digital
                   </Reveal>
                 </span>
               </h1>
@@ -447,21 +446,17 @@ export default function Hero() {
                 className="relative mx-auto mt-3 md:mt-4 text-dark-ink"
                 style={{ height: LOGO_HEIGHT_REST, aspectRatio: `${LOGO_ASPECT}` }}
               >
-                {/* Same bay shimmer as the wordmark above (not on the plain
-                    icon you see once fully zoomed in) — a mask-image sweep
-                    rather than GradientShimmer's text-clip, since this is
-                    an icon, not glyphs. */}
                 <div
                   className="absolute inset-0 overflow-hidden"
                   style={{ clipPath: 'inset(0 50% 0 0)', transform: `translateX(-${logoSplitPx}px)` }}
                 >
-                  <IconShimmer src="/anchor-icon.png" gradient="bay" className="h-full w-full" />
+                  <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
                 </div>
                 <div
                   className="absolute inset-0 overflow-hidden"
                   style={{ clipPath: 'inset(0 0 0 50%)', transform: `translateX(${logoSplitPx}px)` }}
                 >
-                  <IconShimmer src="/anchor-icon.png" gradient="bay" className="h-full w-full" />
+                  <Image src={logoIcon} alt="" fill sizes="200px" className="object-contain invert" />
                 </div>
               </motion.div>
             </div>
