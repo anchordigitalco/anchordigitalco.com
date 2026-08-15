@@ -279,7 +279,7 @@ export const SERVICES_FAQ = [
   },
   {
     question: 'How long does it take to build a website?',
-    answer: 'Most projects go live seven to fourteen days after you approve the quote. Timelines stretch when we\'re also doing branding, copywriting, or photography.',
+    answer: 'Timeline depends on scope, so we\'ll give you a real estimate on the first call. It stretches when we\'re also doing branding, copywriting, or photography.',
   },
   {
     question: 'Can you work on my existing website instead of building a new one?',
@@ -402,7 +402,7 @@ export const PRICING_FAQ = [
   {
     question: 'How long does a site take to build?',
     answer:
-      'Most projects launch in 7–14 days from the start of development. Rush builds can be completed in as few as 5 business days. Ask about our "Website in 7 Days" offer.',
+      'Timeline depends on scope and how much content or branding work is involved — we\'ll give you a real estimate once we know what you need.',
   },
   {
     question: 'Do you work with businesses outside New York?',

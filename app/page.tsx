@@ -8,7 +8,7 @@ import Closer from '@/components/home/Closer'
 
 export const metadata: Metadata = {
   title: { absolute: 'Anchor Digital: Digital Development & Strategy for Small Businesses | Maine & New York' },
-  description: 'We design, build, and maintain websites for trades, local businesses, and independent brands across Maine and New York. Free 15-minute consultation. Launched in 7–14 days.',
+  description: 'We design, build, and maintain websites for trades, local businesses, and independent brands across Maine and New York. Free 15-minute consultation.',
 }
 
 export default function HomePage() {

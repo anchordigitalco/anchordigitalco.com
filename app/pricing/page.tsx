@@ -11,11 +11,13 @@ export const metadata: Metadata = {
 }
 
 // NOTE: rebuilt from partial context after an accidental full-site rewrite
-// was undone. The PageHero + "Website in 7 days" banner below are
-// reconstructed from an exact fragment still in context; the pricing
-// cards / FAQ sections that followed are a reasonable reconstruction
-// using the real PRICING_TIERS / FLAT_FEE_SERVICES / PRICING_FAQ data,
-// not a guaranteed byte-exact restoration of the rest of the file.
+// was undone. The PageHero below is reconstructed from an exact fragment
+// still in context; the pricing cards / FAQ sections that followed are a
+// reasonable reconstruction using the real PRICING_TIERS /
+// FLAT_FEE_SERVICES / PRICING_FAQ data, not a guaranteed byte-exact
+// restoration of the rest of the file. The "Website in 7 days" banner
+// this page originally had has been removed — no specific day-count
+// launch guarantee anywhere on the site now.
 export default function PricingPage() {
   return (
     <>
@@ -24,18 +26,6 @@ export default function PricingPage() {
         title="Simple, transparent pricing."
         subtitle="No hidden fees, no lock-in contracts. Three plans designed around where your business is right now."
       />
-
-      {/* Website in 7 Days banner */}
-      <section id="fast-launch" data-theme="light" className="border-y border-hairline bg-ground-alt">
-        <div className="mx-auto max-w-site py-5" style={{ paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-lead font-normal text-ink">Website in 7 days</p>
-            <p className="max-w-sm text-small text-ink-muted">
-              Subscription plan or one-time redesign, most projects launch in 7 days or less.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section data-theme="light" className="bg-ground" style={{ paddingTop: 'var(--section-y)', paddingBottom: 'var(--section-y)', paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
         <div className="mx-auto max-w-site">
