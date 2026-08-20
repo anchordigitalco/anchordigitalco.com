@@ -53,7 +53,21 @@ function Panel({ pillar, priority, stacked }: { pillar: Pillar; priority: boolea
       style={stacked ? undefined : { paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}
     >
       <div className="mx-auto grid w-full max-w-site grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-16">
-        <div className="relative overflow-hidden rounded-[20px] border border-hairline bg-ground-alt" style={{ aspectRatio: '1376 / 768' }}>
+        <div
+          className="relative overflow-hidden rounded-[20px] border border-hairline bg-ground-alt"
+          style={{
+            aspectRatio: '1376 / 768',
+            // Pure aspect-ratio sizing makes this image only as tall as
+            // its grid column is wide ÷ 1.79 — on a wide pinned layout
+            // that's ~450px, far short of the pinned box around it, which
+            // is most of why that box read as mostly empty. A min-height
+            // (image + object-cover fill in, cropping instead of
+            // stretching) lets it actually fill the space while staying
+            // aspect-ratio-driven on narrower/stacked layouts where it's
+            // already tall enough.
+            ...(!stacked ? { minHeight: 'min(58svh, 540px)' } : {}),
+          }}
+        >
           {pillar.image && (
             <Image
               src={pillar.image}
@@ -181,14 +195,21 @@ export default function PillarCycle() {
           // image is height-constrained by its own aspect ratio (which
           // shrinks fast as the grid column gets wider), so the actual
           // content block ends up far shorter than a full viewport while
-          // still being vertically centered inside one, leaving equal,
-          // large empty margins above and below. The pin mechanism's
-          // scroll-hold duration is driven by horizontal pan distance
-          // (track width vs. viewport width), not this height, so
-          // shrinking it doesn't affect the pin/pan timing at all — just
-          // how much empty vertical canvas surrounds the content while
-          // it's pinned.
-          style={{ height: 'clamp(600px, 80svh, 820px)' }}
+          // still being vertically centered inside one, leaving large
+          // empty margins above and below. A first pass at clamp(600px,
+          // 80svh, 820px) was still way oversized — content tops out
+          // around 450-490px (the longest pillar description is 3 lines)
+          // plus the dot row, so the box only needs to be ~560-640px, not
+          // 700+. What made the remaining gap read as worse than it
+          // measured: this section's own bottom margin sits directly
+          // against the next section's own top padding with no visual
+          // break between them, so the two stack into one long blank
+          // stretch. The pin's scroll-hold duration is driven by
+          // horizontal pan distance (track width vs. viewport width), not
+          // this height, so tightening it doesn't affect the pin/pan
+          // timing at all — just how much empty vertical canvas surrounds
+          // the content while it's pinned.
+          style={{ height: 'clamp(560px, 62svh, 640px)' }}
         >
           <div ref={trackRef} className="flex h-full" style={{ width: `${PILLARS.length * 100}vw` }}>
             {PILLARS.map((pillar, i) => (
