@@ -177,7 +177,18 @@ export default function PillarCycle() {
           tabIndex={0}
           onKeyDown={onKeyDown}
           className="focus:outline-none"
-          style={{ height: '100svh' }}
+          // Was a flat 100svh — on a wide screen the two-column panel's
+          // image is height-constrained by its own aspect ratio (which
+          // shrinks fast as the grid column gets wider), so the actual
+          // content block ends up far shorter than a full viewport while
+          // still being vertically centered inside one, leaving equal,
+          // large empty margins above and below. The pin mechanism's
+          // scroll-hold duration is driven by horizontal pan distance
+          // (track width vs. viewport width), not this height, so
+          // shrinking it doesn't affect the pin/pan timing at all — just
+          // how much empty vertical canvas surrounds the content while
+          // it's pinned.
+          style={{ height: 'clamp(600px, 80svh, 820px)' }}
         >
           <div ref={trackRef} className="flex h-full" style={{ width: `${PILLARS.length * 100}vw` }}>
             {PILLARS.map((pillar, i) => (
