@@ -49,7 +49,11 @@ function Panel({ pillar, priority, stacked }: { pillar: Pillar; priority: boolea
   const Icon = pillar.icon
   return (
     <div
-      className={stacked ? 'w-full' : 'flex h-full w-screen flex-shrink-0 items-center'}
+      // pb-16 reserves real clearance for the dot row below (which sits
+      // near the box's own bottom edge via `bottom-10`) — without it, the
+      // centered content and the dots were both fighting over the same
+      // leftover space and ended up sitting right on top of each other.
+      className={stacked ? 'w-full' : 'flex h-full w-screen flex-shrink-0 items-center pb-16'}
       style={stacked ? undefined : { paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}
     >
       <div className="mx-auto grid w-full max-w-site grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-16">
@@ -65,7 +69,7 @@ function Panel({ pillar, priority, stacked }: { pillar: Pillar; priority: boolea
             // stretching) lets it actually fill the space while staying
             // aspect-ratio-driven on narrower/stacked layouts where it's
             // already tall enough.
-            ...(!stacked ? { minHeight: 'min(58svh, 540px)' } : {}),
+            ...(!stacked ? { minHeight: 'min(52svh, 480px)' } : {}),
           }}
         >
           {pillar.image && (
