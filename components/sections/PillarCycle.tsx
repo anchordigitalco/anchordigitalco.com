@@ -59,18 +59,25 @@ function Panel({ pillar, priority, stacked }: { pillar: Pillar; priority: boolea
       <div className="mx-auto grid w-full max-w-site grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-16">
         <div
           // Pure aspect-ratio sizing makes this image only as tall as its
-          // grid column is wide ÷ 1.79 — on a wide (md:grid-cols-2) pinned
-          // layout that's ~450px, far short of the pinned box around it.
-          // The md:min-h-[...] override (image + object-cover, cropping
-          // instead of stretching) fills that in on desktop. It's gated to
-          // md and up on purpose: below md the grid drops to a single
-          // column, so this same box is stacked directly above the text
-          // instead of beside it — applying the same min-height there
-          // pushed the combined image+text stack taller than the pinned
-          // box's fixed height, and the text got clipped off by the
-          // section's overflow-hidden.
+          // grid column is wide ÷ 1.79. On a wide (md:grid-cols-2) pinned
+          // layout that's ~450px, far short of the pinned box around it, so
+          // md:min-h-[...] fills that in (image + object-cover, cropping
+          // instead of stretching) — gated to md and up because below md
+          // the grid drops to a single column, image stacked above text
+          // instead of beside it.
+          // Below md the opposite problem shows up: column width (and so
+          // the aspect-ratio-driven image height) keeps growing as the
+          // viewport approaches md's 768px, while the text block's height
+          // is already flat (capped by max-w-46ch). Right below that
+          // breakpoint — roughly 700-767px, e.g. a tablet or a wide phone
+          // in landscape — the image alone gets tall enough that image +
+          // gap + text no longer fits above the pinned box's fixed height,
+          // and the description's last lines render on top of the dot
+          // nav sitting near the box's bottom edge. max-h-[...] caps the
+          // image before that happens; md:max-h-none lets the desktop
+          // min-height rule take back over.
           className={`relative overflow-hidden rounded-[20px] border border-hairline bg-ground-alt${
-            !stacked ? ' md:min-h-[min(52svh,480px)]' : ''
+            !stacked ? ' max-h-[240px] md:max-h-none md:min-h-[min(52svh,480px)]' : ''
           }`}
           style={{ aspectRatio: '1376 / 768' }}
         >
