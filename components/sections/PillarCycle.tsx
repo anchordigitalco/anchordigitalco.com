@@ -58,19 +58,21 @@ function Panel({ pillar, priority, stacked }: { pillar: Pillar; priority: boolea
     >
       <div className="mx-auto grid w-full max-w-site grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-16">
         <div
-          className="relative overflow-hidden rounded-[20px] border border-hairline bg-ground-alt"
-          style={{
-            aspectRatio: '1376 / 768',
-            // Pure aspect-ratio sizing makes this image only as tall as
-            // its grid column is wide ÷ 1.79 — on a wide pinned layout
-            // that's ~450px, far short of the pinned box around it, which
-            // is most of why that box read as mostly empty. A min-height
-            // (image + object-cover fill in, cropping instead of
-            // stretching) lets it actually fill the space while staying
-            // aspect-ratio-driven on narrower/stacked layouts where it's
-            // already tall enough.
-            ...(!stacked ? { minHeight: 'min(52svh, 480px)' } : {}),
-          }}
+          // Pure aspect-ratio sizing makes this image only as tall as its
+          // grid column is wide ÷ 1.79 — on a wide (md:grid-cols-2) pinned
+          // layout that's ~450px, far short of the pinned box around it.
+          // The md:min-h-[...] override (image + object-cover, cropping
+          // instead of stretching) fills that in on desktop. It's gated to
+          // md and up on purpose: below md the grid drops to a single
+          // column, so this same box is stacked directly above the text
+          // instead of beside it — applying the same min-height there
+          // pushed the combined image+text stack taller than the pinned
+          // box's fixed height, and the text got clipped off by the
+          // section's overflow-hidden.
+          className={`relative overflow-hidden rounded-[20px] border border-hairline bg-ground-alt${
+            !stacked ? ' md:min-h-[min(52svh,480px)]' : ''
+          }`}
+          style={{ aspectRatio: '1376 / 768' }}
         >
           {pillar.image && (
             <Image
